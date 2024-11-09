@@ -1,0 +1,16 @@
+/* Typing animation */
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 3s steps(30) forwards;
+  border-right: 2px solid;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}

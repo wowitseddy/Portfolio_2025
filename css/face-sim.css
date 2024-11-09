@@ -1,0 +1,18 @@
+/* Face Simulation Container */
+#face-simulation-section {
+  background: #000;
+  border-radius: 8px;
+  border-color: white;
+  padding: 3px;
+  outline: 1px solid white;
+  outline-width: 0.1px;
+  width: 50%;
+  height: 400px;
+  overflow: hidden;
+
+  /* Corrected Positioning */
+  position: relative; /* Use 'absolute' if positioning relative to a parent container */
+  margin: -50px relative; /* Centered horizontally and add vertical spacing */
+  transform: translateY(2350px); /* Moves the container and border up */
+  right: 250px;
+}

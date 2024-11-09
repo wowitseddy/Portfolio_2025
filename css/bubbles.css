@@ -1,0 +1,74 @@
+/* Project and Experience Bubbles */
+.bubbles-section {
+  position: relative;
+  display: table-row;
+
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+/* Bubbles styling */
+.bubble {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  margin: 30px auto; /* Add margin between bubbles */
+  margin-top: 0px;
+  max-width: 500px;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Typing animation */
+.typing {
+  overflow: hidden;
+  white-space: pre-wrap;
+  animation: typing 1s steps(30) forwards;
+  border-right: 2px solid;
+  border-end-end-radius: 0px;
+  transition: opacity 0.5s ease, transform 0.5s ease-out;
+  gap: 30px;
+  border-spacing: 30px;
+  text-wrap: nowrap;
+  display: -webkit-flexbox;
+  transition-property: calc(ease-out);
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+#bubble-1 {
+  align-self: flex-start;
+  top: 800%;
+  left: 100%;
+}
+
+#bubble-2 {
+  align-self: center;
+  top: 1650%;
+  right: 0%;
+}
+
+#bubble-3 {
+  align-self: flex-end;
+  top: 4300%;
+  right: 100%;
+}
+
+.bubble[data-scroll="true"] {
+  opacity: 1;
+  transform: translateY(30);
+}

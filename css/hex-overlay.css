@@ -1,0 +1,26 @@
+/* Hexagonal Grid Overlay (Container) */
+#hex-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden; /* Prevents content from spilling out */
+  z-index: 999;
+}
+
+/* Inner Hex Grid Layer */
+.hex-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="17.32" viewBox="0 0 10 17.32"><path d="M2.5 0l5 0 2.5 4.33 -2.5 4.33 -5 0 -2.5 -4.33z M2.5 8.66l5 0 2.5 4.33 -2.5 4.33 -5 0 -2.5 -4.33z" fill="none" stroke="%23FFFFFF" stroke-width="0.5"/></svg>');
+  background-size: 12px 12px; /* Controls hexagon size */
+  clip-path: circle(
+    50px at var(--cursor-x) var(--cursor-y)
+  ); /* Follows cursor */
+  transition: clip-path 0.01s ease;
+}

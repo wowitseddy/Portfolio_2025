@@ -1,0 +1,20 @@
+/* Collapsible Content Styling */
+.container {
+  background: rgba(255, 255, 255, 0.05);
+  width: 90%;
+  max-width: 800px;
+  margin-top: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transform-origin: top;
+  transition: opacity 0.4s ease, max-height 0.4s ease;
+}
+
+.container.show {
+  opacity: 1;
+  max-height: 300px; /* Adjust this height based on the content */
+}

@@ -1,0 +1,40 @@
+/* Flowchart Container */
+.flowchart-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: "Teko", sans-serif;
+  overflow: hidden;
+  position: absolute;
+  top: 85%;
+}
+
+/* Flowchart Step */
+.flowchart-step {
+  font-size: 1.2em;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Flowchart Step with Gradient Typing Effect */
+.flowchart-step.typing {
+  color: #ffffff; /* Fallback color */
+  background: linear-gradient(90deg, #ffffff, #ffffffa6, #dfdfdf4b, #00000054);
+  background-clip: text;
+  -webkit-background-clip: text; /* WebKit support */
+  color: transparent; /* Makes text transparent to show gradient */
+  animation: typing 3s steps(30) sideways;
+}
+
+@keyframes typing {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}

@@ -1,0 +1,61 @@
+.scroll-indicator {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.scroll-bar {
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.7);
+  height: 100vh;
+  position: relative;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.8) 30%,
+    rgba(68, 68, 68, 0) 70%
+  );
+}
+
+/* Ticker Container */
+.scroll-ticker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Main Ticker Styling */
+.main-ticker {
+  color: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+  position: relative;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.main-ticker:nth-child(1) {
+  top: 35%;
+}
+.main-ticker:nth-child(2) {
+  top: 40%;
+}
+.main-ticker:nth-child(3) {
+  top: 45%;
+}
+
+/* Mini Ticker Styling */
+.mini-ticker {
+  color: #ffffff;
+  font-size: 8px;
+  opacity: 0.4;
+  text-align: center;
+  width: 10px;
+  position: relative;
+  transition: opacity 0.3s ease;
+}

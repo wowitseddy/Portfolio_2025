@@ -1,0 +1,179 @@
+/* Hide the regular mouse cursor */
+body {
+  cursor: none;
+}
+
+/* Hexagonal Grid Overlay */
+#hex-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="17.32" viewBox="0 0 10 17.32"><path d="M2.5 0l5 0 2.5 4.33 -2.5 4.33 -5 0 -2.5 -4.33z M2.5 8.66l5 0 2.5 4.33 -2.5 4.33 -5 0 -2.5 -4.33z" fill="none" stroke="%23FFFFFF" stroke-width="0.5"/></svg>');
+  background-size: 1px 6px; /* Controls hexagon size */
+
+  mix-blend-mode: add;
+  clip-path: circle(50px at 50% 50%); /* Circular mask around the cursor */
+  -webkit-mask-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 30%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  mask-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 1%,
+    rgba(255, 255, 255, 0) 15%
+  );
+  mask-size: 100% 100%; /* Size of the gradient falloff */
+  mask-position: center center;
+  transition: mask-position 0.009s ease-out;
+}
+
+/* Cursor Reticule */
+#reticule {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Center Dot */
+.center-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: translate(-50%, -50%);
+}
+
+/* Rotating Geometries with Dashed Borders */
+.rotating-geometry {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.4); /* Dashed border */
+  transform-origin: center;
+}
+
+.geometry-1 {
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: rotateClockwise 24s linear infinite;
+}
+
+.geometry-2 {
+  transform: translate(-50%, -50%) rotate(360deg);
+  animation: rotateCounterClockwise 48s linear infinite;
+}
+
+/* Rotating Keyframes */
+@keyframes rotateClockwise {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes rotateCounterClockwise {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+/* Click Pulse Effect */
+#reticule.click-effect::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%) scale(1);
+  animation: pulse 0.4s ease-out;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Hover Animation for Reticule */
+#reticule.hovered {
+  transform: translate(-50%, -50%) scale(1.2);
+  background: rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+/* Hover Glow Effect */
+#reticule.hovered .geometry-1,
+#reticule.hovered .geometry-2 {
+  border-color: rgba(194, 194, 194, 0.8); /* Increase border brightness */
+  transform: scale(1.2); /* Slight expansion */
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover Bloom Effect */
+#reticule.hovered {
+  transform: translate(-50%, -50%) scale(1.2);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.253) 30%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7),
+    /* White glow */ 0 0 30px rgba(255, 255, 255, 0.5),
+    /* Cyan outer glow */ 0 0 45px rgba(105, 105, 105, 0.3); /* Green outer glow */
+}
+
+/* Optional Bloom Pulsing Effect */
+@keyframes bloomPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7),
+      0 0 30px rgba(255, 255, 255, 0.5), 0 0 45px rgba(215, 244, 255, 0.3);
+    border-radius: 50%;
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.9),
+      0 0 35px rgba(255, 255, 255, 0.7), 0 0 55px rgba(201, 242, 255, 0.5);
+    border-radius: 50%;
+  }
+}
+
+/* Apply the pulsing bloom effect */
+#reticule.hovered {
+  animation: bloomPulse 1.5s infinite alternate;
+}
+
+.selectable-item:hover {
+  /* Hides the cursor when hovering over the item */
+  cursor: none;
+}

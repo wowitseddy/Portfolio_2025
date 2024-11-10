@@ -15,58 +15,47 @@ document.addEventListener("click", () => {
 });
 
 // Hover effect for interactive elements
-document.querySelectorAll("button, a, input").forEach((element) => {
-  element.addEventListener("mouseenter", () => {
-    reticule.classList.add("hovered");
-    hexOverlay.style.clipPath = "circle(75px at var(--x) var(--y))"; // Expands hex grid radius
+document
+  .querySelectorAll("button, a, input, select, textarea, .selectable-item")
+  .forEach((element) => {
+    element.addEventListener("mouseenter", () => {
+      reticule.classList.add("hovered");
+      hexOverlay.style.clipPath = "circle(75px at var(--x) var(--y))"; // Expands hex grid radius
+    });
+    element.addEventListener("mouseleave", () => {
+      reticule.classList.remove("hovered");
+      hexOverlay.style.clipPath = "circle(50px at var(--x) var(--y))"; // Shrinks hex grid radius
+    });
   });
-  element.addEventListener("mouseleave", () => {
-    reticule.classList.remove("hovered");
-    hexOverlay.style.clipPath = "circle(50px at var(--x) var(--y))"; // Shrinks hex grid radius
-  });
-});
 
 document.addEventListener("DOMContentLoaded", () => {
   const hexOverlay = document.getElementById("hex-overlay");
-  const reticule = document.getElementById("reticule"); // Assuming there's an element for the reticule
+  const reticule = document.getElementById("reticule");
 
-  // Initialize variables to store cursor position
-  let cursorX = 0;
-  let cursorY = 0;
-
-  // Function to update the overlay, reticule, and mask positions
+  // Function to update CSS variables for cursor position
   function updateCursorPosition(e) {
     const { clientX, clientY } = e.type === "touchmove" ? e.touches[0] : e;
 
-    cursorX = clientX;
-    cursorY = clientY;
+    // Update CSS variables for cursor position
+    document.documentElement.style.setProperty("--x", `${clientX}px`);
+    document.documentElement.style.setProperty("--y", `${clientY}px`);
 
-    // Update reticule position
-    reticule.style.left = `${cursorX}px`;
-    reticule.style.top = `${cursorY}px`;
-
-    // Update clip-path for hex overlay
-    hexOverlay.style.clipPath = `circle(50px at ${cursorX}px ${cursorY}px)`;
-
-    // Update mask position
-    hexOverlay.style.maskPosition = `${cursorX}px ${cursorY}px`;
-    hexOverlay.style.webkitMaskPosition = `${cursorX}px ${cursorY}px`; // For Webkit browsers
-
-    // Schedule the next frame update
-    requestAnimationFrame(updateCursorPosition.bind(null, e));
+    // Move reticule to follow cursor
+    reticule.style.left = `${clientX}px`;
+    reticule.style.top = `${clientY}px`;
   }
 
-  // Event listeners for both mouse and touch movement
+  // Event listeners for mouse and touch move to track cursor
   ["mousemove", "touchmove"].forEach((event) => {
     document.addEventListener(
       event,
       (e) => {
         if (event === "touchmove") {
-          e.preventDefault(); // Prevent scrolling if needed
+          e.preventDefault(); // Prevent scrolling on touch devices if needed
         }
         updateCursorPosition(e);
       },
-      event === "touchmove" ? { passive: false } : undefined
+      { passive: false }
     );
   });
 });

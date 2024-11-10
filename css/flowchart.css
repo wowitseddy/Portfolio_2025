@@ -12,6 +12,36 @@
   top: 85%;
 }
 
+.container-1 {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: "Teko", sans-serif;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  top: 2400px;
+}
+
+.container-2 {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: "Teko", sans-serif;
+  overflow: hidden;
+  position: absolute;
+  bottom: 25%;
+  left: 0px;
+  bottom: -4600px;
+}
+
 /* Flowchart Step */
 .flowchart-step {
   font-size: 1.2em;

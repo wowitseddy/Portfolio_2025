@@ -1,5 +1,12 @@
+window.onload = () => {
+  document.addEventListener("mousemove", updateCursorPosition);
+};
+
 const hexGrid = document.querySelector(".hex-grid");
 const gradientMask = document.querySelector(".gradient-mask");
+
+let cursorX = 0;
+let cursorY = 0;
 
 // Track cursor position with CSS variables
 document.addEventListener("mousemove", (e) => {

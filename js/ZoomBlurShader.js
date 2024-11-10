@@ -2,7 +2,7 @@ export const ZoomBlurShader = {
   uniforms: {
     tDiffuse: { value: null },
     strength: {
-      value: 0.00000000000000000000000000000000000000000000000000000000000000000000000002,
+      value: 0.02,
     },
     center: { value: new THREE.Vector2(0.5, 0.5) }, // Center of zoom effect
   },

@@ -143,7 +143,7 @@ document.addEventListener("keydown", (event) => {
 // Face and DNA Simulation Trigger
 ScrollTrigger.create({
   trigger: "#face-simulation-section",
-  start: "top 60%",
+  start: "top 70%",
   onEnter: () => {
     const container = document.getElementById("face-simulation-container");
     if (!container.hasChildNodes()) {

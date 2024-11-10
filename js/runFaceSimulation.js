@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 
@@ -6,76 +7,69 @@ export function runFaceSimulation(container) {
   // Initialize Three.js scene
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
-    75,
+    60,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
   );
-  camera.position.z = 20;
+  camera.position.set(10, -10, 30);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
-
-  // Append renderer to the specified container
+  renderer.setPixelRatio(window.devicePixelRatio);
   container.appendChild(renderer.domElement);
 
-  // Create particles for the face
-  const particleCount = 1000;
-  const particlesGeometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(particleCount * 3);
-
-  function generateFaceStructure() {
-    for (let i = 0; i < particleCount; i++) {
-      // Basic layout for face contours
-      const x = Math.sin(i) * 5;
-      const y = Math.cos(i) * 5;
-
-      if (i < particleCount * 0.3) {
-        positions[i * 3] = x - 2.5; // Left eye
-        positions[i * 3 + 1] = y + 2;
-      } else if (i < particleCount * 0.6) {
-        positions[i * 3] = x + 2.5; // Right eye
-        positions[i * 3 + 1] = y + 2;
-      } else if (i < particleCount * 0.8) {
-        positions[i * 3] = x; // Mouth
-        positions[i * 3 + 1] = y - 2;
-      } else {
-        positions[i * 3] = Math.sin(i * 0.05) * 6; // Face contour
-        positions[i * 3 + 1] = Math.cos(i * 0.05) * 8;
-      }
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 2; // Z-axis for depth
-    }
-  }
-
-  generateFaceStructure();
-  particlesGeometry.setAttribute(
-    "position",
-    new THREE.BufferAttribute(positions, 3)
+  // Bloom pass setup
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    1.2,
+    0.4,
+    0.85
   );
+  composer.addPass(bloomPass);
 
-  const particleMaterial = new THREE.PointsMaterial({
-    color: 0xffffff,
-    size: 0.01,
-    transparent: true,
-    opacity: 0.8,
-  });
-  const particleSystem = new THREE.Points(particlesGeometry, particleMaterial);
-  scene.add(particleSystem);
+  // Particle grid properties
+  const gridSize = 8;
+  const particleSpacing = 2;
+  const particles = [];
 
-  // Animate particles in streaming motion
-  function animateParticles() {
-    const positions = particlesGeometry.attributes.position.array;
-    for (let i = 0; i < particleCount; i++) {
-      positions[i * 3 + 1] += Math.sin((i + Date.now() * 0.001) * 0.05) * 0.02;
-      positions[i * 3 + 2] += Math.cos((i + Date.now() * 0.001) * 0.05) * 0.02;
+  // Create particles in a grid
+  const particleGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+  const particleMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+  for (let x = -gridSize; x <= gridSize; x += particleSpacing) {
+    for (let y = -gridSize; y <= gridSize; y += particleSpacing) {
+      for (let z = -gridSize; z <= gridSize; z += particleSpacing) {
+        const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+        particle.position.set(x, y, z);
+        scene.add(particle);
+        particles.push(particle);
+      }
     }
-    particlesGeometry.attributes.position.needsUpdate = true;
   }
+
+  // Simple particle oscillation for dynamic effect
+  function animateParticles() {
+    particles.forEach((particle, index) => {
+      particle.position.x += Math.sin(Date.now() * 0.001 + index) * 0.005;
+      particle.position.y += Math.cos(Date.now() * 0.001 + index) * 0.005;
+    });
+  }
+
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
+  }
+  window.addEventListener("resize", onWindowResize, false);
 
   function animate() {
     requestAnimationFrame(animate);
     animateParticles();
-    renderer.render(scene, camera);
+    composer.render();
   }
 
   animate();

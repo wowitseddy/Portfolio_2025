@@ -13,24 +13,27 @@ body {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
+  overflow: hidden;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="17.32" viewBox="0 0 10 17.32"><path d="M2.5 0l5 0 2.5 4.33 -2.5 4.33 -5 0 -2.5 -4.33z M2.5 8.66l5 0 2.5 4.33 -2.5 4.33 -5 0 -2.5 -4.33z" fill="none" stroke="%23FFFFFF" stroke-width="0.5"/></svg>');
   background-size: 1px 6px; /* Controls hexagon size */
-
   mix-blend-mode: add;
-  clip-path: circle(50px at 50% 50%); /* Circular mask around the cursor */
-  -webkit-mask-image: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.25) 30%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  clip-path: circle(
+    50px at var(--cursor-x) var(--cursor-y)
+  ); /* Dynamic clip-path */
   mask-image: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.25) 1%,
-    rgba(255, 255, 255, 0) 15%
+    circle 50px at var(--x, 50%) var(--y, 50%),
+    rgba(0, 0, 0, 1) 0%,
+    /* Fully opaque at center */ rgba(0, 0, 0, 0) 100%
+      /* Fully transparent outside */
+  );
+  -webkit-mask-image: radial-gradient(
+    circle 50px at var(--x, 50%) var(--y, 50%),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0) 100%
   );
   mask-size: 100% 100%; /* Size of the gradient falloff */
   mask-position: center center;
-  transition: mask-position 0.009s ease-out;
+  transition: mask-position 0.009s ease;
 }
 
 /* Cursor Reticule */

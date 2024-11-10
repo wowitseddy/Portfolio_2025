@@ -21,6 +21,6 @@
   background-size: 12px 12px; /* Controls hexagon size */
   clip-path: circle(
     50px at var(--cursor-x) var(--cursor-y)
-  ); /* Follows cursor */
+  ); /* Dynamic clip-path */
   transition: clip-path 0.01s ease;
 }

@@ -135,3 +135,30 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* CSS to disable text selection */
+body {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard syntax */
+}
+
+/* Overlay to prevent image download */
+.image-protect {
+  position: relative;
+}
+
+.image-protect img {
+  display: block;
+}
+
+.image-protect::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0); /* Transparent overlay */
+}

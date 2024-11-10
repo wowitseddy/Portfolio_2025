@@ -8,6 +8,7 @@ import { runFaceSimulation } from "./js/runFaceSimulation";
 import { runDNAHelix } from "./js/runDNAHelix";
 import "./js/reticule.js";
 import "./js/hexgrid.js";
+import "./js/resize.js";
 //import "./js/textAnimate.js";
 //import "./js/ZoomBlurShader.js";
 //import "./js/textTrigger.js";

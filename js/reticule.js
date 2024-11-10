@@ -65,3 +65,7 @@ document.addEventListener("mouseleave", () => {
   cancelAnimationFrame(requestId);
   requestId = null;
 });
+
+document.addEventListener("touchstart", () => {
+  document.body.style.cursor = "default";
+});

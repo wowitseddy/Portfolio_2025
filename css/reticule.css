@@ -180,3 +180,10 @@ body {
   /* Hides the cursor when hovering over the item */
   cursor: none;
 }
+
+/* Hide cursor on touch devices */
+@media (pointer: coarse) {
+  body {
+    cursor: none;
+  }
+}

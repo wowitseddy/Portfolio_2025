@@ -15,19 +15,6 @@ import "./js/resize.js";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-// Function to maintain 1:1 aspect ratio on window resize
-function onWindowResize() {
-  const aspect = window.innerWidth / window.innerHeight;
-  const size = Math.min(window.innerWidth, window.innerHeight); // Keep square dimensions
-
-  // Set renderer size to maintain aspect ratio
-  renderer.setSize(size, size);
-
-  // Adjust camera aspect ratio and update projection matrix
-  camera.aspect = aspect;
-  camera.updateProjectionMatrix();
-}
-
 // Update renderer size on window resize
 window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);

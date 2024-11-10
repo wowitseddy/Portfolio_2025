@@ -1,28 +1,47 @@
-// Function to update dimensions
+// Function to update dimensions and maintain 1:1 aspect ratio
 function updateDimensions() {
   const width = window.innerWidth;
   const height = window.innerHeight;
 
-  // Update any elements or variables dependent on window size
+  // Log updated dimensions for debugging
   console.log(`Updated dimensions: Width = ${width}, Height = ${height}`);
 
-  // Example: Update canvas or element dimensions
+  // Update canvas dimensions
   const canvas = document.getElementById("myCanvas");
   if (canvas) {
     canvas.width = width;
     canvas.height = height;
   }
 
-  // You can also add logic to reposition elements or re-render parts of the page if needed
+  // Update Three.js renderer if defined
+  if (typeof renderer !== "undefined") {
+    renderer.setSize(width, height);
+  }
+
+  // Update camera aspect ratio and projection matrix
+  if (typeof camera !== "undefined") {
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  }
+
+  // Maintain 1:1 scaling for geometry objects
+  const minDimension = Math.min(width, height);
+  const scaleFactor = minDimension / 500; // Adjust the baseline if needed
+
+  // Update geometry scales to maintain 1:1 ratio
+  if (typeof sphere !== "undefined") {
+    sphere.scale.set(scaleFactor, scaleFactor, scaleFactor);
+  }
+  if (typeof grid !== "undefined") {
+    grid.scale.set(scaleFactor, scaleFactor, scaleFactor);
+  }
+  if (typeof ring !== "undefined") {
+    ring.scale.set(scaleFactor, scaleFactor, scaleFactor);
+  }
 }
 
-// Add event listener to call updateDimensions on resize
+// Attach event listener for resizing and call once on page load
 window.addEventListener("resize", updateDimensions);
-
-// Initial call to set dimensions on page load
 updateDimensions();
 
-window.addEventListener("orientationchange", () => {
-  // Re-run the dimensions update on orientation change
-  updateDimensions();
-});
+window.addEventListener("orientationchange", updateDimensions);

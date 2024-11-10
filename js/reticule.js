@@ -69,3 +69,10 @@ document.addEventListener("mouseleave", () => {
 document.addEventListener("touchstart", () => {
   document.body.style.cursor = "default";
 });
+
+const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+if (isTouchDevice) {
+  document.body.style.cursor = "none";
+  // Add any other adjustments for touch devices here
+}

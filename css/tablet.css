@@ -1,0 +1,24 @@
+/* Base styles for mobile (default) */
+body {
+  font-size: 16px;
+  padding: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+}
+
+.element {
+  width: 90%;
+  margin: 10px 0;
+  /* Set positioning relative to the screen width */
+}
+
+.header,
+.footer {
+  width: 100%;
+  text-align: center;
+}

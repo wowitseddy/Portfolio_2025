@@ -107,7 +107,7 @@ body {
   gap: 35px;
   align-items: center;
   width: 100%;
-  max-width: 800vw;
+  max-width: 100vw;
   color: #888888;
   position: fixed; /* Changed from fixed to avoid overlay issues */
   align-items: bottom;

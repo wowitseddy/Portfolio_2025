@@ -68,3 +68,13 @@
     width: 100%;
   }
 }
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .flow-chart-container {
+    flex-direction: column;
+  }
+  .bubbles-section {
+    grid-template-columns: 1fr;
+  }
+}

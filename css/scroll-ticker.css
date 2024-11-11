@@ -10,6 +10,7 @@
 }
 
 .scroll-bar {
+  display: flex;
   width: 2px;
   background-color: rgba(255, 255, 255, 0.7);
   height: 100vh;
@@ -31,6 +32,7 @@
 
 /* Main Ticker Styling */
 .main-ticker {
+  display: flex;
   color: #ffffff;
   font-size: 24px;
   cursor: pointer;
@@ -51,6 +53,7 @@
 
 /* Mini Ticker Styling */
 .mini-ticker {
+  display: flex;
   color: #ffffff;
   font-size: 8px;
   opacity: 0.4;

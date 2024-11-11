@@ -194,6 +194,9 @@ body {
 }
 
 /* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
+html,
+body {
+  overflow-x: hidden; /* Prevent horizontal overflow */
+  scroll-behavior: smooth; /* Smooth scroll for all devices */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile Safari */
 }

@@ -1,0 +1,514 @@
+/* Sci-Fi 3D Menu Panel */
+.sci-fi-menu {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  z-index: 1000;
+  perspective: 1200px;
+}
+
+.sci-fi-menu::before,
+.sci-fi-menu::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(168, 203, 255, 0) 0%,
+    rgba(168, 203, 255, 0.72) 14%,
+    rgba(168, 203, 255, 0.82) 50%,
+    rgba(168, 203, 255, 0.72) 86%,
+    rgba(168, 203, 255, 0) 100%
+  );
+  box-shadow: 0 0 8px rgba(168, 203, 255, 0.35);
+}
+
+.sci-fi-menu::before {
+  left: -16px;
+}
+
+.sci-fi-menu::after {
+  left: -11px;
+  opacity: 0.7;
+}
+
+.menu-rail-ticks {
+  position: absolute;
+  left: -29px;
+  top: 50%;
+  width: 12px;
+  height: 300vh;
+  transform: translateY(-50%);
+  pointer-events: none;
+  --rail-speed-primary: 9s;
+  --rail-speed-secondary: 11s;
+  --rail-dir-primary: normal;
+  --rail-dir-secondary: normal;
+}
+
+.menu-rail-ticks::before,
+.menu-rail-ticks::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      rgba(186, 216, 255, 0.96) 0 1px,
+      rgba(186, 216, 255, 0) 1px 6px
+    ),
+    repeating-linear-gradient(
+      37deg,
+      rgba(255, 255, 255, 0.14) 0 1px,
+      rgba(255, 255, 255, 0) 1px 4px,
+      rgba(180, 214, 255, 0.11) 4px 5px,
+      rgba(180, 214, 255, 0) 5px 9px
+    );
+  background-size:
+    100% 6px,
+    11px 13px;
+  background-position:
+    0 0,
+    0 0;
+  background-blend-mode: screen;
+  box-shadow: 0 0 6px rgba(173, 206, 255, 0.35);
+  filter: contrast(1.16) brightness(1.08);
+  mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 18%,
+    rgba(0, 0, 0, 1) 82%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 18%,
+    rgba(0, 0, 0, 1) 82%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.menu-rail-ticks::before {
+  left: 0;
+  animation:
+    railTickerUp var(--rail-speed-primary) linear infinite,
+    railNoiseFlicker 0.42s steps(4) infinite;
+  animation-direction: var(--rail-dir-primary);
+}
+
+.menu-rail-ticks::after {
+  left: 7px;
+  opacity: 0.78;
+  animation:
+    railTickerDown var(--rail-speed-secondary) linear infinite,
+    railNoiseFlicker 0.5s steps(5) infinite;
+  animation-direction: var(--rail-dir-secondary);
+}
+
+@keyframes railTickerUp {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      0 -180px,
+      -11px -240px;
+  }
+}
+
+@keyframes railTickerDown {
+  from {
+    background-position:
+      0 -180px,
+      -8px -220px;
+  }
+  to {
+    background-position:
+      0 0,
+      0 0;
+  }
+}
+
+@keyframes railNoiseFlicker {
+  0% {
+    opacity: 0.68;
+  }
+  33% {
+    opacity: 0.9;
+  }
+  66% {
+    opacity: 0.76;
+  }
+  100% {
+    opacity: 0.84;
+  }
+}
+
+.menu-panel {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(173, 198, 242, 0.25);
+  background: linear-gradient(
+    160deg,
+    rgba(9, 14, 26, 0.82),
+    rgba(5, 8, 16, 0.58)
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transform: rotateY(-45deg);
+  transform-style: preserve-3d;
+  transition: all 0.35s cubic-bezier(0, 0, 0, 1);
+}
+
+.sci-fi-menu:hover .menu-panel {
+  transform: rotateX(35deg);
+  background: linear-gradient(
+    160deg,
+    rgba(20, 32, 60, 0.88),
+    rgba(10, 15, 30, 0.65)
+  );
+  border-color: rgba(173, 198, 242, 0.4);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(5, 10, 20, 0.6);
+  border: 1px solid rgba(173, 198, 242, 0.2);
+  border-radius: 6px;
+  color: rgba(235, 244, 255, 0.88);
+  font-family: "Teko", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    all 0.24s ease,
+    transform 0.2s ease;
+  position: relative;
+}
+
+.menu-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background: radial-gradient(
+    circle at center,
+    rgba(168, 203, 255, 0.15) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.24s ease;
+  pointer-events: none;
+}
+
+.menu-item:hover {
+  background: rgba(15, 25, 45, 0.85);
+  border-color: rgba(173, 198, 242, 0.45);
+  transform: translateX(-4px);
+  box-shadow: 0 0 16px rgba(130, 196, 255, 0.2);
+}
+
+.menu-item:hover::before {
+  opacity: 1;
+}
+
+.menu-item.is-active {
+  background: rgba(25, 40, 70, 0.9);
+  border-color: rgba(173, 198, 242, 0.6);
+  color: rgba(196, 226, 255, 1);
+  text-shadow: 0 0 10px rgba(130, 196, 255, 0.3);
+  transform: translateX(-6px);
+}
+
+.menu-diamond {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: rgba(168, 203, 255, 0.7);
+  transform: rotate(45deg);
+  border-radius: 1px;
+  transition: all 0.24s ease;
+  box-shadow: 0 0 6px rgba(168, 203, 255, 0.4);
+}
+
+.menu-item:hover .menu-diamond,
+.menu-item.is-active .menu-diamond {
+  background: rgba(200, 230, 255, 1);
+  box-shadow: 0 0 12px rgba(168, 203, 255, 0.8);
+}
+
+.menu-label {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.menu-timeline-panel {
+  margin-top: 14px;
+  width: min(32vw, 280px);
+  padding: 14px 14px 12px;
+  max-height: 0;
+  border-radius: 14px;
+  border: 0 solid rgba(173, 198, 242, 0.22);
+  background: linear-gradient(
+    180deg,
+    rgba(8, 12, 24, 0.9),
+    rgba(6, 10, 20, 0.72)
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition:
+    opacity 0.24s ease,
+    transform 0.24s ease,
+    max-height 0.28s ease,
+    margin-top 0.24s ease,
+    padding-top 0.24s ease,
+    padding-bottom 0.24s ease,
+    border-width 0.24s ease;
+}
+
+.sci-fi-menu.is-timeline-panel-open .menu-timeline-panel {
+  max-height: 420px;
+  border-width: 1px;
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.sci-fi-menu:not(.is-timeline-panel-open) .menu-timeline-panel {
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.menu-timeline-panel__eyebrow {
+  font-family: "Teko", sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(177, 209, 255, 0.7);
+}
+
+.menu-timeline-panel__title {
+  margin: 3px 0 6px;
+  font-family: "Teko", sans-serif;
+  font-size: 1.55rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(235, 244, 255, 0.96);
+}
+
+.menu-timeline-panel__copy {
+  margin: 0 0 10px;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: rgba(205, 223, 249, 0.78);
+}
+
+.menu-timeline-rail {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.menu-timeline-rail__year {
+  padding: 4px 0;
+  border-radius: 999px;
+  border: 1px solid rgba(173, 198, 242, 0.18);
+  background: rgba(7, 14, 28, 0.72);
+  font-size: 0.62rem;
+  text-align: center;
+  color: rgba(208, 228, 255, 0.72);
+}
+
+.menu-timeline-rail__year.is-current {
+  border-color: rgba(205, 227, 255, 0.48);
+  color: rgba(240, 247, 255, 0.96);
+  box-shadow: 0 0 12px rgba(123, 187, 255, 0.18);
+}
+
+.menu-timeline-projects {
+  display: grid;
+  gap: 8px;
+}
+
+.menu-timeline-projects-viewport {
+  position: relative;
+  height: 182px;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.96) 12%,
+    rgba(0, 0, 0, 0.96) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.96) 12%,
+    rgba(0, 0, 0, 0.96) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.menu-timeline-projects-track {
+  display: grid;
+  gap: 8px;
+  animation: menuTimelineAutoScroll 26s linear infinite;
+  will-change: transform;
+}
+
+.sci-fi-menu.is-timeline-panel-open .menu-timeline-projects-viewport:hover .menu-timeline-projects-track {
+  animation-play-state: paused;
+}
+
+.menu-timeline-project {
+  padding: 9px 10px;
+  border-radius: 10px;
+  background: rgba(8, 14, 27, 0.66);
+  border: 1px solid rgba(173, 198, 242, 0.14);
+}
+
+.menu-timeline-project__name {
+  font-family: "Teko", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(233, 242, 255, 0.94);
+}
+
+.menu-timeline-project__trajectory {
+  margin-top: 2px;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(177, 208, 249, 0.72);
+}
+
+.menu-timeline-project__arc {
+  margin-top: 5px;
+  font-size: 0.71rem;
+  line-height: 1.45;
+  color: rgba(211, 228, 250, 0.84);
+}
+
+@keyframes menuTimelineAutoScroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-50% - 4px));
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 980px) {
+  .menu-timeline-panel {
+    width: min(38vw, 240px);
+  }
+
+  .menu-item {
+    font-size: 13px;
+    padding: 9px 12px;
+    gap: 6px;
+  }
+
+  .menu-diamond {
+    width: 7px;
+    height: 7px;
+  }
+}
+
+@media (max-width: 700px) {
+  .sci-fi-menu {
+    right: 10px;
+  }
+
+  .menu-rail-ticks {
+    left: -23px;
+    width: 10px;
+  }
+
+  .menu-rail-ticks::after {
+    left: 5px;
+  }
+
+  .sci-fi-menu::before {
+    left: -12px;
+  }
+
+  .sci-fi-menu::after {
+    left: -8px;
+  }
+
+  .menu-panel {
+    gap: 8px;
+    padding: 12px;
+    transform: rotateX(30deg);
+  }
+
+  .menu-timeline-panel {
+    width: min(52vw, 200px);
+    padding: 11px 11px 10px;
+  }
+
+  .sci-fi-menu.is-timeline-panel-open .menu-timeline-panel {
+    max-height: 360px;
+  }
+
+  .menu-timeline-panel__title {
+    font-size: 1.2rem;
+  }
+
+  .menu-timeline-panel__copy,
+  .menu-timeline-project__arc {
+    font-size: 0.66rem;
+  }
+
+  .sci-fi-menu:hover .menu-panel {
+    transform: rotateX(25deg);
+  }
+
+  .menu-item {
+    font-size: 12px;
+    padding: 8px 10px;
+    gap: 5px;
+  }
+
+  .menu-diamond {
+    width: 6px;
+    height: 6px;
+  }
+
+  .menu-timeline-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .menu-timeline-projects-viewport {
+    height: 146px;
+  }
+}

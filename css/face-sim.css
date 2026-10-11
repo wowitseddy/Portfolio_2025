@@ -1,0 +1,153 @@
+#face-simulation-section {
+  position: relative;
+  width: min(1100px, 94vw);
+  margin: clamp(48px, 10vh, 140px) auto;
+  padding: clamp(14px, 2.8vw, 28px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 14px;
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(92, 140, 255, 0.14),
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(255, 255, 255, 0.08),
+      transparent 45%
+    ),
+    rgba(5, 8, 13, 0.82);
+  backdrop-filter: blur(2px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  overflow: hidden;
+}
+
+#face-simulation-section.is-hidden {
+  display: none;
+}
+
+.face-sim-copy h2 {
+  color: #d9e8ff;
+  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+}
+
+.face-sim-copy p {
+  color: rgba(230, 238, 255, 0.75);
+  font-size: 1.02rem;
+}
+
+.face-sim-stage {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: clamp(320px, 55vh, 620px);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background:
+    linear-gradient(180deg, rgba(8, 12, 20, 0.45), rgba(7, 9, 14, 0.38)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 24px
+    );
+}
+
+.face-sim-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(235, 245, 255, 0.28) 0px,
+    rgba(235, 245, 255, 0.28) 1px,
+    rgba(0, 0, 0, 0) 1px,
+    rgba(0, 0, 0, 0) 14px
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 22%,
+    rgba(0, 0, 0, 1) 78%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 22%,
+    rgba(0, 0, 0, 1) 78%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  animation: scanLines 6.5s linear infinite;
+  z-index: 3;
+}
+
+.face-sim-stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+}
+
+#face-simulation-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAwAB/IoDFZsAAAAASUVORK5CYII=");
+  opacity: 0.2;
+  mix-blend-mode: screen;
+  animation: noiseOscillation 0.5s infinite steps(2);
+  z-index: 2;
+}
+
+#face-simulation-container[data-model-status="loading"]::after,
+#face-simulation-container[data-model-status="error"]::after {
+  content: "Loading model...";
+  position: absolute;
+  inset: auto 0 12px 0;
+  text-align: center;
+  color: rgba(220, 231, 255, 0.82);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+#face-simulation-container[data-model-status="error"]::after {
+  content: "Model not found or failed to load. Check data-model-src path.";
+  color: rgba(255, 191, 191, 0.9);
+}
+
+@keyframes noiseOscillation {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(1px, 1px);
+  }
+}
+
+@keyframes scanLines {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 70px;
+  }
+}
+
+@media (max-width: 900px) {
+  #face-simulation-section {
+    width: min(96vw, 720px);
+    margin: 48px auto;
+    padding: 14px;
+  }
+}

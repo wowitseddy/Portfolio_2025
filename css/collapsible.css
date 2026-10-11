@@ -1,0 +1,25 @@
+/* Collapsible Content Styling */
+.container {
+  background: rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 800px;
+  margin-top: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transform-origin: top;
+  transition:
+    opacity 0.4s ease,
+    max-height 0.4s ease;
+}
+
+.container.show {
+  opacity: 1;
+  max-height: 300px; /* Adjust this height based on the content */
+}

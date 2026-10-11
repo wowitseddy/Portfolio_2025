@@ -1,0 +1,91 @@
+Day,Phase,Primary Focus,Timed Block,Rebuild Block,Applied Block,Artifact,Metric Goal,Checkpoint
+1,Foundation Reset,Baseline diagnostic and error taxonomy,36-question cold baseline,Classify all misses,Set up tracker workbook,Baseline score sheet,Log all 8 domains,Baseline complete
+2,Foundation Reset,Algebra fluency,Timed algebra set 1,Equation manipulation review,Spreadsheet formulas setup,Algebra error log,60 percent algebra,Formula sheet started
+3,Foundation Reset,Unit conversion,Timed unit drill 1,Dimensional analysis rebuild,Unit conversion calculator,Units cheat sheet,65 percent units,Zero untracked unit misses
+4,Foundation Reset,Graph reading,Timed graphs set 1,Plot interpretation review,Chart annotation practice,Graph pattern notes,65 percent graphs,Graph mistakes tagged
+5,Foundation Reset,Time-pressure control,20-minute mixed sprint,Pacing audit,Timer protocol setup,Pacing rules card,Reduce blind guessing,Timing routine established
+6,Foundation Reset,Algebra plus units,Mixed timed set 1,Rework wrong answers,Python scoring script v1,Score logger,70 percent on corrected set,Two root causes reduced
+7,Foundation Reset,Weekly benchmark,Half-length mock,Full error review,Dashboard update,Week 1 benchmark memo,Accurate baseline trend,Week 1 review
+8,Mechanics Build,Trig identities,Timed trig set 1,Identity reduction rebuild,Flash card deck,Trig drill archive,60 percent trig,Recall failures logged
+9,Mechanics Build,Vectors,Timed vectors set 1,Component decomposition rebuild,Vector diagram worksheet,Vector sheet,65 percent vectors,Diagram quality improved
+10,Mechanics Build,Force balance,Statics set 1,Free body diagram rebuild,Sketching practice,Force balance page,60 percent statics,FBD errors classified
+11,Mechanics Build,Trig application,Timed trig set 2,Angle relation rebuild,Calculator workflow cleanup,Trig workflow notes,65 percent trig,Less calculator friction
+12,Mechanics Build,Vectors plus statics,Mixed mechanics set,Rebuild setups,Spreadsheet force solver,Mini solver sheet,65 percent mixed mechanics,Setup errors declining
+13,Mechanics Build,Time-pressure control,25-minute sprint,Rebuild skipped problems,Breathing and restart routine,Pressure protocol note,Fewer late-section misses,Restart routine tested
+14,Mechanics Build,Weekly benchmark,Half-length mock 2,Error taxonomy refresh,Tracker update,Week 2 benchmark memo,2 domains at 70 percent,Week 2 review
+15,Circuits Ramp,Ohm's law,Timed circuits set 1,Voltage current resistance rebuild,Breadboard or simulator setup,Ohm law summary,65 percent circuits,Formula recall cleaner
+16,Circuits Ramp,Series and parallel,Timed circuits set 2,Equivalent resistance rebuild,Circuit worksheet archive,Resistance sheet,65 percent networks,Network mistakes tagged
+17,Circuits Ramp,Power and energy,Timed power problems,Power relation review,Power table builder,Power notes,65 percent power,Unit handling improved
+18,Circuits Ramp,Graph and table extraction,Timed tables set,Interpretation rebuild,Spreadsheet plot recreation,Plot workbook,70 percent graphs,Table-reading faster
+19,Circuits Ramp,Mixed math plus circuits,Timed mixed set 2,Rebuild weakest misses,Python utility for percent scoring,Scoring utility,Overall 65 percent,Weakest 3 domains explicit
+20,Circuits Ramp,Time-pressure control,30-minute sprint,Audit last-5-question behavior,Short recovery protocol,Endgame checklist,Lower panic error rate,Endgame checklist in use
+21,Circuits Ramp,Weekly benchmark,Half-length mock 3,Full review,Tracker and heatmap update,Week 3 benchmark memo,3 domains at 70 percent,Week 3 review
+22,Compression,Mixed mechanics plus algebra,Timed mixed set 3,Rebuild all setup failures,CAD sketch practice,Constraint sketch pack,Overall 67 percent,Mechanics errors narrowing
+23,Compression,Unit conversion under speed,Timed units sprint,Rebuild conversion chains,Measurement worksheet,Units speed sheet,70 percent units at speed,Conversion latency reduced
+24,Compression,Trig plus vectors,Timed mixed set 4,Rebuild angle setup,Graphical vector sketching,Vector sketch archive,68 percent trig vectors,Setup quality better
+25,Compression,Force balance plus graphs,Timed mixed set 5,Rebuild free body logic,Spreadsheet trend plotting,Statics plot notes,68 percent mixed,Prompt-reading cleaner
+26,Compression,Circuits plus algebra,Timed mixed set 6,Rebuild multistep misses,Python formula checker,Formula checker,68 percent circuits algebra,Multistep errors reduced
+27,Compression,Stress inoculation,35-minute sprint,Audit all panic misses,Reset script practice,Stress note card,Fewer pressure collapses,Recovery script working
+28,Compression,Weekly benchmark,Full mock 1,Deep review,Heatmap update,Week 4 benchmark memo,Overall 70 percent near reach,Week 4 review
+29,Translation,Spreadsheet engineering math,Timed mixed set 7,Rebuild weak domain,Build engineering workbook,Workbook v1,Stable 68 plus overall,Workbook usable
+30,Translation,Python calculation block,Timed algebra sprint,Rebuild algebra misses,Python unit and force tool,Python mini tool,70 percent algebra,Reusable code saved
+31,Translation,CAD fundamentals,Timed graph set,Rebuild graph misses,2D sketch and dimension practice,CAD sketch set,Cleaner spatial reasoning,CAD artifacts saved
+32,Translation,Circuits practical translation,Timed circuits sprint,Rebuild circuit misses,Breadboard or simulator logging,Circuit lab note,70 percent circuits,Practical notes saved
+33,Translation,Measurement and tolerances,Timed units and geometry set,Rebuild tolerance math,Caliper or spec-sheet exercise,Tolerance worksheet,70 percent geometry support,Spec reading improved
+34,Translation,Documentation speed,25-minute mixed sprint,Rebuild misread prompts,Write compressed technical summary,Technical note,Clearer written reasoning,Note quality improved
+35,Translation,Weekly benchmark,Full mock 2,Deep review,Tracker refresh,Week 5 benchmark memo,4 to 5 domains at 70 percent,Week 5 review
+36,Hardening,Full-spectrum mixed set,Timed mixed set 8,Rebuild lowest 2 domains,Update formula sheet v2,Formula sheet v2,Overall 70 percent,Two weakest domains isolated
+37,Hardening,Algebra and trig cleanup,Timed mixed sprint,Targeted rebuild,Flash review update,Recall pack,70 percent algebra trig,Recall smoother
+38,Hardening,Vectors and statics cleanup,Timed mechanics sprint,Targeted rebuild,Diagram repetition block,Mechanics pack,70 percent vectors statics,Setup reliability up
+39,Hardening,Circuits and graph cleanup,Timed circuits graph sprint,Targeted rebuild,Plot plus schematic notes,Circuits graph pack,70 percent circuits graphs,Reading speed up
+40,Hardening,Stress mock,Full mock 3,Immediate review,Recovery protocol refinement,Stress mock memo,Hold score under pressure,Pressure recovery improved
+41,Hardening,Weakest domain kill shot,Timed weakest-domain set,Focused rebuild,Support tool update,Weak-domain tracker,Raise floor of worst domain,Worst domain above 65
+42,Hardening,Second weakest domain kill shot,Timed second-weakest set,Focused rebuild,CAD or Python reinforcement,Support artifact,Raise floor again,Second worst above 65
+43,Hardening,Full-spectrum speed pass,35-minute mixed sprint,Rebuild all careless misses,Heatmap refresh,Heatmap v2,All domains trending up,Trend visible
+44,Hardening,Final review compression,Short mixed set,Formula and unit rebuild,Exam-day checklist prep,Exam checklist,Minimal loose ends,Checklist ready
+45,Hardening,45-day benchmark,Full mock 4,Full postmortem,45-day review memo,45-day review memo,All domains targeted for 70,Day 45 gate
+46,Expansion,CAD credential prep,Timed geometry set,Rebuild geometry misses,CSWA-style sketching,CAD drill sheet,Spatial accuracy rising,CAD track active
+47,Expansion,Python numerical modeling,Timed algebra set,Rebuild symbolic misses,Model simple system in Python,Notebook v1,Cleaner computation habits,Model saved
+48,Expansion,Circuits instrumentation,Timed circuits set,Rebuild instrument reading,Multimeter or simulator drill,Instrumentation notes,Measurement accuracy higher,Instrument literacy active
+49,Expansion,Manufacturing math,Timed units set,Rebuild tolerances and conversions,Process sheet exercise,Manufacturing math notes,70 plus units locked,Manufacturing lens added
+50,Expansion,Controls intuition,Timed graph set,Rebuild response interpretation,Simple feedback reading block,Controls intuition page,Better dynamic reading,Control concepts started
+51,Expansion,Robotics kinematics intro,Timed vectors set,Rebuild coordinate transforms,Coordinate worksheet,Kinematics sheet,Basic frame logic cleaner,Robotics layer added
+52,Expansion,Weekly benchmark,Half mock plus applied review,Audit trends,Tracker update,Week 7 memo,No major regression,Week 7 review
+53,Expansion,Technical writing under pressure,Timed mixed sprint,Rebuild misreads,Write one-page lab summary,Lab summary,Clearer technical language,Writing artifact saved
+54,Expansion,Spreadsheet automation,Timed algebra sprint,Rebuild manipulations,Add formulas and conditional formatting,Tracker v2,Lower logging friction,Workbook upgraded
+55,Expansion,CAD repetition,Timed geometry sprint,Rebuild spatial misses,Repeat sketch pack,CAD pack v2,Sketch speed higher,CAD repetition held
+56,Expansion,Electronics fundamentals review,Timed circuits sprint,Rebuild conceptual misses,Parts identification block,Electronics basics card,Retention steady,Electronics review done
+57,Expansion,Mechanics refresh,Timed statics sprint,Rebuild FBD misses,Vector diagram practice,Mechanics refresh sheet,Statics stable,Mechanics retained
+58,Expansion,Graph and data refresh,Timed graph sprint,Rebuild data extraction misses,Plot reading archive,Graph archive,Graph reading stable,Data extraction retained
+59,Expansion,Stress block,40-minute mixed set,Audit panic triggers,Recovery drills,Stress note update,Stable output under stress,Stress pattern known
+60,Expansion,Weekly benchmark,Full mock 5,Deep review,Heatmap update,Week 8 memo,Overall trend positive,Week 8 review
+61,Credential Branch,CAD plus documentation,Timed geometry set,Rebuild misses,CAD drawing with notes,Drawing pack,Credential evidence growing,Portfolio item created
+62,Credential Branch,PLC or controls basics,Timed logic and graphs set,Rebuild sequencing misses,PLC concept worksheet,PLC worksheet,Industrial exposure started,Controls branch active
+63,Credential Branch,Python plus stats,Timed algebra graph set,Rebuild numeric misses,Data analysis notebook,Notebook v2,Better quantitative reporting,Notebook saved
+64,Credential Branch,Circuits plus measurement,Timed circuits set,Rebuild weakest items,Measurement protocol,Measurement protocol,Practical confidence up,Measurement discipline stronger
+65,Credential Branch,Manufacturing process basics,Timed units and ratios set,Rebuild process math,Read spec sheet or BOM,BOM notes,Spec literacy improved,BOM artifact created
+66,Credential Branch,Robotics competition prep,Timed vectors and timing set,Rebuild navigation misses,Subsystem brainstorming,Competition concept sheet,Project direction visible,Competition sheet saved
+67,Credential Branch,Pressure benchmark,Half mock sprint,Immediate review,Reset protocol,Pressure benchmark memo,Fewer collapse events,Pressure handling improved
+68,Credential Branch,Weekly benchmark,Full mock 6,Deep review,Tracker refresh,Week 9 memo,Domains remain above floor,Week 9 review
+69,Credential Branch,CSWA or CAD focus,Timed geometry sprint,Rebuild dimensioning misses,Mock CAD task,CAD mock output,CAD confidence higher,CAD checkpoint
+70,Credential Branch,Controls and systems thinking,Timed graph and algebra set,Rebuild system-response misses,Simple transfer intuition notes,Systems note,Control reasoning better,Systems checkpoint
+71,Credential Branch,Biomechanics or BME math bridge,Timed force plus units set,Rebuild bio-physics style misses,Read one BME problem set,BME bridge notes,Bridge into BME stronger,BME checkpoint
+72,Credential Branch,Circuits review under speed,Timed circuits sprint,Rebuild quick misses,Schematic redraw exercise,Schematic redraws,Circuit speed higher,Circuits checkpoint
+73,Credential Branch,Spreadsheet plus reporting,Timed mixed sprint,Rebuild prompt misses,Create progress dashboard,Dashboard v1,Score communication easier,Dashboard saved
+74,Credential Branch,Python mini-project,Timed algebra sprint,Rebuild symbolic misses,Create exam analyzer script,Analyzer v1,Automation leverage higher,Analyzer script created
+75,Credential Branch,Stress inoculation,Full mock 7,Deep review,Recovery routine drill,Stress memo 2,Hold score while fatigued,Stress gate passed
+76,Credential Branch,Weekly benchmark,Half mock plus applied review,Audit weak spots,Heatmap refresh,Week 10 memo,No category collapse,Week 10 review
+77,Pre-Launch,Mock interview and explanation,Timed mixed set,Rebuild explanation misses,Explain solutions out loud,Explanation log,Clearer reasoning under pressure,Verbal clarity improved
+78,Pre-Launch,Portfolio artifact packaging,Timed weakest-domain sprint,Rebuild errors,Organize artifacts folder,Artifact index,Output easier to show,Artifacts organized
+79,Pre-Launch,CAD plus spreadsheet integration,Timed geometry and units set,Rebuild misses,Link calculations to drawing,Integrated worksheet,Cross-tool fluency up,Integrated artifact saved
+80,Pre-Launch,Circuits plus code integration,Timed circuits and algebra set,Rebuild misses,Code-assisted analysis block,Circuit code note,Multidomain fluency up,Integrated circuit artifact
+81,Pre-Launch,Mechanics plus reporting,Timed statics sprint,Rebuild setup misses,Write short engineering memo,Engineering memo,More professional output,Memo saved
+82,Pre-Launch,Competition or club prep,Timed vectors sprint,Rebuild diagram misses,Prepare project pitch,Pitch outline,Ready for external engagement,Pitch outline complete
+83,Pre-Launch,Stress mock,Full mock 8,Immediate postmortem,Recovery routine test,Mock 8 memo,Stable high-pressure score,Pressure stability checked
+84,Pre-Launch,Weekly benchmark,Half mock plus review,Trend audit,Tracker update,Week 12 memo,Strong floor maintained,Week 12 review
+85,Final Hardening,Weakest remaining domain,Timed weakest-domain sprint,Kill final gap,Support artifact refresh,Final weak-domain sheet,Worst domain above 70,Weakest cleared
+86,Final Hardening,Second weakest remaining domain,Timed second-weakest sprint,Kill final gap,Dashboard refresh,Dashboard v2,Second weakest above 70,Second gap cleared
+87,Final Hardening,Full-spectrum timed set,Timed mixed set 9,Rebuild all careless misses,Checklist refinement,Checklist v2,Low careless miss rate,Checklist tuned
+88,Final Hardening,Applied review,Short mixed set,Rebuild misses,Review CAD Python circuits stack,Applied review log,No applied skill decay,Applied stack retained
+89,Final Hardening,Capstone benchmark,Full mock 9,Deep postmortem,Prepare 90-day review,90-day draft memo,Overall strength visible,Capstone complete
+90,Final Hardening,90-day review and next branch,Short diagnostic and review,Summarize remaining gaps,Choose next cert lane,90-day review memo,Sustained system in place,Next-phase decision made

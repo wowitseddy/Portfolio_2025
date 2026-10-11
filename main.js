@@ -776,6 +776,20 @@ const bendBox = {
   zDance: 0.42,
   zDanceSpeed: 0.0,
 };
+// Crossfade band around gravityFieldConfig.startProgress (0.75): the particle
+// field fades out while the particle-core wireframe fades in, instead of the
+// particles being switched off in a single frame.
+const CORE_CROSSFADE_START = 0.69;
+const CORE_CROSSFADE_END = 0.79;
+
+function getCoreCrossfadeT(flowProgress) {
+  return THREE.MathUtils.smoothstep(
+    flowProgress,
+    CORE_CROSSFADE_START,
+    CORE_CROSSFADE_END,
+  );
+}
+
 const gravityFieldConfig = {
   startProgress: 0.75,
   fullProgress: 0.9,
@@ -4485,9 +4499,14 @@ function updateCoreWireframeAnchor(flowProgress, elapsed) {
 
   const manualLocks = getManualAxisLocks(coreWireframeState);
 
-  const collapseProgress = clamp01(
-    (flowProgress - gravityFieldConfig.startProgress) /
-      Math.max(1 - gravityFieldConfig.startProgress, 0.000001),
+  // Starts at the crossfade band so the wireframe is already fading in while
+  // the particle field fades out (previously started exactly at 0.75).
+  const collapseProgress = Math.max(
+    clamp01(
+      (flowProgress - gravityFieldConfig.startProgress) /
+        Math.max(1 - gravityFieldConfig.startProgress, 0.000001),
+    ),
+    getCoreCrossfadeT(flowProgress) * 0.35,
   );
   if (collapseProgress <= 0) {
     coreWireframeState.uniformSets.forEach((uniforms) => {
@@ -5562,9 +5581,17 @@ function animate() {
   const target = getTargetPositions();
 
   const orbPhaseT = 0;
-  const particlesCutoff = flowProgress < gravityFieldConfig.startProgress;
-  particles.visible = particlesCutoff;
-  secondaryParticles.visible = particlesCutoff;
+  const particleFade = 1 - getCoreCrossfadeT(flowProgress);
+  const particlesCutoff = particleFade > 0;
+  // Keep drawing until the eased opacity has actually reached ~0, but never
+  // past the crossfade band (the scroll impulse also drives secondary opacity).
+  const inFadeTail = flowProgress < CORE_CROSSFADE_END + 0.04;
+  particles.visible =
+    particlesCutoff ||
+    (inFadeTail && material.uniforms.uOpacity.value > 0.004);
+  secondaryParticles.visible =
+    particlesCutoff ||
+    (inFadeTail && secondaryMaterial.uniforms.uOpacity.value > 0.004);
 
   for (let i = 0; i < particleCount; i += 1) {
     const i3 = i * 3;
@@ -5650,12 +5677,12 @@ function animate() {
       : THREE.MathUtils.lerp(-0.35, -1.9, postProjectsT);
 
   const mainOpacityTarget = particlesCutoff
-    ? clamp01(THREE.MathUtils.lerp(0.86, 0.1, flowProgress))
+    ? clamp01(THREE.MathUtils.lerp(0.86, 0.1, flowProgress)) * particleFade
     : 0;
   material.uniforms.uOpacity.value +=
     (mainOpacityTarget - material.uniforms.uOpacity.value) * 0.1;
   const secondaryOpacityTarget = particlesCutoff
-    ? 0.18 - meditationFlow * 0.14
+    ? (0.18 - meditationFlow * 0.14) * particleFade
     : 0;
   secondaryMaterial.uniforms.uOpacity.value +=
     (secondaryOpacityTarget - secondaryMaterial.uniforms.uOpacity.value) * 0.08;

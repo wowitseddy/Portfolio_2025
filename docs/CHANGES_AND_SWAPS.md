@@ -58,3 +58,7 @@ Swapped every file in `assets/GLTF/` for an optimized version. The originals sta
 - Fix (same scroll logic, no content change): a crossfade band from 0.69 to 0.79 (`getCoreCrossfadeT`, smoothstep). Particle opacity targets are multiplied by `1 - t`, and particles stay drawn until their eased opacity reaches ~0 (bounded to the band). The wireframe's collapse progress starts at `t * 0.35` inside the band, so it's already fading in while the particles fade out. After 0.79 the original curve takes over.
 - Before → after: the baseline goes from a full particle field at flow 0.74 to particles gone plus shells at 0.76. Now, at 0.6875 / 0.75 / 0.8125 / 0.875 the core dims, the shells appear faintly, then reach full strength. The verdict no longer lists a cut with hidden objects. The only flag left is 9 core nodes turning visible at the start of the fade.
 
+## d2. Follow-up to (d): bake creased normals offline instead of at load
+- Problem found in verification: `toCreasedNormals` at runtime cost ~3.0 s (banner) and ~18 s per particle-core ring (measured in Node) of main-thread time.
+- Swap: `BCI_TEXT_.glb` and the Corporate Agent banner now ship with creased (35°) normals baked by `scripts/glb-bake-creased-normals.mjs`. File sizes: BCI 0.53 → 0.70 MB, banner 0.32 → 0.41 MB. The runtime fallback for meshes without normals (the wireframe rings) is plain `computeVertexNormals()` (~19 ms per ring). The BufferGeometryUtils import was removed.
+

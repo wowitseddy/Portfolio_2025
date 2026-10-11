@@ -144,6 +144,10 @@ const gltfLoaderModulePromise = import(
 );
 const startupIssues = [];
 window.__portfolioStartupIssues = startupIssues;
+// Read-only probe for capture/QA tooling (site-capture/manifest_capture.py).
+window.__portfolioDebug = {
+  getScrollProgress: () => getEffectiveScrollProgress(),
+};
 
 function getStartupIssueMessage(error) {
   if (error instanceof Error && error.message) {

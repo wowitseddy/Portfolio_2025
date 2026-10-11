@@ -47,3 +47,14 @@ Swapped every file in `assets/GLTF/` for an optimized version. The originals sta
 - Visual check: side-by-side frames at flow 0.125, 0.25, and 0.5 look the same at capture resolution; the glass text silhouettes are intact.
 - Not done (recommendation): the banner's `MeshPhysicalMaterial` uses `transmission: 0.92`, which makes three render an extra transmission pass of the scene every frame. Switching it to plain transparency would roughly halve per-frame scene cost, but it changes the look, so I'm leaving that for the owner to decide.
 
+## e. Hero-first loading; stream the particle core
+- `bootstrapSceneAssets()` now waits only for hero-critical assets: Harness rig, Corporate Agent banner, rotor, outer ring, and the auxiliary text GLBs (visible from flow ≈0.1). Then it hides the preloader.
+- The particle-core wireframe plus Dyson ring (only visible from flow ≈0.69) moved to `DEFERRED_SCENE_TASKS`. They load at `requestIdleCallback` after the hero is ready, or immediately once scroll progress reaches 0.55.
+- Before → after: see the Verification table (startup-ready time, bytes before preloader hide). The deferred file is now 1.2 MB instead of 13.7 MB gzip / 66.5 MB raw, so the deferral matters less after (c). It still takes it off the critical path.
+- Service worker: **not added.** `public/dragonfire-sw.js` is already registered at the site root scope (by dragonfire-protocol.html), and a second root-scope worker would replace it and break that page's offline cache. Hashed `/assets/*` files are already HTTP-cacheable. A shared SW would need merging both caches; that's a future item.
+
+## f. Crossfade the flow 0.75 transition (former 37–42% "hard cut")
+- Cause: at `gravityFieldConfig.startProgress` (0.75), `particles.visible` / `secondaryParticles.visible` flipped to `false` in a single frame. The particle-core wireframe only started fading in from 0 at the same moment.
+- Fix (same scroll logic, no content change): a crossfade band from 0.69 to 0.79 (`getCoreCrossfadeT`, smoothstep). Particle opacity targets are multiplied by `1 - t`, and particles stay drawn until their eased opacity reaches ~0 (bounded to the band). The wireframe's collapse progress starts at `t * 0.35` inside the band, so it's already fading in while the particles fade out. After 0.79 the original curve takes over.
+- Before → after: the baseline goes from a full particle field at flow 0.74 to particles gone plus shells at 0.76. Now, at 0.6875 / 0.75 / 0.8125 / 0.875 the core dims, the shells appear faintly, then reach full strength. The verdict no longer lists a cut with hidden objects. The only flag left is 9 core nodes turning visible at the start of the fade.
+

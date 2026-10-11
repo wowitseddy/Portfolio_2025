@@ -178,23 +178,36 @@ function recordStartupIssue(label, error) {
 const meshoptDecoderModulePromise = import(
   "three/examples/jsm/libs/meshopt_decoder.module.js"
 );
+const bufferGeometryUtilsModulePromise = import(
+  "three/examples/jsm/utils/BufferGeometryUtils.js"
+);
+// Crease angle for normals rebuilt on simplified hard-surface meshes (extruded
+// text): keeps flat faces/sharp letter edges instead of smoothing across them.
+const RESTORED_NORMAL_CREASE_ANGLE = THREE.MathUtils.degToRad(35);
 
 // Meshes whose NORMAL attribute was stripped during compression (wireframe /
 // position-driven shaders) get normals recomputed after load.
-function restoreMissingNormals(root) {
+function restoreMissingNormals(root, toCreasedNormals) {
   root.traverse((node) => {
     const geometry = node.isMesh ? node.geometry : null;
     if (geometry && geometry.attributes.position && !geometry.attributes.normal) {
-      geometry.computeVertexNormals();
+      if (toCreasedNormals && !node.isSkinnedMesh) {
+        node.geometry = toCreasedNormals(geometry, RESTORED_NORMAL_CREASE_ANGLE);
+        geometry.dispose();
+      } else {
+        geometry.computeVertexNormals();
+      }
     }
   });
 }
 
 async function createGltfLoader() {
-  const [{ GLTFLoader }, { MeshoptDecoder }] = await Promise.all([
-    gltfLoaderModulePromise,
-    meshoptDecoderModulePromise,
-  ]);
+  const [{ GLTFLoader }, { MeshoptDecoder }, { toCreasedNormals }] =
+    await Promise.all([
+      gltfLoaderModulePromise,
+      meshoptDecoderModulePromise,
+      bufferGeometryUtilsModulePromise,
+    ]);
   const loader = new GLTFLoader();
   // GLBs are compressed with EXT_meshopt_compression + KHR_mesh_quantization
   // (+ EXT_texture_webp, decoded natively). See docs/CHANGES_AND_SWAPS.md.
@@ -202,7 +215,7 @@ async function createGltfLoader() {
   const loadAsync = loader.loadAsync.bind(loader);
   loader.loadAsync = async (...args) => {
     const gltf = await loadAsync(...args);
-    if (gltf && gltf.scene) restoreMissingNormals(gltf.scene);
+    if (gltf && gltf.scene) restoreMissingNormals(gltf.scene, toCreasedNormals);
     return gltf;
   };
   return loader;

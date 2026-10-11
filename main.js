@@ -178,36 +178,27 @@ function recordStartupIssue(label, error) {
 const meshoptDecoderModulePromise = import(
   "three/examples/jsm/libs/meshopt_decoder.module.js"
 );
-const bufferGeometryUtilsModulePromise = import(
-  "three/examples/jsm/utils/BufferGeometryUtils.js"
-);
-// Crease angle for normals rebuilt on simplified hard-surface meshes (extruded
-// text): keeps flat faces/sharp letter edges instead of smoothing across them.
-const RESTORED_NORMAL_CREASE_ANGLE = THREE.MathUtils.degToRad(35);
+
 
 // Meshes whose NORMAL attribute was stripped during compression (wireframe /
 // position-driven shaders) get normals recomputed after load.
-function restoreMissingNormals(root, toCreasedNormals) {
+// (Text meshes ship with creased normals baked offline by
+// scripts/glb-bake-creased-normals.mjs; rebuilding creased normals at runtime
+// cost 3-18 s of main-thread time per mesh.)
+function restoreMissingNormals(root) {
   root.traverse((node) => {
     const geometry = node.isMesh ? node.geometry : null;
     if (geometry && geometry.attributes.position && !geometry.attributes.normal) {
-      if (toCreasedNormals && !node.isSkinnedMesh) {
-        node.geometry = toCreasedNormals(geometry, RESTORED_NORMAL_CREASE_ANGLE);
-        geometry.dispose();
-      } else {
-        geometry.computeVertexNormals();
-      }
+      geometry.computeVertexNormals();
     }
   });
 }
 
 async function createGltfLoader() {
-  const [{ GLTFLoader }, { MeshoptDecoder }, { toCreasedNormals }] =
-    await Promise.all([
-      gltfLoaderModulePromise,
-      meshoptDecoderModulePromise,
-      bufferGeometryUtilsModulePromise,
-    ]);
+  const [{ GLTFLoader }, { MeshoptDecoder }] = await Promise.all([
+    gltfLoaderModulePromise,
+    meshoptDecoderModulePromise,
+  ]);
   const loader = new GLTFLoader();
   // GLBs are compressed with EXT_meshopt_compression + KHR_mesh_quantization
   // (+ EXT_texture_webp, decoded natively). See docs/CHANGES_AND_SWAPS.md.
@@ -215,7 +206,7 @@ async function createGltfLoader() {
   const loadAsync = loader.loadAsync.bind(loader);
   loader.loadAsync = async (...args) => {
     const gltf = await loadAsync(...args);
-    if (gltf && gltf.scene) restoreMissingNormals(gltf.scene, toCreasedNormals);
+    if (gltf && gltf.scene) restoreMissingNormals(gltf.scene);
     return gltf;
   };
   return loader;

@@ -4426,7 +4426,7 @@ async function initParticleCoreWireframe() {
         if (!node.isMesh) {
           return;
         }
-        node.frustumCulled = false;
+        enableFrustumCullingIfSafe(node);
       });
     } catch (error) {
       recordStartupIssue("dyson-ring-attachment", error);
@@ -4743,7 +4743,7 @@ async function initCorporateAgentViewer() {
         return;
       }
       node.visible = true;
-      node.frustumCulled = false;
+      enableFrustumCullingIfSafe(node);
       const sourceMaterials = Array.isArray(node.material)
         ? node.material
         : [node.material];
@@ -4851,7 +4851,7 @@ async function initAuxiliaryGlbLibrary() {
           return;
         }
         node.visible = true;
-        node.frustumCulled = false;
+        enableFrustumCullingIfSafe(node);
 
         if (preserveAuthoredMaterials) {
           return;
@@ -5349,6 +5349,78 @@ function applyScrollState(deltaY, now) {
   lastScrollTime = now;
 }
 
+// --- Runtime visibility culling -------------------------------------------
+// Objects whose material is fully transparent still cost a full draw (vertex
+// work + fill). Hide them while effectively invisible and restore them as soon
+// as their opacity rises. Only objects hidden by this pass are ever unhidden.
+const AUTO_HIDE_OPACITY = 0.004;
+const autoHideState = { list: [], builtAt: -1, childCount: -1 };
+
+function rebuildAutoHideList() {
+  const list = [];
+  scene.traverse((node) => {
+    if (!(node.isMesh || node.isLine || node.isPoints)) return;
+    if (node === particles || node === secondaryParticles) return;
+    const mats = Array.isArray(node.material) ? node.material : [node.material];
+    if (mats.every((m) => m && m.transparent && !m.uniforms)) list.push(node);
+  });
+  autoHideState.list = list;
+}
+
+function countSceneNodes() {
+  let n = 0;
+  scene.traverse(() => {
+    n += 1;
+  });
+  return n;
+}
+
+function applyAutoHide(elapsed) {
+  // Re-scan only when the scene graph grows (async GLB loads), at most 1x/sec.
+  if (elapsed - autoHideState.builtAt > 1) {
+    const count = countSceneNodes();
+    if (count !== autoHideState.childCount) {
+      autoHideState.childCount = count;
+      rebuildAutoHideList();
+    }
+    autoHideState.builtAt = elapsed;
+  }
+  for (const node of autoHideState.list) {
+    const mats = Array.isArray(node.material) ? node.material : [node.material];
+    let maxOpacity = 0;
+    for (const m of mats) maxOpacity = Math.max(maxOpacity, m.visible === false ? 0 : m.opacity);
+    if (maxOpacity < AUTO_HIDE_OPACITY) {
+      if (node.visible) {
+        node.visible = false;
+        node.userData.__autoHidden = true;
+      }
+    } else if (node.userData.__autoHidden) {
+      node.visible = true;
+      node.userData.__autoHidden = false;
+    }
+  }
+
+  // Particle-core wireframe: ~565k triangles drawn as wireframe whose
+  // alpha is driven by uFieldOpacity (0 until gravityFieldConfig.startProgress).
+  if (coreWireframeState.root) {
+    let fieldOpacity = 0;
+    coreWireframeState.uniformSets.forEach((u) => {
+      if (u && u.uFieldOpacity) fieldOpacity = Math.max(fieldOpacity, u.uFieldOpacity.value);
+    });
+    // Before first compile uniformSets is empty: keep it visible so it compiles.
+    const shouldShow = coreWireframeState.uniformSets.length === 0 || fieldOpacity >= AUTO_HIDE_OPACITY;
+    coreWireframeState.root.visible = shouldShow;
+  }
+}
+
+function enableFrustumCullingIfSafe(node) {
+  // Skinned meshes keep culling off (bounds don't follow bones); static or
+  // node-animated meshes have valid bounds and can be culled.
+  if (node.isSkinnedMesh) return;
+  if (node.geometry && !node.geometry.boundingSphere) node.geometry.computeBoundingSphere();
+  node.frustumCulled = true;
+}
+
 function animate() {
   requestAnimationFrame(animate);
 
@@ -5590,6 +5662,8 @@ function animate() {
       console.warn("[devTools]", e);
     }
   }
+
+  applyAutoHide(elapsed);
 
   if (viewportResizeState.active) {
     renderer.render(scene, camera);

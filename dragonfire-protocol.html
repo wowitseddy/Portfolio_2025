@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07111c" />
+    <title>Dragonfire Protocol</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Rajdhani:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="manifest" href="./dragonfire-manifest.webmanifest" />
+    <link rel="icon" href="./vite.svg" type="image/svg+xml" />
+    <script type="module" crossorigin src="./assets/dragonfireProtocol-CB_BrzMl.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="stylesheet" crossorigin href="./assets/dragonfireProtocol-BRdF-gWy.css">
+  </head>
+  <body>
+    <main class="dragonfire-shell">
+      <section class="mission-hero">
+        <div>
+          <p class="eyebrow">Dragonfire Protocol</p>
+          <h1>Mission Control For The 90-Day Certification Push</h1>
+          <p class="hero-copy">
+            Convert the 90-day schedule into live execution: countdowns, drift alerts,
+            phase gates, score logging, and immediate course correction.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <button id="enable-notifications" type="button">Enable Alerts</button>
+          <button id="install-app" type="button" disabled>Install App</button>
+          <button id="complete-day" type="button">Mark Day Complete</button>
+        </div>
+      </section>
+
+      <section class="panel mission-config-panel">
+        <div class="section-header">
+          <h2>Mission Config</h2>
+          <p>Set the mission start, threshold, and daily timers. Stored locally.</p>
+        </div>
+        <div class="form-grid">
+          <label>
+            Mission Start Date
+            <input id="mission-start" type="date" />
+          </label>
+          <label>
+            Threshold %
+            <input id="mission-threshold" type="number" min="1" max="100" value="70" />
+          </label>
+          <label>
+            Timed Block Minutes
+            <input id="timed-minutes" type="number" min="5" value="90" />
+          </label>
+          <label>
+            Rebuild Block Minutes
+            <input id="rebuild-minutes" type="number" min="5" value="60" />
+          </label>
+          <label>
+            Applied Block Minutes
+            <input id="applied-minutes" type="number" min="5" value="90" />
+          </label>
+          <label>
+            Flash / Log Minutes
+            <input id="aux-minutes" type="number" min="5" value="45" />
+          </label>
+          <label>
+            Today Overall Score %
+            <input id="today-score" type="number" min="0" max="100" value="0" />
+          </label>
+          <label>
+            Drift Note
+            <input id="drift-note" type="text" placeholder="What went wrong or got corrected today?" />
+          </label>
+          <label>
+            Device Role
+            <select id="device-role">
+              <option value="operator">Operator</option>
+              <option value="display">Display</option>
+            </select>
+          </label>
+          <label class="sync-endpoint-label">
+            Sync Endpoint
+            <input id="sync-endpoint" type="url" placeholder="http://raspberrypi.local:8787/api/state" />
+          </label>
+        </div>
+        <div class="hero-actions compact-actions">
+          <button id="save-config" type="button">Save Config</button>
+          <button id="seed-sample" type="button">Load Sample Progress</button>
+          <button id="export-mission" type="button">Export Mission JSON</button>
+          <button id="pull-sync" type="button">Pull Sync</button>
+          <button id="push-sync" type="button">Push Sync</button>
+        </div>
+        <p id="mission-status" class="status-line" aria-live="polite"></p>
+      </section>
+
+      <section class="mission-grid">
+        <article id="mission-summary" class="panel"></article>
+        <article id="trajectory-panel" class="panel"></article>
+        <article id="capability-panel" class="panel"></article>
+      </section>
+
+      <section class="mission-grid">
+        <article id="certification-panel" class="panel"></article>
+        <article id="organizations-panel" class="panel"></article>
+        <article id="competition-panel" class="panel"></article>
+      </section>
+
+      <section class="mission-grid mission-grid-wide">
+        <article id="phase-panel" class="panel"></article>
+        <article id="day-panel" class="panel"></article>
+      </section>
+
+      <section class="mission-grid mission-grid-wide">
+        <article id="timer-panel" class="panel"></article>
+        <article id="week-panel" class="panel"></article>
+      </section>
+    </main>
+
+  </body>
+</html>

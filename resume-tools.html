@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume PDF Editor</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="./assets/resumeTools-BE5nQTma.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="stylesheet" crossorigin href="./assets/resumeTools-BwORvAWY.css">
+  </head>
+  <body>
+    <main class="resume-tools-shell">
+      <section class="resume-tools-panel">
+        <p class="resume-tools-eyebrow">Resume Editor</p>
+        <h1>TXT to PDF Workflow</h1>
+        <p class="resume-tools-copy">
+          Paste or load plain text, screen it against indexed roles, tighten the missing pieces, then print the strongest version to PDF.
+        </p>
+
+        <div class="resume-tools-fields">
+          <label>
+            Role Target
+            <input id="role-target" type="text" placeholder="Terafab Systems Engineer" />
+          </label>
+          <label>
+            Company
+            <input id="company-target" type="text" placeholder="Terafab" />
+          </label>
+          <label class="resume-tools-file-field">
+            Load TXT
+            <input id="txt-upload" type="file" accept=".txt,text/plain" />
+          </label>
+        </div>
+
+        <label class="resume-tools-textarea-label">
+          Resume Source
+          <textarea id="resume-source" spellcheck="false"></textarea>
+        </label>
+
+        <div class="resume-tools-actions">
+          <button id="load-sample" type="button">Load Sample</button>
+          <button id="render-preview" type="button">Render Preview</button>
+          <button id="save-local" type="button">Save Local</button>
+          <button id="print-pdf" type="button">Print / Save PDF</button>
+        </div>
+
+        <section class="resume-job-tools" aria-label="Job indexing and screening tools">
+          <div class="resume-job-tools-header">
+            <div>
+              <p class="resume-tools-eyebrow">Job Index</p>
+              <h2>Employer Groups and Skill Gaps</h2>
+            </div>
+            <p class="resume-job-tools-copy">
+              Crawl structured job feeds, normalize them into one index, then surface only the matched skills and the actionable gaps.
+            </p>
+          </div>
+
+          <div class="resume-tools-fields resume-job-tools-fields">
+            <label>
+              Focus Keywords
+              <input
+                id="focus-keywords"
+                type="text"
+                placeholder="simulation, autonomy, manufacturing, ML, NLP"
+              />
+            </label>
+            <label class="resume-tools-file-field">
+              Load Employer JSON
+              <input id="employer-group-upload" type="file" accept=".json,application/json" />
+            </label>
+            <label class="resume-tools-file-field">
+              Load Indexed Jobs JSON
+              <input id="job-index-upload" type="file" accept=".json,application/json" />
+            </label>
+          </div>
+
+          <label class="resume-tools-textarea-label">
+            Employer Groups Source
+            <textarea id="employer-groups-source" spellcheck="false"></textarea>
+          </label>
+
+          <div class="resume-tools-actions">
+            <button id="load-default-groups" type="button">Load Default Groups</button>
+            <button id="crawl-jobs" type="button">Crawl and Index Jobs</button>
+            <button id="screen-jobs" type="button">Screen Resume Fit</button>
+            <button id="export-job-index" type="button">Export Index JSON</button>
+          </div>
+
+          <p id="job-index-status" class="resume-job-status" aria-live="polite"></p>
+        </section>
+      </section>
+
+      <section class="resume-preview-panel">
+        <div id="resume-preview" class="resume-preview"></div>
+        <section class="resume-job-results-panel" aria-label="Job fit analysis">
+          <div id="job-fit-summary" class="job-fit-summary"></div>
+          <div id="job-results" class="job-results"></div>
+        </section>
+      </section>
+    </main>
+
+  </body>
+</html>

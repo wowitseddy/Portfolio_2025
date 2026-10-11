@@ -25,7 +25,8 @@ const CORPORATE_AGENT_MODEL_SRC = gltfAsset(
   "Because_Corporate_Agents_Cant_Code_And_Exploit_Telemetry_.glb",
 );
 const ROTOR_MODEL_SRC = gltfAsset("outer_spinner.glb");
-const OUTER_RING_MODEL_SRC = gltfAsset("decal_ring_outer.glb");
+// decal_ring_outer.glb never existed in assets/GLTF; Vite emitted it as /assets/undefined (404).
+const OUTER_RING_MODEL_SRC = gltfAsset("decal_ring_outer_.glb");
 const OUTER_RING_FALLBACK_MODEL_SRC = gltfAsset("decal_ring_outer_.glb");
 const AUXILIARY_GLB_FILES = [
   "decal_cube.glb",

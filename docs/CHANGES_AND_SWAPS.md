@@ -33,3 +33,17 @@ Swapped every file in `assets/GLTF/` for an optimized version. The originals sta
 - Load (localhost, no gzip): GLB bytes 128.3 MB → 7.8 MB. Slowest GLB 11.0 s (particle core) → 0.37 s. On live (gzip) the particle core was 13.7 MB / 17.2 s.
 - Visual check: contact sheet unchanged through the scroll; the rings at flow ≥ 0.75 render with slightly sparser wireframe density. No console errors, no failed requests.
 
+## d. Low-poly swap for the extruded "PROJECTS" banner and BCI text
+- The 688k-vertex mesh named `PROJECTS` comes from `Because_Corporate_Agents_Cant_Code_And_Exploit_Telemetry_.glb` (Plane.011). `PROJECTS_TEXT_.glb` itself isn't loaded by the page.
+- **Swap chosen: lower-poly mesh, not troika SDF text.** The banner is a 1,634-unit-long animated extruded strip with a transmission-glass material. Rebuilding it as SDF text would need the exact font, string layout, and path animation, so the visual match would be unreliable. A simplified mesh keeps the same node, animation, and material.
+- Method (`scripts/glb-weld-simplify.mjs`): strip UV/NORMAL (no textures on these materials), weld, meshopt simplify (error 0.0001 of extent ≈ 0.16 units on ~58-unit-tall glyphs), quantize, meshopt. Normals are rebuilt at load with `toCreasedNormals` at 35°, so letter faces stay flat and edges stay sharp.
+
+| mesh | triangles before → after | file (raw) before → after |
+|---|---|---|
+| PROJECTS banner (Plane.011) | 456,392 → 149,238 | 27.5 MB → 0.32 MB |
+| BCI text (Text.006 / `Text001`) | 475,241 → 142,572 | 21.2 MB → 0.53 MB |
+
+- Frame triangles (renderer.info summed over all passes per frame): 2.51M → **0.92M** (baseline 2.63M). Draw calls unchanged at 61–74.
+- Visual check: side-by-side frames at flow 0.125, 0.25, and 0.5 look the same at capture resolution; the glass text silhouettes are intact.
+- Not done (recommendation): the banner's `MeshPhysicalMaterial` uses `transmission: 0.92`, which makes three render an extra transmission pass of the scene every frame. Switching it to plain transparency would roughly halve per-frame scene cost, but it changes the look, so I'm leaving that for the owner to decide.
+

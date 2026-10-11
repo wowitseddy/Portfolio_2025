@@ -14,3 +14,22 @@ Baseline: see CHECKPOINT.md. Each entry has one commit, what changed or was swap
 - Also added a read-only `window.__portfolioDebug.getScrollProgress()` probe (separate commit) so the capture tool can sample by real scroll progress.
 - Before → after (hero, flow 0.18, localhost, SwiftShader): draw calls 93 → 61. Triangles 2.63M → 2.51M (the wireframe core isn't counted as triangles; the big remaining costs are the PROJECTS banner and BCI text, handled in c/d). Visible objects 457 → 448.
 
+## c. Compress all GLBs (meshopt + quantization + webp), simplify the particle-core rings
+Swapped every file in `assets/GLTF/` for an optimized version. The originals stay in git history (`checkpoint-2026-10-11-pre-optimize-master`).
+- All files: `gltf-transform optimize --compress meshopt --texture-compress webp --flatten false --join false --instance false --palette false --simplify false --prune false --resample true` (scene graph, node names, and animations are kept, because the code looks them up by name).
+- `particle_core_wireframe.glb`: Circle.006/.007 get TANGENT/UV/NORMAL stripped (they only render as a wireframe with a position-driven shader), then weld + meshopt simplify (ratio 0.7, error 0.001) + quantize + meshopt (`scripts/glb-weld-simplify.mjs`). 282,624 → 197,836 triangles per ring; vertices 620k → 99k per ring. Normals are recomputed at load.
+- Loader: `createGltfLoader()` now sets `MeshoptDecoder` (bundled with three, no extra files) and recomputes missing normals.
+
+| file | before (raw) | after |
+|---|---|---|
+| particle_core_wireframe.glb | 66.5 MB | 1.21 MB |
+| Because_Corporate_Agents…glb | 27.5 MB | 1.99 MB |
+| BCI_TEXT_.glb | 21.2 MB | 2.30 MB |
+| AGENT_TEXT_.glb | 4.8 MB | 0.67 MB |
+| Harness_PK_GLTF.glb | 2.7 MB | 0.71 MB |
+| ABOUT_TEXT_.glb | 2.0 MB | 0.29 MB |
+| all GLBs | ≈128 MB | 7.7 MB |
+
+- Load (localhost, no gzip): GLB bytes 128.3 MB → 7.8 MB. Slowest GLB 11.0 s (particle core) → 0.37 s. On live (gzip) the particle core was 13.7 MB / 17.2 s.
+- Visual check: contact sheet unchanged through the scroll; the rings at flow ≥ 0.75 render with slightly sparser wireframe density. No console errors, no failed requests.
+

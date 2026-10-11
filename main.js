@@ -175,9 +175,37 @@ function recordStartupIssue(label, error) {
   console.error(`[startup] ${label}: ${message}`, error);
 }
 
+const meshoptDecoderModulePromise = import(
+  "three/examples/jsm/libs/meshopt_decoder.module.js"
+);
+
+// Meshes whose NORMAL attribute was stripped during compression (wireframe /
+// position-driven shaders) get normals recomputed after load.
+function restoreMissingNormals(root) {
+  root.traverse((node) => {
+    const geometry = node.isMesh ? node.geometry : null;
+    if (geometry && geometry.attributes.position && !geometry.attributes.normal) {
+      geometry.computeVertexNormals();
+    }
+  });
+}
+
 async function createGltfLoader() {
-  const { GLTFLoader } = await gltfLoaderModulePromise;
-  return new GLTFLoader();
+  const [{ GLTFLoader }, { MeshoptDecoder }] = await Promise.all([
+    gltfLoaderModulePromise,
+    meshoptDecoderModulePromise,
+  ]);
+  const loader = new GLTFLoader();
+  // GLBs are compressed with EXT_meshopt_compression + KHR_mesh_quantization
+  // (+ EXT_texture_webp, decoded natively). See docs/CHANGES_AND_SWAPS.md.
+  loader.setMeshoptDecoder(MeshoptDecoder);
+  const loadAsync = loader.loadAsync.bind(loader);
+  loader.loadAsync = async (...args) => {
+    const gltf = await loadAsync(...args);
+    if (gltf && gltf.scene) restoreMissingNormals(gltf.scene);
+    return gltf;
+  };
+  return loader;
 }
 
 async function loadGltfWithFallback(loader, modelSrc, fallbackModelSrc) {

@@ -1,7 +1,3 @@
-window.onload = () => {
-  document.addEventListener("mousemove", updateCursorPosition);
-};
-
 const hexGrid = document.querySelector(".hex-grid");
 const gradientMask = document.querySelector(".gradient-mask");
 
@@ -14,6 +10,7 @@ document.addEventListener("mousemove", (e) => {
   const y = `${e.clientY}px`;
 
   // Update CSS variables for cursor position
+  if (!hexGrid || !gradientMask) return;
   hexGrid.style.setProperty("--cursor-x", x);
   hexGrid.style.setProperty("--cursor-y", y);
   gradientMask.style.setProperty("--cursor-x", x);

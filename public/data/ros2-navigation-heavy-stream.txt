@@ -1,0 +1,64 @@
+[INFO] [1711901800.104921337] [launch]: Default logging verbosity is set to INFO
+[INFO] [1711901800.112644008] [map_server]: Loading yaml filename: /home/robot/maps/facility_sector_7.yaml
+[INFO] [1711901800.119248622] [map_server]: Read map 1024 X 1024 with resolution 0.050000 m/cell
+[INFO] [1711901800.126812497] [amcl]: initTransforms received, waiting for map->odom transform
+[INFO] [1711901800.133724165] [amcl]: initialPoseReceived at x=0.220 y=-0.140 yaw=0.031
+[INFO] [1711901800.140810541] [global_costmap.global_costmap]: Using plugin 'static_layer'
+[INFO] [1711901800.147433199] [global_costmap.global_costmap]: Using plugin 'obstacle_layer'
+[INFO] [1711901800.154317404] [global_costmap.global_costmap]: Using plugin 'inflation_layer'
+[INFO] [1711901800.162118776] [local_costmap.local_costmap]: Using plugin 'voxel_layer'
+[INFO] [1711901800.168902114] [local_costmap.local_costmap]: Using plugin 'inflation_layer'
+[INFO] [1711901800.176442551] [planner_server]: planner plugin GridBased loaded
+[INFO] [1711901800.183004732] [controller_server]: controller plugin FollowPath loaded
+[INFO] [1711901800.191608028] [behavior_server]: behavior plugins spin, backup, assisted_teleop loaded
+[INFO] [1711901800.198871665] [bt_navigator]: behavior tree loaded navigate_to_pose_w_replanning_and_recovery.xml
+[INFO] [1711901800.206159407] [nav_goal_client]: Sending NavigateToPose goal x=4.820 y=-2.610 yaw=1.571
+[INFO] [1711901800.214927381] [bt_navigator]: Begin navigating from current location (0.22, -0.14) to (4.82, -2.61)
+[INFO] [1711901800.222604884] [planner_server]: Computing path to goal.
+[INFO] [1711901800.229980113] [planner_server]: Path found with 128 poses in 9.84 ms
+[INFO] [1711901800.237471921] [path_smoother]: smoothing path with 128 poses
+[INFO] [1711901800.245704366] [path_smoother]: path smoothing completed in 3.91 ms
+[INFO] [1711901800.253114801] [controller_server]: Passing new path to controller.
+[INFO] [1711901800.261572294] [regulated_pure_pursuit_controller]: lookahead_dist=0.780 curvature=0.031 linear_vel=0.550 angular_vel=0.104
+[INFO] [1711901800.269804562] [velocity_smoother]: smoothed cmd_vel linear.x=0.521 angular.z=0.092
+[INFO] [1711901800.277183904] [nav_goal_client]: feedback distance_remaining=5.12 estimated_time_remaining=11.84
+[INFO] [1711901800.285092177] [amcl]: particle cloud update converged, particle count=2000
+[INFO] [1711901800.293941854] [tf_buffer]: frame graph updated, total frames=27
+[WARN] [1711901800.301264601] [local_costmap.local_costmap]: Sensor data timeout on /scan, last update age=0.123 s
+[INFO] [1711901800.309472443] [local_costmap.local_costmap]: sensor stream restored, obstacle buffer repopulated
+[INFO] [1711901800.317850330] [obstacle_layer]: clearing around robot radius 0.420
+[INFO] [1711901800.325210844] [planner_server]: Replanning due to dynamic obstacle near pose index 54
+[INFO] [1711901800.332947516] [planner_server]: Path found with 136 poses in 14.17 ms
+[INFO] [1711901800.341201775] [controller_server]: Selected controller: FollowPath
+[INFO] [1711901800.348918112] [regulated_pure_pursuit_controller]: heading_error=0.067 cross_track_error=0.042 desired_linear_vel=0.480
+[WARN] [1711901800.356729507] [collision_monitor]: slowdown zone entered on polygon forward_arc
+[INFO] [1711901800.365088340] [collision_monitor]: cmd_vel adjusted linear.x=0.190 angular.z=0.142
+[INFO] [1711901800.372839116] [behavior_server]: backup behavior standby, no intervention required
+[INFO] [1711901800.380302741] [nav_goal_client]: feedback number_of_recoveries=0 navigation_time=4.72
+[INFO] [1711901800.388771912] [route_server]: waypoint corridor occupancy confidence=0.93
+[WARN] [1711901800.396114253] [planner_server]: path cost spike detected near doorway_03, applying inflation bias
+[INFO] [1711901800.404839461] [planner_server]: Path found with 118 poses in 12.03 ms
+[INFO] [1711901800.412512988] [controller_server]: progress checker state=adequate translation=0.281 rotation=0.114
+[INFO] [1711901800.420873551] [dock_manager]: dock fiducial observed range=1.84 bearing=-0.041
+[INFO] [1711901800.428027347] [bt_navigator]: goal checker not yet satisfied, continuing control loop
+[INFO] [1711901800.436589470] [nav_goal_client]: feedback distance_remaining=1.42 estimated_time_remaining=3.16
+[WARN] [1711901800.444110238] [regulated_pure_pursuit_controller]: curvature clamp engaged for tight cornering segment
+[INFO] [1711901800.452723824] [velocity_smoother]: smoothed cmd_vel linear.x=0.242 angular.z=0.301
+[INFO] [1711901800.460114551] [amcl]: update min_d=0.062 min_a=0.087 resample_interval=1
+[INFO] [1711901800.468881032] [controller_server]: goal checker state=xy_tolerance_met yaw_alignment_in_progress
+[INFO] [1711901800.476200415] [rotation_shim_controller]: rotate_to_heading error=0.028 cmd_vel=0.074
+[INFO] [1711901800.484938601] [nav_goal_client]: feedback distance_remaining=0.08 estimated_time_remaining=0.61
+[INFO] [1711901800.492545833] [bt_navigator]: Goal reached successfully
+[INFO] [1711901800.500210114] [nav_goal_client]: result code=SUCCEEDED total_navigation_time=9.84
+[INFO] [1711901800.507938235] [mission_manager]: waypoint 12 complete, dispatching next goal
+[INFO] [1711901800.516201050] [planner_server]: Computing path to goal.
+[INFO] [1711901800.523882716] [planner_server]: Path found with 72 poses in 7.92 ms
+[INFO] [1711901800.531226904] [controller_server]: Passing new path to controller.
+[INFO] [1711901800.539442587] [route_monitor]: global route continuity verified, confidence=0.97
+[WARN] [1711901800.546998522] [bt_navigator]: Tick rate exceeded desired loop duration by 11.2 ms
+[INFO] [1711901800.554781419] [local_costmap.local_costmap]: rolling window origin x=2.80 y=-1.14
+[INFO] [1711901800.562436307] [global_costmap.global_costmap]: static map checksum verified
+[INFO] [1711901800.570128994] [nav_goal_client]: feedback current_speed=0.44 current_pose=(4.91,-2.58,1.54)
+[INFO] [1711901800.578861157] [recoveries_server]: no recovery action needed for current run
+[INFO] [1711901800.586144613] [lifecycle_manager_navigation]: Managed nodes are active
+[INFO] [1711901800.594783350] [rosout]: navigation loop stable

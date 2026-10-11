@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio - Devin Edwards</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/reticule.css" />
+    <link rel="stylesheet" href="css/scroll-ticker.css" />
+    <link rel="stylesheet" href="css/collapsible.css" />
+    <link rel="stylesheet" href="css/flowchart.css" />
+    <link rel="stylesheet" href="css/bubbles.css" />
+    <link rel="stylesheet" href="css/face-sim.css" />
+    <link rel="stylesheet" href="css/resume.css" />
+  </head>
+  <body>
+    <div id="preload-overlay" aria-live="polite">
+      <div class="preload-shell">
+        <div class="preload-spinner" aria-hidden="true"></div>
+        <div class="preload-copy">Initializing</div>
+        <div
+          class="preload-meter"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div id="preload-progress"></div>
+        </div>
+        <div id="preload-percent">0%</div>
+      </div>
+    </div>
+
+    <canvas id="background-canvas"></canvas>
+    <div class="hex-grid"></div>
+    <div class="gradient-mask"></div>
+    <div id="hex-overlay"></div>
+
+    <div id="reticule" aria-hidden="true">
+      <div class="rotating-geometry geometry-1"></div>
+      <div class="rotating-geometry geometry-2"></div>
+      <div class="center-dot"></div>
+    </div>
+
+    <nav id="sci-fi-menu" class="sci-fi-menu" aria-label="Navigation Menu">
+      <div class="menu-rail-ticks" aria-hidden="true"></div>
+      <div class="menu-panel">
+        <button
+          class="menu-item"
+          data-scroll-target="#experience-section"
+          data-scroll-to="0.33"
+          aria-label="About: Identity and mission"
+        >
+          <span class="menu-diamond" aria-hidden="true"></span>
+          <span class="menu-label">About</span>
+        </button>
+        <button
+          class="menu-item"
+          data-scroll-target="#timeline-section"
+          data-scroll-to="0.70"
+          aria-label="Timeline: Decade projection matrix"
+        >
+          <span class="menu-diamond" aria-hidden="true"></span>
+          <span class="menu-label">Timeline</span>
+        </button>
+        <button
+          class="menu-item"
+          data-scroll-target="#projects-section"
+          data-scroll-to="0.84"
+          aria-label="Projects: Active builds and links"
+        >
+          <span class="menu-diamond" aria-hidden="true"></span>
+          <span class="menu-label">Projects</span>
+        </button>
+        <button
+          class="menu-item"
+          data-scroll-target="#site-footer"
+          data-scroll-to="0.97"
+          aria-label="Contact: Simulation and outreach"
+        >
+          <span class="menu-diamond" aria-hidden="true"></span>
+          <span class="menu-label">Contact</span>
+        </button>
+      </div>
+    </nav>
+
+    <section
+      id="experience-section"
+      class="flow-section content-section about-systems-section"
+      data-flow-start="0.03"
+      data-flow-end="0.63"
+      data-flow-direction="left"
+      aria-labelledby="about-systems-heading"
+    >
+      <div class="about-systems-shell">
+        <h2 id="about-systems-heading" class="sci-title" data-text="Overview">
+          Overview
+        </h2>
+        <div class="section-tertiary-rule" aria-hidden="true"></div>
+        <p class="section-tertiary-copy">
+          SYSTEMS-LEVEL SOFTWARE, SIMULATION WORKFLOWS, TECHNICAL RESEARCH, AND
+          RAPID DELIVERY ACROSS INTERFACES, TOOLING, PROTOTYPES, AND
+          HYPOTHESIS-DRIVEN ENGINEERING.
+        </p>
+        <div class="about-systems-fallback">
+          <p class="about-systems-copy">
+            This portfolio focuses on simulation-first interfaces, debugging
+            loops, visual systems, and engineering workflows that stay useful
+            under real delivery pressure. The work spans Human Interface
+            Devices, computing topology, development pipelines, research
+            tooling, technical media systems, and prototype infrastructure.
+          </p>
+          <p class="about-systems-copy">
+            Languages of interest: C, C#, C++, RUST, BEND, JS, and TS. Current
+            project types include simulation environments, retrieval and
+            evidence systems, deployment-hardened web interfaces, mutation and
+            scenario tooling, hardware sourcing add-ons, and pipeline bridges
+            from Blender and Isaac into CAD and prototype planning.
+          </p>
+          <p class="about-systems-copy">
+            Outcomes are driven by measurable execution: throughput, latency,
+            failure distribution, reproducibility, and fast iteration under
+            changing constraints. The underlying engineering hypothesis is that
+            strong technical roles benefit from explicit observability,
+            instrumented workflows, and tighter feedback between scientific
+            questioning, implementation, and validation across the full
+            development life cycle.
+          </p>
+          <p class="about-systems-copy">
+            Thousands of hours have also gone into coding with agentic models,
+            despite their inaccuracies. The practical focus is not trusting
+            them blindly, but rapidly extracting drafts, debugging failures,
+            building workarounds, and intelligence-proofing workflows so future
+            utility survives bad generations, missing context, and weak
+            assumptions.
+          </p>
+          <p class="about-systems-copy">
+            Website and contact links are listed here directly for visibility:
+          </p>
+          <div class="about-link-list">
+            <a
+              class="about-action-link"
+              href="https://www.devinedwards.info"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Website
+            </a>
+            <a
+              class="about-action-link"
+              href="https://github.com/wowitseddy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a
+              class="about-action-link"
+              href="https://linkedin.com/in/devin-edwards-677836149"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+            <a
+              class="about-action-link"
+              href="https://x.com/wowitseddy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              X
+            </a>
+            <a
+              class="about-action-link"
+              href="/resume-tools.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Resume/ PDF Editor
+            </a>
+            <a
+              class="about-action-link"
+              href="https://github.com/wowitseddy/Portfolio_2025/blob/master/projects/sentinel-construct/output/campaign/mutation-campaign-summary.md"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              100K Campaign Summary
+            </a>
+            <a
+              class="about-action-link"
+              href="https://github.com/wowitseddy/Portfolio_2025/tree/master/projects/biomed-indexing-tool"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Biomed Indexing Tool
+            </a>
+            <a
+              class="about-action-link"
+              href="https://github.com/wowitseddy/Portfolio_2025/tree/master/projects/sentinel-construct"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Sentinel Construct
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main id="portfolio-flow" class="portfolio-flow" aria-live="polite"></main>
+
+    <section
+      id="projects-section"
+      class="projects-section-shell content-section"
+      aria-labelledby="projects-heading"
+    >
+      <div class="projects-section-card">
+        <div class="projects-dropdown" aria-live="polite">
+          <div class="projects-dropdown-trigger">
+            <span id="projects-heading" class="projects-dropdown-label"
+              >WORKING ON</span
+            >
+            <span class="projects-dropdown-caret" aria-hidden="true"></span>
+          </div>
+          <div class="projects-dropdown-window">
+            <div class="projects-dropdown-track">
+              <div class="projects-dropdown-item">SCRIPTKIT</div>
+              <div class="projects-dropdown-item">
+                NEURAL-DIFFUSION-ENGINE INTEGRATION BLENDER-TO-UNITY AI
+              </div>
+              <div class="projects-dropdown-item">
+                VECTOR-MERGE PHYSICS APPROXIAMATOR
+              </div>
+              <div class="projects-dropdown-item">OPTICAL_ENCODER_MATRIX</div>
+              <div class="projects-dropdown-item">
+                BME_ACOUSTIC PARAMETER_SCAFFOLD
+              </div>
+              <div class="projects-dropdown-item">NUTRAFRONTIER</div>
+              <div class="projects-dropdown-item">PROTEAN_CELL MANIFEST</div>
+              <div class="projects-dropdown-item">HARNESS_PK</div>
+              <div class="projects-dropdown-item">
+                SWARM INTELLIGENCE SIMULATION
+              </div>
+              <div class="projects-dropdown-item" aria-hidden="true">
+                SCRIPTKIT
+              </div>
+              <div class="projects-dropdown-item" aria-hidden="true">
+                NEURAL-DIFFUSION-ENGINE INTEGRATION BLENDER-TO-UNITY AI
+              </div>
+              <div class="projects-dropdown-item" aria-hidden="true">
+                VECTOR-MERGE PHYSICS APPROXIAMATOR
+              </div>
+              <div class="projects-dropdown-item" aria-hidden="true">
+                OPTICAL_ENCODER_MATRIX
+              </div>
+              <div class="projects-dropdown-item" aria-hidden="true">
+                BME_ACOUSTIC PARAMETER_SCAFFOLD
+              </div>
+              <div class="projects-dropdown-item" aria-hidden="true">
+                NUTRAFRONTIER
+              </div>
+              <div class="projects-dropdown-item" aria-hidden="true">
+                PROTEAN_CELL MANIFEST
+              </div>
+              <div class="projects-dropdown-item" aria-hidden="true">
+                HARNESS_PK
+              </div>
+              <div class="projects-dropdown-item" aria-hidden="true">
+                SWARM INTELLIGENCE SIMULATION
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer id="site-footer" class="footer" aria-label="Footer links">
+      <a
+        href="mailto:devin@example.com"
+        aria-label="Email"
+        class="footer-segment mail-icon selectable-item"
+      >
+        ✉
+      </a>
+      <a
+        class="footer-segment selectable-item"
+        href="https://github.com/wowitseddy"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub"
+      >
+        <img src="/assets/social-icons/github.png" alt="GitHub" />
+      </a>
+      <a
+        class="footer-segment selectable-item"
+        href="https://linkedin.com/in/devin-edwards-677836149"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn"
+      >
+        <img src="/assets/social-icons/linkedin.png" alt="LinkedIn" />
+      </a>
+      <a
+        class="footer-segment selectable-item"
+        href="https://x.com/wowitseddy"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Twitter"
+      >
+        <img src="/assets/social-icons/twitter.png" alt="Twitter" />
+      </a>
+    </footer>
+
+    <script type="module" src="main.js"></script>
+    <script type="module" src="js/reticule.js"></script>
+    <!-- DEV-SCENE:overlays:start -->
+<div class="projection-overlay" data-projection-label="Aux 11: PANEL"></div>
+<!-- DEV-SCENE:overlays:end -->
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Dragonfire Protocol",
+  "short_name": "Dragonfire",
+  "description": "Mission-control tracker for a 90-day engineering certification sprint.",
+  "start_url": "./dragonfire-protocol.html",
+  "display": "standalone",
+  "background_color": "#07111c",
+  "theme_color": "#07111c",
+  "icons": [
+    {
+      "src": "./vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

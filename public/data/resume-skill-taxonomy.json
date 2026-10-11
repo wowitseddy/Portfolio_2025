@@ -1,0 +1,162 @@
+[
+  {
+    "id": "python",
+    "label": "Python",
+    "category": "core",
+    "terms": ["python"],
+    "todo": "Keep Python visible in the top summary and project bullets.",
+    "priority": 1
+  },
+  {
+    "id": "javascript",
+    "label": "JavaScript",
+    "category": "core",
+    "terms": ["javascript", "js", "ecmascript"],
+    "todo": "Keep JavaScript delivery examples tied to shipped interfaces and tooling.",
+    "priority": 1
+  },
+  {
+    "id": "cpp",
+    "label": "C++",
+    "category": "systems",
+    "terms": ["c++", "cpp"],
+    "todo": "Surface any C++ systems work where low-level performance matters.",
+    "priority": 2
+  },
+  {
+    "id": "rust",
+    "label": "Rust",
+    "category": "systems",
+    "terms": ["rust"],
+    "todo": "Add or highlight one Rust artifact if target roles lean systems-heavy.",
+    "priority": 2
+  },
+  {
+    "id": "react",
+    "label": "React",
+    "category": "frontend",
+    "terms": ["react"],
+    "todo": "Keep React UI work framed around measurable user-facing outcomes.",
+    "priority": 2
+  },
+  {
+    "id": "threejs",
+    "label": "Three.js",
+    "category": "frontend",
+    "terms": ["three.js", "threejs", "webgl"],
+    "todo": "Keep 3D interface work tied to simulation or operator-facing use cases.",
+    "priority": 2
+  },
+  {
+    "id": "simulation",
+    "label": "Simulation",
+    "category": "systems",
+    "terms": ["simulation", "digital twin", "simulator"],
+    "todo": "Lead with simulation-first work when the role is systems, robotics, or manufacturing adjacent.",
+    "priority": 1
+  },
+  {
+    "id": "distributed-systems",
+    "label": "Distributed Systems",
+    "category": "systems",
+    "terms": ["distributed systems", "distributed", "throughput", "scalability"],
+    "todo": "Call out throughput, latency, and failure-mode results in the resume bullets.",
+    "priority": 2
+  },
+  {
+    "id": "cuda",
+    "label": "CUDA",
+    "category": "ml",
+    "terms": ["cuda", "gpu acceleration", "gpu"],
+    "todo": "Highlight GPU or accelerated workloads where they are relevant to the target role.",
+    "priority": 2
+  },
+  {
+    "id": "pytorch",
+    "label": "PyTorch",
+    "category": "ml",
+    "terms": ["pytorch", "torch"],
+    "todo": "Add a concrete PyTorch training or evaluation artifact if missing from the resume text.",
+    "priority": 2
+  },
+  {
+    "id": "jax",
+    "label": "JAX",
+    "category": "ml",
+    "terms": ["jax"],
+    "todo": "Include JAX work only if it appears in the target roles; otherwise keep it secondary.",
+    "priority": 3
+  },
+  {
+    "id": "scikit-learn",
+    "label": "Scikit-learn",
+    "category": "ml",
+    "terms": ["scikit-learn", "sklearn", "sci-kit"],
+    "todo": "Build one scikit-learn artifact with evaluation metrics, feature pipeline, and error analysis.",
+    "priority": 1
+  },
+  {
+    "id": "spark-mllib",
+    "label": "Spark MLlib",
+    "category": "ml",
+    "terms": ["spark mllib", "mllib", "apache spark"],
+    "todo": "If repeated across target roles, add distributed ML exposure or explicit Spark pipeline work.",
+    "priority": 1
+  },
+  {
+    "id": "mxnet",
+    "label": "MXNet",
+    "category": "ml",
+    "terms": ["mxnet", "apache mxnet"],
+    "todo": "Only invest in MXNet if actual target roles still require it; otherwise document the gap and deprioritize.",
+    "priority": 2
+  },
+  {
+    "id": "r-modeling",
+    "label": "R Modeling Toolkit",
+    "category": "ml",
+    "terms": [" r ", "rstudio", "tidymodels", "caret", "glm", "statistical modeling"],
+    "todo": "Add an R-based modeling sample if the roles emphasize analytics, forecasting, or formal statistics.",
+    "priority": 1
+  },
+  {
+    "id": "nlp-linguistics",
+    "label": "NLP / Linguistics",
+    "category": "ml",
+    "terms": ["nlp", "natural language processing", "linguistics", "tokenization", "corpus", "semantic"],
+    "todo": "Build one NLP/linguistics-focused artifact with data prep, evaluation, and error taxonomy.",
+    "priority": 1
+  },
+  {
+    "id": "transformers",
+    "label": "Transformers",
+    "category": "ml",
+    "terms": ["transformer", "transformers", "llm", "language model"],
+    "todo": "Tie transformer work to task evaluation, retrieval, or production handling instead of generic model claims.",
+    "priority": 2
+  },
+  {
+    "id": "ros2",
+    "label": "ROS2",
+    "category": "robotics",
+    "terms": ["ros2", "robot operating system"],
+    "todo": "If robotics roles dominate, add ROS2 integration or message-passing work to the visible project list.",
+    "priority": 2
+  },
+  {
+    "id": "manufacturing",
+    "label": "Manufacturing Systems",
+    "category": "robotics",
+    "terms": ["manufacturing", "factory", "industrial", "mes", "plc", "controls"],
+    "todo": "Map portfolio work to manufacturing handling, controls, or operator workflow language where it is real.",
+    "priority": 1
+  },
+  {
+    "id": "observability",
+    "label": "Observability",
+    "category": "systems",
+    "terms": ["observability", "telemetry", "metrics", "logging", "tracing"],
+    "todo": "Keep observability outcomes explicit: what was measured, surfaced, and improved.",
+    "priority": 2
+  }
+]

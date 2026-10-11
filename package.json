@@ -1,0 +1,32 @@
+{
+  "name": "devin-edwards",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "blender:addon:pack": "python scripts/package_blender_addon.py",
+    "blender:addon:open": "powershell -NoProfile -Command \"Start-Process output\\blender_addons\"",
+    "dragonfire:build": "vite build",
+    "dragonfire:preview": "vite preview --host 0.0.0.0 --port 4173",
+    "dragonfire:sync": "node scripts/dragonfire-sync-server.mjs",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "preview": "vite preview",
+    "checkpoint": "powershell -ExecutionPolicy Bypass -File scripts/checkpoint.ps1",
+    "checkpoint:list": "powershell -ExecutionPolicy Bypass -File scripts/checkpoint-list.ps1",
+    "checkpoint:restore": "powershell -ExecutionPolicy Bypass -File scripts/checkpoint-restore.ps1",
+    "checkpoint:auto": "powershell -ExecutionPolicy Bypass -File scripts/checkpoint-auto.ps1",
+    "checkpoint:auto:once": "powershell -ExecutionPolicy Bypass -File scripts/checkpoint-auto.ps1 -Once"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "vite": "^5.4.10"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "lil-gui": "^0.21.0",
+    "three": "^0.170.0"
+  }
+}

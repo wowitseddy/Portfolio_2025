@@ -1,0 +1,241 @@
+/* Hide the regular mouse cursor */
+body {
+  cursor: none;
+}
+
+/* Hexagonal Grid Overlay */
+/* //Coprectask to prevent clipping falloff of mask gradient when hovering over elements */
+#hex-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="17.32" viewBox="0 0 10 17.32"><path d="M2.5 0l5 0 2.5 4.33 -2.5 4.33 -5 0 -2.5 -4.33z M2.5 8.66l5 0 2.5 4.33 -2.5 4.33 -5 0 -2.5 -4.33z" fill="none" stroke="%23FFFFFF" stroke-width="0.5"/></svg>');
+  background-size: 1px 6px; /* Controls hexagon size */
+  mix-blend-mode: add;
+  mask-image: radial-gradient(
+    circle var(--hex-reveal-radius, 210px) at var(--x, 50%) var(--y, 50%),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.95) 34%,
+    rgba(0, 0, 0, 0.58) 62%,
+    rgba(0, 0, 0, 0) 100% /* Fully transparent outside */
+  );
+  -webkit-mask-image: radial-gradient(
+    circle var(--hex-reveal-radius, 210px) at var(--x, 50%) var(--y, 50%),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.95) 34%,
+    rgba(0, 0, 0, 0.58) 62%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-size: 100% 100%;
+  mask-position: center center;
+  transition:
+    mask-position 0.04s ease,
+    -webkit-mask-position 0.04s ease,
+    mask-image 0.22s ease,
+    -webkit-mask-image 0.22s ease;
+}
+
+/* Cursor Reticule */
+#reticule {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2200;
+}
+
+#reticule::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 240px;
+  height: 240px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.6;
+  background: none;
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.9) 25%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.25) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.9) 25%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.25) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  animation: reticuleNoiseDrift 0.75s steps(3) infinite;
+}
+
+/* Center Dot */
+.center-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: translate(-50%, -50%);
+}
+
+/* Rotating Geometries with Dashed Borders */
+.rotating-geometry {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2.25px dashed rgba(255, 255, 255, 0.4); /* Dashed border */
+  transform-origin: center;
+}
+
+.geometry-1 {
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: rotateClockwise 24s linear infinite;
+}
+
+.geometry-2 {
+  transform: translate(-50%, -50%) rotate(360deg);
+  animation: rotateCounterClockwise 48s linear infinite;
+}
+
+/* Rotating Keyframes */
+@keyframes rotateClockwise {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes rotateCounterClockwise {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+/* Click Pulse Effect */
+#reticule.click-effect::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%) scale(1);
+  animation: pulse 0.4s ease-out;
+  mask-image: radial-gradient(
+    circle var(--hex-reveal-radius, 210px) at var(--x, 50%) var(--y, 50%),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.95) 34%,
+    rgba(0, 0, 0, 0.58) 62%,
+    rgba(0, 0, 0, 0) 100% /* Fully transparent outside */
+  );
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Hover Animation for Reticule */
+#reticule.hovered {
+  transform: translate(-50%, -50%) scale(1.08);
+  background: transparent;
+  mask-image: radial-gradient(
+    circle var(--reticule-hovered-radius, 210px) at var(--x, 50%) var(--y, 50%),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.95) 10%,
+    rgba(0, 0, 0, 0.58) 20%,
+    rgba(0, 0, 0, 0) 100% /* Fully transparent outside */
+  );
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.62),
+    0 0 24px rgba(255, 255, 255, 0.32),
+    0 0 38px rgba(173, 210, 255, 0.24);
+}
+
+/* Hover Glow Effect */
+#reticule.hovered .geometry-1,
+#reticule.hovered .geometry-2 {
+  border-color: rgba(194, 194, 194, 0.8); /* Increase border brightness */
+  transform: translate(-50%, -50%) scale(1.06); /* Slight expansion without losing center */
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+@keyframes reticuleNoiseDrift {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 0);
+  }
+  33% {
+    transform: translate(-50%, -50%) translate(-2px, 1px);
+  }
+  66% {
+    transform: translate(-50%, -50%) translate(2px, -1px);
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(0, 0);
+  }
+}
+
+.selectable-item:hover {
+  /* Hides the cursor when hovering over the item */
+  cursor: none;
+}
+
+/* Hide cursor on touch devices */
+@media (pointer: coarse) {
+  body {
+    cursor: none;
+  }
+}
+
+/* Prevent horizontal overflow */
+body {
+  overflow-x: hidden;
+}
+
+/* Smooth scroll behavior */
+html,
+body {
+  overflow-x: hidden; /* Prevent horizontal overflow */
+  scroll-behavior: smooth; /* Smooth scroll for all devices */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile Safari */
+}

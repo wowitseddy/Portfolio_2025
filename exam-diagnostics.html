@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam Diagnostics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/exam-diagnostics.css" />
+  </head>
+  <body>
+    <main class="diagnostics-shell">
+      <section class="diagnostics-panel diagnostics-form-panel">
+        <p class="diagnostics-eyebrow">Exam Diagnostics</p>
+        <h1>45-Day Mechatronics Push</h1>
+        <p class="diagnostics-copy">
+          Track attempts, upload or paste transcript notes, score each failure class,
+          and watch the heatmap move toward the 70% threshold.
+        </p>
+
+        <div class="diagnostics-grid">
+          <label>
+            Attempt Label
+            <input id="attempt-label" type="text" placeholder="Stage 1 cold diagnostic" />
+          </label>
+          <label>
+            Attempt Date
+            <input id="attempt-date" type="date" />
+          </label>
+          <label>
+            Overall Correct
+            <input id="overall-correct" type="number" min="0" max="36" value="27" />
+          </label>
+          <label>
+            Overall Total
+            <input id="overall-total" type="number" min="1" value="36" />
+          </label>
+          <label>
+            Target Threshold %
+            <input id="target-threshold" type="number" min="1" max="100" value="70" />
+          </label>
+          <label>
+            Target Window Days
+            <input id="target-window" type="number" min="1" value="45" />
+          </label>
+        </div>
+
+        <section class="diagnostics-skill-section" aria-label="Failure class scoring">
+          <h2>Failure Classes</h2>
+          <div id="skill-inputs" class="skill-inputs"></div>
+        </section>
+
+        <section class="diagnostics-notes-section" aria-label="Transcript and notes">
+          <h2>Transcript / Notes</h2>
+          <div class="diagnostics-grid diagnostics-grid-wide">
+            <label>
+              Upload Transcript
+              <input id="transcript-upload" type="file" accept=".txt,.md,.srt,.vtt,text/plain" />
+            </label>
+            <label>
+              Session Video
+              <input id="video-upload" type="file" accept="video/mp4,video/webm,video/quicktime" />
+            </label>
+          </div>
+          <label class="diagnostics-textarea-label">
+            Transcript / Notes Body
+            <textarea id="transcript-text" spellcheck="false" placeholder="Paste transcript, narrated mistakes, timing notes, or proctor-style observations here."></textarea>
+          </label>
+        </section>
+
+        <div class="diagnostics-actions">
+          <button id="save-attempt" type="button">Save Attempt</button>
+          <button id="load-sample" type="button">Load Sample</button>
+          <button id="export-json" type="button">Export JSON</button>
+          <button id="clear-data" type="button">Clear Local Data</button>
+        </div>
+
+        <p id="diagnostics-status" class="diagnostics-status" aria-live="polite"></p>
+      </section>
+
+      <section class="diagnostics-panel diagnostics-results-panel">
+        <div id="diagnostics-summary" class="diagnostics-summary"></div>
+        <div id="diagnostics-heatmap" class="diagnostics-heatmap"></div>
+        <div id="diagnostics-recommendations" class="diagnostics-recommendations"></div>
+        <div id="diagnostics-attempts" class="diagnostics-attempts"></div>
+      </section>
+    </main>
+
+    <script type="module" src="js/exam-diagnostics.js"></script>
+  </body>
+</html>

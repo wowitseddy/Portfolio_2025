@@ -1,0 +1,54 @@
+[
+  {
+    "id": "frontier-systems",
+    "label": "Frontier Systems & Autonomy",
+    "tags": ["systems", "autonomy", "robotics", "manufacturing"],
+    "sources": [
+      {
+        "type": "greenhouse-board",
+        "company": "Anduril Industries",
+        "boardToken": "andurilindustries",
+        "tags": ["defense", "autonomy", "embedded"]
+      },
+      {
+        "type": "greenhouse-board",
+        "company": "Astranis",
+        "boardToken": "astranis",
+        "tags": ["space", "systems", "manufacturing"]
+      }
+    ]
+  },
+  {
+    "id": "applied-ml",
+    "label": "Applied ML & Research Interfaces",
+    "tags": ["ml", "research", "nlp", "product"],
+    "sources": [
+      {
+        "type": "greenhouse-board",
+        "company": "Anthropic",
+        "boardToken": "anthropic",
+        "tags": ["llm", "alignment", "research"]
+      },
+      {
+        "type": "lever-postings",
+        "company": "Scale AI",
+        "site": "scaleai",
+        "tags": ["ml", "data", "platform"]
+      }
+    ]
+  },
+  {
+    "id": "custom-feeds",
+    "label": "Custom JSON Feeds",
+    "tags": ["custom", "screening"],
+    "sources": [
+      {
+        "type": "generic-json",
+        "company": "Replace Me",
+        "url": "https://example.com/jobs.json",
+        "listPath": "jobs",
+        "tags": ["replace-this-source"]
+      }
+    ]
+  }
+]

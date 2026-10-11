@@ -1,0 +1,61 @@
+[INFO] [1711902800.041257118] [bci_bridge]: session bootstrap started for subject S-042
+[INFO] [1711902800.048844311] [bci_bridge]: headset profile = dry_eeg_32ch_revB
+[INFO] [1711902800.056417926] [bci_bridge]: sampling_rate = 1000 Hz, adc_resolution = 24 bit
+[INFO] [1711902800.064195327] [bci_bridge]: notch_filter = 60 Hz, bandpass = 0.5-120.0 Hz
+[INFO] [1711902800.071732904] [bci_bridge]: impedance scan initiated
+[INFO] [1711902800.079564211] [electrode_monitor]: Fp1 impedance = 14.2 kOhm
+[INFO] [1711902800.086973112] [electrode_monitor]: Fp2 impedance = 16.8 kOhm
+[WARN] [1711902800.094645318] [electrode_monitor]: Cz impedance elevated = 31.4 kOhm, gel adjustment recommended
+[INFO] [1711902800.102174650] [electrode_monitor]: Pz impedance = 11.6 kOhm
+[INFO] [1711902800.109733281] [electrode_monitor]: O1 impedance = 9.8 kOhm
+[INFO] [1711902800.117348911] [electrode_monitor]: O2 impedance = 10.1 kOhm
+[INFO] [1711902800.124826517] [bci_pipeline]: common average reference enabled
+[INFO] [1711902800.132364083] [bci_pipeline]: artifact subspace reconstruction enabled threshold=20.0
+[INFO] [1711902800.139907521] [bci_pipeline]: ICA model loaded components=24 backend=fastica
+[INFO] [1711902800.147328611] [bci_pipeline]: ocular artifact projector assigned components [1, 4]
+[INFO] [1711902800.155172008] [decoder_server]: model family = hybrid-transformer-kalman
+[INFO] [1711902800.162558410] [decoder_server]: checkpoint = /models/bci/subject_adaptive/v12.6.ckpt
+[INFO] [1711902800.170231752] [decoder_server]: latent dimensionality = 256, window = 640 ms, stride = 40 ms
+[INFO] [1711902800.177744907] [decoder_server]: posterior smoothing = enabled alpha=0.82
+[INFO] [1711902800.185273810] [stimulus_sync]: PTP lock acquired offset=0.000441 ms
+[INFO] [1711902800.193020381] [stimulus_sync]: trigger bus armed on ttl://dev/ttyUSB0
+[INFO] [1711902800.200612844] [erp_detector]: target epoch window = [-200, 800] ms baseline = [-200, 0] ms
+[INFO] [1711902800.208194376] [ssvep_decoder]: harmonics = 4 frequencies = [8.57, 10.00, 12.00, 15.00]
+[INFO] [1711902800.215764001] [motor_imagery_decoder]: class set = [left_hand, right_hand, feet, idle]
+[INFO] [1711902800.223472881] [motor_imagery_decoder]: covariance regularization lambda = 0.0008
+[WARN] [1711902800.231111503] [artifact_monitor]: blink burst probability elevated p=0.72 on channels Fp1,Fp2
+[INFO] [1711902800.238639124] [artifact_monitor]: adaptive suppression gain updated to 0.41
+[INFO] [1711902800.246281517] [neurofeedback]: protocol = sensorimotor_rhythm_uptraining
+[INFO] [1711902800.253811004] [neurofeedback]: reward metric = beta_band_suppression + mu_band_stability
+[INFO] [1711902800.261538872] [bci_bridge]: streaming ring buffer depth = 8192 frames
+[INFO] [1711902800.269190333] [bci_bridge]: zero-copy DMA path active
+[WARN] [1711902800.276814900] [decoder_server]: domain shift estimate rose above threshold KL=0.183, enabling adaptive recalibration
+[INFO] [1711902800.284567123] [calibration_manager]: collecting resting-state baseline 1/3 duration=20.0 s
+[INFO] [1711902800.292143810] [calibration_manager]: baseline alpha peak = 10.4 Hz occipital_power = 0.812
+[INFO] [1711902800.299720174] [calibration_manager]: collecting imagined-left-hand block 2/8
+[INFO] [1711902800.307451992] [calibration_manager]: class separability score fisher=1.88
+[INFO] [1711902800.314974834] [feature_bank]: bandpower(mu)=0.417 bandpower(beta)=0.228 hjorth_mobility=0.913
+[INFO] [1711902800.322636581] [feature_bank]: phase_locking_value(C3,C4)=0.184 coherence(Cz,Pz)=0.291
+[WARN] [1711902800.330169452] [feature_bank]: transient EMG contamination suspected at 53.2 Hz
+[INFO] [1711902800.337782020] [decoder_server]: posterior left_hand=0.72 right_hand=0.09 feet=0.04 idle=0.15
+[INFO] [1711902800.345272911] [decoder_server]: smoothed command = left_hand confidence = 0.81
+[INFO] [1711902800.352981781] [cursor_control]: velocity_x = -0.44 velocity_y = 0.03 dwell = 0.00
+[INFO] [1711902800.360508432] [erp_detector]: p300 score = 0.63 target_likelihood = 0.79
+[INFO] [1711902800.368217401] [ssvep_decoder]: canonical correlation peak @ 12.00 Hz rho = 0.84
+[INFO] [1711902800.375743201] [intent_fusion]: fused intent = select confidence = 0.88
+[WARN] [1711902800.383355198] [intent_fusion]: ambiguity detected between select and confirm, requesting additional evidence window
+[INFO] [1711902800.391029482] [adaptive_ui]: dwell threshold raised to 620 ms for stability
+[INFO] [1711902800.398573104] [safety_guard]: command inhibition disabled, false positive rate within band
+[INFO] [1711902800.406314787] [closed_loop_controller]: reward prediction error = -0.041 update_gain = 0.08
+[INFO] [1711902800.413892152] [closed_loop_controller]: stimulation amplitude = 0.000 mA mode = observe-only
+[WARN] [1711902800.421532744] [stimulus_sync]: marker drift exceeded 1.5 ms, resynchronizing epoch clock
+[INFO] [1711902800.429183655] [stimulus_sync]: drift corrected residual = 0.117 ms
+[INFO] [1711902800.436802215] [bci_archive]: writing EDF+ chunk sequence=184
+[INFO] [1711902800.444373921] [bci_archive]: metadata tags = [session:adaptive, task:cursor, subject:S-042]
+[INFO] [1711902800.451962287] [quality_monitor]: SNR occipital=11.2 dB motor_strip=8.9 dB frontal=6.1 dB
+[WARN] [1711902800.459505437] [quality_monitor]: frontal SNR below target, consider cable reseat
+[INFO] [1711902800.467137111] [decoder_server]: online adaptation step complete loss=0.0814 grad_norm=0.442
+[INFO] [1711902800.474760558] [session_manager]: block 5 complete accuracy=0.84 ITR=31.7 bits/min
+[INFO] [1711902800.482317913] [session_manager]: estimated fatigue index = 0.28 vigilance = nominal
+[INFO] [1711902800.490081112] [bci_bridge]: configuration commit successful
+[INFO] [1711902800.497661004] [bci_bridge]: ready for continuous inference

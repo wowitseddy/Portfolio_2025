@@ -1,0 +1,105 @@
+[INFO] [1711900800.128431256] [rclcpp]: signal handler installed
+[INFO] [1711900800.137204918] [robot_state_publisher]: got segment base_link
+[INFO] [1711900800.137982411] [robot_state_publisher]: got segment lidar_link
+[INFO] [1711900800.138721550] [robot_state_publisher]: got segment imu_link
+[INFO] [1711900800.139447992] [robot_state_publisher]: got segment camera_link
+[INFO] [1711900800.141228373] [joint_state_broadcaster]: publishing joint states at 100.00 Hz
+[INFO] [1711900800.144820010] [controller_manager]: Loading controller 'diff_drive_base_controller'
+[INFO] [1711900800.149302663] [controller_manager]: Configuring controller 'diff_drive_base_controller'
+[INFO] [1711900800.154771493] [controller_manager]: Activating controller 'diff_drive_base_controller'
+[INFO] [1711900800.157235081] [diff_drive_base_controller]: Wheel separation set to 0.4120 m
+[INFO] [1711900800.158667774] [diff_drive_base_controller]: Wheel radius set to 0.0850 m
+[INFO] [1711900800.162550911] [ekf_filter_node]: Initializing filter with frame map
+[INFO] [1711900800.164098433] [ekf_filter_node]: world_frame = map, base_link_frame = base_link
+[INFO] [1711900800.166440281] [nav2_costmap_2d]: Using plugin 'static_layer'
+[INFO] [1711900800.167239055] [nav2_costmap_2d]: Using plugin 'obstacle_layer'
+[INFO] [1711900800.168204117] [nav2_costmap_2d]: Using plugin 'inflation_layer'
+[INFO] [1711900800.171776562] [global_costmap.global_costmap]: Resizing costmap to 384 X 384 at 0.050000 m/pix
+[INFO] [1711900800.175346883] [local_costmap.local_costmap]: Resizing costmap to 160 X 160 at 0.050000 m/pix
+[INFO] [1711900800.181904500] [amcl]: initTransforms received, publishing pose estimate
+[INFO] [1711900800.188062741] [planner_server]: Planner Server has odom frame odom
+[INFO] [1711900800.194777204] [bt_navigator]: Creating behavior tree from /opt/ros/humble/share/nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml
+[INFO] [1711900800.201166909] [waypoint_follower]: Ready for follow_waypoints action requests
+[WARN] [1711900800.209428477] [scan_matcher]: Laser scan age exceeded recommended threshold: 0.082 s
+[INFO] [1711900800.214955810] [slam_toolbox]: Message Filter dropping message: frame 'laser_frame' at time 1711900800.214 for reason 'queue full'
+[INFO] [1711900800.219264102] [realsense2_camera]: RealSense Node Is Up!
+[INFO] [1711900800.224917831] [realsense2_camera]: Device with serial number 128422270113 was found.
+[INFO] [1711900800.231684482] [realsense2_camera]: Color stream enabled: 1280x720x30
+[INFO] [1711900800.238408820] [realsense2_camera]: Depth stream enabled: 1280x720x30
+[INFO] [1711900800.246818173] [image_proc]: rectification node ready on /camera/color/image_rect
+[INFO] [1711900800.253520448] [pointcloud_xyzrgb]: synchronized depth/color pair received
+[INFO] [1711900800.261007385] [tf2_ros.static_transform_publisher]: Spinning until stopped - publishing transform
+translation: ('0.000000', '0.000000', '0.180000')
+rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+from 'base_link' to 'camera_link'
+[INFO] [1711900800.274148011] [mission_manager]: mission state = STANDBY
+[INFO] [1711900800.281885323] [behavior_server]: Received request to spin in place
+[INFO] [1711900800.289501623] [cmd_mux]: selecting input /nav/cmd_vel
+[INFO] [1711900800.296724211] [micro_ros_agent]: running over UDP, port 8888
+[INFO] [1711900800.304223915] [micro_ros_agent]: new client connected id=0x01 transport=udp4
+[WARN] [1711900800.311481622] [micro_ros_agent]: session re-established after heartbeat timeout
+[INFO] [1711900800.318962900] [diagnostic_aggregator]: Analyzing diagnostic messages
+[INFO] [1711900800.327103682] [diagnostic_updater]: Hardware ID set to rover-mainboard-v3
+[WARN] [1711900800.334961018] [battery_monitor]: battery percentage below nominal band: 0.41
+[INFO] [1711900800.341850177] [battery_monitor]: voltage=22.94 current=3.12 temperature=38.6C
+[INFO] [1711900800.348622557] [imu_filter_madgwick]: orientation estimate published at 200 Hz
+[INFO] [1711900800.356121014] [wheel_odometry]: odom update x=1.204 y=-0.183 yaw=0.612
+[INFO] [1711900800.363975330] [lidar_front]: scan frame laser_front, angle_min=-3.14159 angle_max=3.14159
+[WARN] [1711900800.371346271] [obstacle_layer]: Sensor origin at (4.12, -0.48) is out of map bounds. The costmap cannot raytrace for it.
+[INFO] [1711900800.378896115] [voxel_layer]: Marking observations received from /points_raw
+[INFO] [1711900800.386781530] [nav2_controller]: Passing new path to controller.
+[INFO] [1711900800.394072119] [nav2_controller]: Selected controller: FollowPath
+[INFO] [1711900800.401230417] [regulated_pure_pursuit_controller]: lookahead_dist=0.720 curvature=0.084 linear_vel=0.460 angular_vel=0.219
+[INFO] [1711900800.409564208] [path_smoother]: smoothing path with 68 poses
+[INFO] [1711900800.417224603] [planner_server]: Computing path to goal at (3.40, -1.20)
+[INFO] [1711900800.425915001] [planner_server]: Path found with 94 poses in 12.44 ms
+[WARN] [1711900800.433140177] [bt_navigator]: Tick rate exceeded desired loop duration by 18.5 ms
+[INFO] [1711900800.440329815] [bt_navigator]: Begin navigating from current location (1.11, -0.16) to (3.40, -1.20)
+[INFO] [1711900800.447801425] [recoveries_server]: backup behavior available
+[INFO] [1711900800.455688721] [velocity_smoother]: smoothed cmd_vel linear.x=0.442 angular.z=0.207
+[WARN] [1711900800.462441277] [collision_monitor]: slowdown zone entered on polygon front_arc
+[INFO] [1711900800.470391660] [collision_monitor]: cmd_vel adjusted linear.x=0.210 angular.z=0.188
+[ERROR] [1711900800.478037295] [serial_bridge]: checksum mismatch on packet 1842, discarding frame
+[WARN] [1711900800.485241980] [serial_bridge]: consecutive rx failures = 2
+[INFO] [1711900800.492615112] [serial_bridge]: transport recovered after 37 ms
+[INFO] [1711900800.500184739] [mission_manager]: transition STANDBY -> EXECUTING
+[INFO] [1711900800.508870221] [vision_tracker]: target reacquired id=17 confidence=0.91
+[INFO] [1711900800.516705502] [vision_tracker]: bbox x=612 y=241 w=94 h=88 depth=1.84m
+[WARN] [1711900800.523499014] [vision_tracker]: optical flow fallback engaged for 3 frames
+[INFO] [1711900800.531262401] [gripper_controller]: goal accepted position=0.042 force_limit=18.0
+[INFO] [1711900800.539647009] [gripper_controller]: feedback position=0.031 effort=6.4 stalled=false
+[INFO] [1711900800.547856621] [arm_trajectory_controller]: executing trajectory with 6 points
+[INFO] [1711900800.555238704] [arm_trajectory_controller]: point[2] time_from_start=1.800 positions=[0.52,-0.31,1.24,-0.88,0.63,0.11]
+[WARN] [1711900800.562421993] [arm_trajectory_controller]: path tolerance nearing limit on joint wrist_pitch
+[INFO] [1711900800.570217610] [joint_limits]: velocity saturation applied on joint shoulder_pan
+[INFO] [1711900800.578402954] [map_server]: OccupancyGrid published on /map
+[INFO] [1711900800.586120331] [lifecycle_manager_navigation]: Configuring planner_server
+[INFO] [1711900800.593824214] [lifecycle_manager_navigation]: Activating controller_server
+[INFO] [1711900800.602143922] [lifecycle_manager_navigation]: Managed nodes are active
+[WARN] [1711900800.609427170] [rmw_fastrtps_cpp]: TypeSupport is being registered multiple times for topic /tf_static
+[INFO] [1711900800.616876519] [tf_buffer]: frame graph updated, total frames=23
+[INFO] [1711900800.624167448] [parameter_events]: parameter '/planner_server.expected_planner_frequency' changed to 20.0
+[INFO] [1711900800.631509001] [launch]: All log files can be found below /home/robot/.ros/log/2026-03-31-21-14-09-000001-robot-console
+[INFO] [1711900800.639284722] [launch]: Default logging verbosity is set to INFO
+[INFO] [1711900800.646332984] [rosout]: publishing aggregated node logs
+[INFO] [1711900800.654846129] [system_monitor]: cpu=48.2 mem=62.7 gpu=34.8 temp=61.3C net_rx=4.2MB/s net_tx=1.1MB/s
+[WARN] [1711900800.662537195] [system_monitor]: loop jitter above threshold max=6.8 ms avg=2.1 ms
+[INFO] [1711900800.671103801] [executor]: spinning with 12 nodes on multithreaded executor
+[INFO] [1711900800.678512499] [rosbag2_recorder]: recording to /data/bags/session_042
+[INFO] [1711900800.686904072] [rosbag2_recorder]: subscribed to /tf /tf_static /odom /scan /cmd_vel /diagnostics
+[WARN] [1711900800.694301177] [rosbag2_storage]: write cache reached 84 percent utilization
+[INFO] [1711900800.702107514] [nav_goal_client]: goal response accepted, waiting for result
+[INFO] [1711900800.710246844] [nav_goal_client]: feedback distance_remaining=2.18 estimated_time_remaining=6.42
+[INFO] [1711900800.718061553] [nav_goal_client]: feedback number_of_recoveries=0 current_speed=0.44
+[WARN] [1711900800.726340977] [local_costmap.local_costmap]: Sensor data timeout, clearing local obstacle buffer
+[INFO] [1711900800.734522521] [local_costmap.local_costmap]: obstacle buffer repopulated from fresh scan
+[INFO] [1711900800.742066802] [planner_server]: Replanning due to dynamic obstacle near pose index 41
+[INFO] [1711900800.749520905] [planner_server]: Path found with 102 poses in 14.08 ms
+[INFO] [1711900800.757428201] [regulated_pure_pursuit_controller]: heading_error=0.041 cross_track_error=0.063
+[INFO] [1711900800.765692316] [mission_manager]: checkpoint 3 reached, continuing to waypoint 4
+[INFO] [1711900800.773240117] [dock_manager]: dock fiducial detected yaw_offset=-0.026 lateral_error=0.011
+[WARN] [1711900800.780642180] [dock_manager]: charging contacts not yet engaged, retrying alignment
+[INFO] [1711900800.788938327] [dock_manager]: charging current detected, docking sequence complete
+[INFO] [1711900800.797265410] [lifecycle_manager_navigation]: Shutting down managed nodes
+[INFO] [1711900800.804833025] [controller_manager]: Deactivating controller 'diff_drive_base_controller'
+[INFO] [1711900800.812402667] [rosout]: shutdown complete

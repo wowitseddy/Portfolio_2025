@@ -1,0 +1,37 @@
+# deps / build
+node_modules/
+dist/
+dist-ssr/
+output/
+*.local
+
+# python
+.venv/
+__pycache__/
+*.pyc
+
+# local/private state
+dev-scene-state.json
+public/mission_summary
+reports/
+.github/agents/
+.github/hooks/
+.github/instructions/
+.github/policy-pack/
+.github/prompts/
+
+# logs / editor / OS
+logs
+*.log
+npm-debug.log*
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.sw?
+
+# big raw media / source files
+*.mp4
+*.blend
+*.blend1
+*.clip

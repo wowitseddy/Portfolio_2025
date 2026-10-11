@@ -4970,13 +4970,42 @@ async function initAuxiliaryGlbLibrary() {
   await Promise.all(tasks);
 }
 
+// Assets not needed for the first screen are streamed after the hero is
+// ready (idle time), or immediately if the visitor scrolls toward them.
+const DEFERRED_SCENE_TASKS = [
+  { task: initParticleCoreWireframe, neededAtProgress: 0.55 },
+];
+let deferredSceneTasksStarted = false;
+
+function startDeferredSceneTasks() {
+  if (deferredSceneTasksStarted) return;
+  deferredSceneTasksStarted = true;
+  DEFERRED_SCENE_TASKS.forEach(({ task }) => {
+    task().catch((error) => recordStartupIssue("deferred-scene-task", error));
+  });
+}
+
+function scheduleDeferredSceneTasks() {
+  const idle =
+    window.requestIdleCallback ||
+    ((cb) => window.setTimeout(() => cb({ timeRemaining: () => 0 }), 600));
+  idle(() => startDeferredSceneTasks(), { timeout: 2500 });
+}
+
+function maybeStartDeferredSceneTasks(flowProgress) {
+  if (deferredSceneTasksStarted) return;
+  if (DEFERRED_SCENE_TASKS.some((t) => flowProgress >= t.neededAtProgress)) {
+    startDeferredSceneTasks();
+  }
+}
+
 async function bootstrapSceneAssets() {
+  // Hero-critical assets only; see DEFERRED_SCENE_TASKS for the rest.
   const startupTasks = [
     initPseudoHumanViewer,
     initCorporateAgentViewer,
     initRotorViewer,
     initOuterRingViewer,
-    initParticleCoreWireframe,
     initAuxiliaryGlbLibrary,
   ];
   let completed = 0;
@@ -4995,6 +5024,7 @@ async function bootstrapSceneAssets() {
   document.body.dataset.startupIssues = String(startupIssues.length);
   setPreloadProgress(startupIssues.length > 0 ? 96 : 100);
   window.setTimeout(hidePreloadOverlay, startupIssues.length > 0 ? 420 : 240);
+  scheduleDeferredSceneTasks();
 }
 
 function updateAuxiliaryGlbLibrary(flowProgress, elapsed) {
@@ -5471,6 +5501,7 @@ function animate() {
 
   const elapsed = performance.now() * 0.001;
   const flowProgress = getEffectiveScrollProgress();
+  maybeStartDeferredSceneTasks(flowProgress);
   modelState.scrollProgress = flowProgress;
   rotorModelState.scrollProgress = flowProgress;
   outerRingState.scrollProgress = flowProgress;

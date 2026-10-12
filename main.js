@@ -5485,6 +5485,84 @@ function setAutoSkipped(node, skip) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// layout-v2 3D support: (1) shift the projected image so the section's focal
+// object sits in the half not covered by the text panel. This is a camera
+// view offset only (no object transforms or materials change). (2) Extruded
+// word GLBs become faint watermarks: their per-mesh runtime materials are
+// scaled to WORDMARK_OPACITY of whatever opacity the original code sets.
+// ---------------------------------------------------------------------------
+const layoutFocusState = { x: 0, y: 0, appliedX: NaN, appliedY: NaN, w: 0, h: 0 };
+
+function applyLayoutFocus(target) {
+  const tx = target ? target.x : 0;
+  const ty = target ? target.y : 0;
+  layoutFocusState.x += (tx - layoutFocusState.x) * 0.08;
+  layoutFocusState.y += (ty - layoutFocusState.y) * 0.08;
+  if (Math.abs(tx - layoutFocusState.x) < 0.0005) layoutFocusState.x = tx;
+  if (Math.abs(ty - layoutFocusState.y) < 0.0005) layoutFocusState.y = ty;
+  setLayoutViewOffset(layoutFocusState.x, layoutFocusState.y);
+}
+
+function setLayoutViewOffset(x, y) {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  if (
+    x === layoutFocusState.appliedX &&
+    y === layoutFocusState.appliedY &&
+    w === layoutFocusState.w &&
+    h === layoutFocusState.h
+  ) {
+    return;
+  }
+  layoutFocusState.appliedX = x;
+  layoutFocusState.appliedY = y;
+  layoutFocusState.w = w;
+  layoutFocusState.h = h;
+  if (x === 0 && y === 0) {
+    if (camera.view && camera.view.enabled) camera.clearViewOffset();
+    return;
+  }
+  // Moving the view window left (negative offset) moves the image right.
+  camera.setViewOffset(w, h, -x * w, -y * h, w, h);
+}
+
+const WORDMARK_OPACITY = 0.15;
+const WORDMARK_SRCS = new Set([
+  ABOUT_TEXT_GLB_SRC,
+  BCI_TEXT_GLB_SRC,
+  PROJECT_TEXT_GLB_SRC,
+  AGENT_TEXT_GLB_SRC,
+]);
+let wordmarkFactor = WORDMARK_OPACITY;
+
+function applyWordmarkOpacity() {
+  AUXILIARY_GLB_STATES.forEach((entry) => {
+    if (!entry.enabled || !WORDMARK_SRCS.has(entry.src) || !entry.pivot) return;
+    entry.pivot.traverse((node) => {
+      if (!node.isMesh) return;
+      const mats = Array.isArray(node.material) ? node.material : [node.material];
+      mats.forEach((m) => {
+        if (!m) return;
+        const ud = m.userData;
+        // If the original code wrote a new opacity since our last write, that
+        // value becomes the new base; otherwise keep scaling the stored base.
+        if (ud.__wordmarkLast === undefined || m.opacity !== ud.__wordmarkLast) {
+          ud.__wordmarkBase = m.opacity;
+        }
+        const next = ud.__wordmarkBase * wordmarkFactor;
+        m.opacity = next;
+        ud.__wordmarkLast = next;
+        if (!m.transparent || m.depthWrite) {
+          m.transparent = true;
+          m.depthWrite = false;
+          m.needsUpdate = true;
+        }
+      });
+    });
+  });
+}
+
 function applyAutoHide(elapsed) {
   // Re-scan only when the scene graph grows (async GLB loads), at most 1x/sec.
   if (elapsed - autoHideState.builtAt > 1) {
@@ -5592,7 +5670,8 @@ function animate() {
   updateSectionOrbitNodes(elapsed, flowProgress);
   updateFlowSections(flowProgress, elapsed);
   updateProjectsSectionPhase(flowProgress);
-  updateLayoutV2(flowProgress);
+  const layout = updateLayoutV2(flowProgress);
+  applyLayoutFocus(layout ? layout.focus : null);
   updateMenuState(flowProgress);
   updateOrbitKeywordCloud(elapsed, flowProgress);
 
@@ -5781,6 +5860,7 @@ function animate() {
     }
   }
 
+  applyWordmarkOpacity();
   applyAutoHide(elapsed);
 
   if (viewportResizeState.active) {

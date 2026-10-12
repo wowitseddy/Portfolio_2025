@@ -133,3 +133,17 @@ Baseline = `checkpoint-2026-10-11-pre-optimize-master` plus only the read-only `
 | console errors / failed requests | 2 / 1 | 0 / 0 | 0 / 0 |
 
 Gains reverted for safety: meshopt/quantization/dedup on every GLB (most of the raw size win) and the frustum-culling re-enable. Gains kept: simplified text meshes, particle-core attribute strip, layer-based skipping, progressive loading, the crossfade, and fixes a.
+
+---
+# layout-v2 (implements /workspace/site-capture/LAYOUT_PROPOSAL.md)
+Checkpoint tags (pushed): `checkpoint-2026-10-11-pre-layout-master` → 2d72475, `checkpoint-2026-10-11-pre-layout-gh-pages` → ed85866 (live bundle main-BrtA3B5n.js).
+Rules kept: no GLB asset, material-definition or compression changes; the fix-artifacts state (original GLBs, layer-based auto-hide, culling off) is untouched.
+
+## L1: six sections mapped to scroll ranges, 5-item nav with active state
+| | before | after |
+|---|---|---|
+| DOM sections | `#experience-section` (Overview + all links, flow 0.03–0.63, 3D-projected), `#timeline-section` (built in `#portfolio-flow`, 0.65–0.75), `#projects-section` ticker (0.76–0.92), `#site-footer` icons | `#layout-v2` with 6 fixed sections: **Hero** 0–0.12, **About** 0.12–0.30, **Projects** 0.30–0.55, **Timeline** 0.55–0.75, **Now** 0.75–0.88, **Contact** 0.88–1.0 (`data-range`) |
+| content | — | All existing text kept, reorganised. Hero = name from the page title + the Overview tagline; About = the 4 Overview paragraphs; Projects = the Sentinel Construct / 100K Campaign Summary / Biomed Indexing Tool / Resume/PDF Editor links, with trajectory lines from `project-timeline.js`; Now = the 9 "Working on" codenames (de-duplicated, the marquee copy dropped); Contact = the "links listed here" sentence, email/Website/GitHub/LinkedIn/X/Resume |
+| nav | 4 items (About, Timeline, Projects, Contact), active = closest marker | 5 items (About, Projects, Timeline, Now, Contact), active = the item whose `data-range` contains the progress (none in the hero), `aria-current`, plus a progress rail |
+| controller | `updateFlowSections` projected sections into 3D space | `js/layout-v2.js` driven from `animate()` with the same `flowProgress` as the 3D. The old flow sections no longer exist (`flowSections` is empty, so the old projection code is a no-op). The duplicate timeline summary panel in the nav is no longer rendered |
+| Hero/Contact CTAs | — | buttons reuse the menu's `setEffectiveScrollProgress` via `data-scroll-to` |

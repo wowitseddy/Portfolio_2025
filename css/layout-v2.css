@@ -1,0 +1,53 @@
+/* ==========================================================================
+   layout-v2: six fixed sections over the WebGL canvas, one visible at a time.
+   Opacity is driven per frame by js/layout-v2.js via --v2-op.
+   ========================================================================== */
+
+.v2-root {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.v2-section {
+  --v2-op: 0;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  opacity: var(--v2-op);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.v2-section.is-v2-visible {
+  visibility: visible;
+}
+
+.v2-section.is-v2-visible .v2-panel {
+  pointer-events: auto;
+}
+
+.v2-side-left { justify-content: flex-start; }
+.v2-side-right { justify-content: flex-end; }
+.v2-side-center { justify-content: center; }
+
+/* Nav progress rail (fills with scroll flow). */
+.v2-progress {
+  position: relative;
+  width: 2px;
+  height: 48px;
+  margin: 4px auto 0;
+  background: rgba(173, 198, 242, 0.18);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.v2-progress__fill {
+  position: absolute;
+  inset: 0;
+  background: rgba(196, 226, 255, 0.9);
+  transform-origin: top center;
+  transform: scaleY(0);
+}

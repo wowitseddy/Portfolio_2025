@@ -9,6 +9,7 @@ import {
   setTimelinePanelOpen,
 } from "./js/project-timeline.js";
 import { createSceneBuilder } from "./js/scene-builder.js";
+import { initLayoutV2, updateLayoutV2 } from "./js/layout-v2.js";
 
 THREE.Cache.enabled = true;
 
@@ -122,6 +123,7 @@ const contactSection = document.getElementById("site-footer");
 const projectsSection = document.getElementById("projects-section");
 
 ensureProjectTimelineUi({ menuRoot: sciMenu, flowRoot: portfolioFlow });
+initLayoutV2();
 
 function setPreloadProgress(value) {
   const clamped = Math.max(0, Math.min(100, Math.round(value)));
@@ -941,6 +943,21 @@ function updateMenuState(scrollProgress) {
   const items = Array.from(document.querySelectorAll(".menu-item"));
   let closestItem = null;
   let closestDistance = Number.POSITIVE_INFINITY;
+
+  // layout-v2: items carry data-range="start,end"; the item whose range
+  // contains the progress is active (none during the hero).
+  if (items.some((item) => item.hasAttribute("data-range"))) {
+    items.forEach((item) => {
+      const [start, end] = (item.getAttribute("data-range") || "")
+        .split(",")
+        .map((v) => Number.parseFloat(v));
+      const active = scrollProgress >= start && scrollProgress < end;
+      item.classList.toggle("is-active", active);
+      if (active) item.setAttribute("aria-current", "true");
+      else item.removeAttribute("aria-current");
+    });
+    return;
+  }
 
   items.forEach((item) => {
     const marker = Number.parseFloat(
@@ -5185,7 +5202,7 @@ window.addEventListener(
   { passive: true },
 );
 
-document.querySelectorAll(".menu-item").forEach((item) => {
+document.querySelectorAll(".menu-item, .v2-root [data-scroll-to]").forEach((item) => {
   item.addEventListener("click", () => {
     const progress = Number.parseFloat(
       item.getAttribute("data-scroll-to") || "0",
@@ -5575,6 +5592,8 @@ function animate() {
   updateSectionOrbitNodes(elapsed, flowProgress);
   updateFlowSections(flowProgress, elapsed);
   updateProjectsSectionPhase(flowProgress);
+  updateLayoutV2(flowProgress);
+  updateMenuState(flowProgress);
   updateOrbitKeywordCloud(elapsed, flowProgress);
 
   updateAtomPositions(elapsed);

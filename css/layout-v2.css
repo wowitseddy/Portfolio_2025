@@ -202,3 +202,30 @@
 /* The nav shows a flat, readable panel (no 3D tilt). */
 body.layout-v2 .menu-panel { transform: none; }
 body.layout-v2 .sci-fi-menu:hover .menu-panel { transform: none; }
+
+/* Preload overlay: the markup and the .is-hidden toggle exist in main.js, but no
+   stylesheet styled them, so "Initializing 100%" stayed in the top-left corner. */
+#preload-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  background: #03060c;
+  color: rgba(214, 228, 250, 0.9);
+  font: 500 13px/1.4 "IBM Plex Sans", system-ui, sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: opacity 0.6s ease, visibility 0s linear 0.6s;
+}
+#preload-overlay.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preload-shell { display: grid; justify-items: center; gap: 12px; }
+.preload-spinner {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid rgba(168, 203, 255, 0.2); border-top-color: rgba(196, 226, 255, 0.9);
+  animation: v2-spin 0.9s linear infinite;
+}
+.preload-meter { width: 160px; height: 2px; background: rgba(168, 203, 255, 0.18); overflow: hidden; }
+#preload-progress { height: 100%; width: 0; background: rgba(196, 226, 255, 0.9); transition: width 0.2s ease; }
+@keyframes v2-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .preload-spinner { animation: none; } }

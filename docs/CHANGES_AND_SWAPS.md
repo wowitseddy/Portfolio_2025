@@ -158,3 +158,6 @@ Rules kept: no GLB asset, material-definition or compression changes; the fix-ar
 | spacing | ad hoc | 8-px grid: 120 px side padding, 24 px heading→body, 16 px between paragraphs and cards |
 | nav | panel tilted `rotateY(-45deg)` | flat panel (readability) |
 | fonts | Teko only | Teko + IBM Plex Sans (same Google Fonts request; the CSS already referenced Plex Sans but never loaded it) |
+
+## L2b: style the preload overlay (pre-existing bug)
+Before: `#preload-overlay` had no CSS anywhere in the repo, so "Initializing / 100%" stayed visible top-left on the live site after load. After: a full-screen loader (spinner, meter bar, percent) that fades out when main.js adds `.is-hidden`.

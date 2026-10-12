@@ -805,7 +805,18 @@ function seedSample() {
 async function registerServiceWorker() {
   if ("serviceWorker" in navigator) {
     try {
-      await navigator.serviceWorker.register("./dragonfire-sw.js");
+      // QA-5b: scope the worker to the Dragonfire page only, and drop the
+      // old site-wide (root-scope) registration from earlier versions.
+      const rootScope = new URL("./", window.location.href).href;
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(
+        regs
+          .filter((reg) => reg.scope === rootScope && reg.active?.scriptURL.endsWith("/dragonfire-sw.js"))
+          .map((reg) => reg.unregister()),
+      );
+      await navigator.serviceWorker.register("./dragonfire-sw.js", {
+        scope: "./dragonfire-protocol",
+      });
     } catch {
       setStatus("Service worker registration failed.");
     }

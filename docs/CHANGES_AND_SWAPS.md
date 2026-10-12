@@ -281,3 +281,11 @@ Checkpoints: checkpoint-2026-10-12-pre-qa-fixes-master (2dd256d), checkpoint-202
   - A 2px #e8f2ff outline at offset 3px on the focus-visible state of buttons, links and nav items.
   - `.v2-panel` and everything in it have `user-select:text`; the canvas and site chrome stay unselectable.
 - **Note:** the contact email is only a `mailto:` button ("✉ Email"). The address isn't printed as text, so there's nothing visible to copy. I didn't add content.
+
+## QA-5b dragonfire service worker scope
+- **Before:** `dragonfire-sw.js` was registered at root scope with a cache-first fetch for every request. After one visit to /dragonfire-protocol.html, it controlled the whole site.
+- **After:**
+  - Registration uses `{scope:"./dragonfire-protocol"}`, and the page unregisters any old root-scope dragonfire registration.
+  - The SW only answers cache-first for navigations to /dragonfire-protocol(.html) and for requests whose client is that page. Everything else goes to the network.
+  - The cache was bumped to v2, and activate deletes v1.
+  - Dragonfire offline mode is unchanged.

@@ -229,3 +229,57 @@ body.layout-v2 .sci-fi-menu:hover .menu-panel { transform: none; }
 #preload-progress { height: 100%; width: 0; background: rgba(196, 226, 255, 0.9); transition: width 0.2s ease; }
 @keyframes v2-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .preload-spinner { animation: none; } }
+
+/* --------------------------------------------------------------------------
+   L3: timeline lanes. Solid = current year (in progress), hollow = planned.
+   -------------------------------------------------------------------------- */
+.v2-tl-legend { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 0 0 16px; font-size: var(--v2-caption); color: var(--v2-muted); }
+.v2-tl-key { display: inline-flex; align-items: center; gap: 8px; }
+.v2-tl-key::before { content: ""; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--v2-accent); }
+.v2-tl-key--current::before { background: var(--v2-accent); }
+.v2-tl-key--planned::before { background: transparent; }
+
+.v2-tl-lane { margin: 0 0 16px; }
+.v2-tl-lane__title {
+  margin: 0 0 8px;
+  font: 600 var(--v2-caption)/1.4 "IBM Plex Sans", system-ui, sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--v2-accent);
+}
+.v2-tl-lane--external { padding-top: 8px; border-top: 1px dashed rgba(173, 198, 242, 0.22); }
+.v2-tl-lane--external .v2-tl-lane__title { color: rgba(255, 196, 140, 0.9); }
+.v2-tl-lane--external.is-empty .v2-caption { margin: 0; }
+.v2-tl-org {
+  display: inline-block; margin-right: 8px; padding: 2px 8px; border-radius: 999px;
+  background: rgba(255, 170, 90, 0.18); border: 1px solid rgba(255, 196, 140, 0.5);
+  font-size: 12px; color: rgba(255, 220, 190, 0.95);
+}
+
+.v2-tl-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.8fr) 2fr;
+  gap: 4px 16px;
+  align-items: start;
+  padding: 8px 0;
+  border-top: 1px solid rgba(173, 198, 242, 0.1);
+}
+.v2-tl-row .v2-h3 { font-size: 20px; }
+.v2-tl-row .v2-caption { margin: 0; font-size: 12px; }
+.v2-tl-row__chips { display: grid; grid-template-columns: 1fr 1.4fr 1fr; gap: 8px; }
+.v2-tl-chip { display: grid; gap: 2px; padding: 4px 8px 4px 20px; position: relative; font-size: 12px; line-height: 1.35; color: var(--v2-text); }
+.v2-tl-chip::before {
+  content: ""; position: absolute; left: 4px; top: 7px; width: 8px; height: 8px; border-radius: 50%;
+  border: 2px solid var(--v2-accent);
+}
+.v2-tl-chip--current::before { background: var(--v2-accent); }
+.v2-tl-chip--planned { color: var(--v2-muted); }
+.v2-tl-chip__when { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--v2-accent); }
+.v2-tl-chip__year { font-variant-numeric: tabular-nums; color: var(--v2-muted); }
+
+.v2-tl-matrix { margin-top: 8px; }
+.v2-tl-matrix__toggle { cursor: pointer; font-size: 14px; color: var(--v2-accent); }
+.v2-tl-matrix__inner { max-height: 52vh; overflow: auto; margin-top: 8px; padding-right: 8px; }
+/* Expanded matrix replaces the lanes so the panel never overflows. */
+#v2-timeline-body:has(.v2-tl-matrix[open]) .v2-tl-lane,
+#v2-timeline-body:has(.v2-tl-matrix[open]) .v2-tl-legend { display: none; }

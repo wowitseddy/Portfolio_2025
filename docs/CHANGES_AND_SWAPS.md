@@ -249,3 +249,10 @@ Checkpoints: checkpoint-2026-10-12-pre-qa-fixes-master (2dd256d), checkpoint-202
 - **After:**
   - touchstart records the anchor, and window touchmove (passive:false) always calls preventDefault when the event is cancelable. Panels that can scroll still call stopPropagation first.
   - CSS: `html,body{overscroll-behavior:none}`, `#background-canvas{touch-action:none}`, `.v2-panel{touch-action:pan-y}`.
+
+## QA-2 touch momentum
+- **Before:** after a fling, the flow stopped dead on release.
+- **After:**
+  - Touchmove deltas from the last 120 ms give the release velocity.
+  - If it's over 0.3 px/ms, the glide is velocity×260 ms, capped at 1.6 viewport heights, and goes through the existing eased `setEffectiveScrollProgress(…, "smooth")`.
+  - A new touchstart cancels the glide.

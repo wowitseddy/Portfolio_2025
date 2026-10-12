@@ -219,6 +219,12 @@ function buildProjectCard(project) {
 }
 
 function renderTimelineSection(flowRoot) {
+  // layout-v2: the timeline lives inside the #timeline section's panel.
+  const v2Body = document.getElementById("v2-timeline-body");
+  if (v2Body) {
+    renderTimelineLanes(v2Body);
+    return;
+  }
   if (!flowRoot) {
     return;
   }
@@ -260,13 +266,28 @@ function renderTimelineSection(flowRoot) {
   shell.appendChild(grid);
 }
 
+function renderTimelineLanes(root) {
+  root.replaceChildren();
+  root.appendChild(createNode("p", "v2-body", "Year-over-year projections across the next decade for the active portfolio stack. Manual topology and keyframe authoring remain external to this panel by design."));
+  root.appendChild(buildYearRail("timeline-decade-rail"));
+  const grid = createNode("div", "timeline-project-grid");
+  PROJECT_LIFECYCLE_PROJECTIONS.forEach((project) => {
+    grid.appendChild(buildProjectCard(project));
+  });
+  root.appendChild(grid);
+}
+
 export function ensureProjectTimelineUi({ menuRoot, flowRoot } = {}) {
   ensureDebugHandles();
   const resolvedMenuRoot = menuRoot || document.getElementById("sci-fi-menu");
   if (resolvedMenuRoot) {
     resolvedMenuRoot.classList.remove("is-timeline-panel-open");
   }
-  renderMenuTimelinePanel(resolvedMenuRoot);
+  // layout-v2 shows the timeline as its own section, so the duplicate
+  // summary panel in the nav is no longer rendered.
+  if (!document.getElementById("v2-timeline-body")) {
+    renderMenuTimelinePanel(resolvedMenuRoot);
+  }
   renderTimelineSection(flowRoot || document.getElementById("portfolio-flow"));
 }
 

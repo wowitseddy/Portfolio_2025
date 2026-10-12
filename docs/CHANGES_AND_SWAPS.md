@@ -205,3 +205,7 @@ Before: a symmetric ±22% shift put the object partly under the fixed nav, and t
 ## Contact email
 - Before: `devin@example.com` (placeholder)
 - After: `contactform@keemail.me` (owner-provided), index.html
+
+## Spelling
+- Before: `VECTOR-MERGE PHYSICS APPROXIAMATOR`
+- After: `VECTOR-MERGE PHYSICS APPROXIMATOR` (codespell pass found no other user-facing misspellings)

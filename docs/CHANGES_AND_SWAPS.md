@@ -100,3 +100,7 @@ Owner report on a real GPU: previously invisible helper objects ("track-keys", I
 ## Fix 1: restore original GLBs (revert c for all files except BCI text, banner, particle core)
 Restored from `checkpoint-2026-10-11-pre-optimize-master`: ABOUT/AGENT/PROJECT(S)_TEXT, DECAL, PANEL, Dyson_Ring, Harness_PK_GLTF, decal_*, outer_spinner. Node graphs, materials and transforms are identical to the baseline again. Cost: these files are back to their original sizes (≈16 MB raw, but small compared with the particle core).
 
+## Fix 2: rebuild BCI text and the banner without quantization or dedup
+- `scripts/glb-simplify-text-float.mjs`: strip UV/NORMAL (no textures; only the post-processing passes read `uv`), weld, simplify (same ratios as d), bake creased normals (35°), float positions, **original nodes, transforms and materials untouched** (node counts equal to the baseline, verified with a GLB diff).
+- Kept gains: BCI 475,241 → 142,572 triangles (21.2 → 5.4 MB raw); banner 456,392 → 149,238 triangles (27.5 → 4.8 MB raw).
+

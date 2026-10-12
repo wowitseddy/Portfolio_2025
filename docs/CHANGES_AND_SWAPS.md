@@ -201,3 +201,7 @@ Before: a symmetric ±22% shift put the object partly under the fixed nav, and t
 - **diffstate** (`tools/diffstate.py`, pre-layout vs layout-v2 manifests at identical flows 0…1): **0 unexpected**. Intentional only: the 4 word GLBs (ABOUT_TEXT, AGENT_TEXT, BCI_TEXT, PROJECT_TEXT ×2 meshes) with `mat.op` = 15% of the original value, `transparent` → true, `depthWrite` → false. No visibility differences. World transforms are unchanged; the focal repositioning is a camera view offset (projection only). Report: `site-capture/runs/diff_prelayout_vs_layout_v2.md`.
 - **Performance:** max triangles 1,043,048 → 1,043,048 and max draw calls 80 → 80 (unchanged). Startup under SwiftShader is noisy (manifest runs 7.1 s → 15.5 s; layout captures ready at 1.0 s desktop / 4.3 s mobile). There's no new asset loading, so this isn't treated as a regression, but check on real hardware.
 - **Mobile variant** (not covered by the desktop diff): particle draw range halved and words hidden (by design).
+
+## Contact email
+- Before: `devin@example.com` (placeholder)
+- After: `contactform@keemail.me` (owner-provided), index.html

@@ -25,16 +25,85 @@ export function initLayoutV2() {
     },
   );
   state.progressFill = document.querySelector(".v2-progress__fill");
+  state.sections.forEach((entry) => {
+    const panel = entry.node.querySelector(".v2-panel");
+    if (panel) bindPanelScroll(panel);
+  });
+  const syncModes = () => {
+    state.motionScale = isReducedMotion() ? 0 : 1;
+    document.body.classList.toggle("v2-compact", isCompactLayout());
+    document.body.classList.toggle("v2-reduced-motion", isReducedMotion());
+    state.sections.forEach((entry) => { entry.opacity = -1; });
+  };
+  syncModes();
+  compactQuery.addEventListener?.("change", syncModes);
+  reducedMotionQuery.addEventListener?.("change", syncModes);
   document.body.classList.add("layout-v2");
 }
 
 // Where the section's 3D focal object should sit, as a fraction of the
 // viewport from center (+x = right). Text on the left -> object on the right.
 const FOCUS_SHIFT_X = 0.22;
+// Mobile: the text panel is a bottom sheet, so the object moves up instead.
+const COMPACT_FOCUS_Y = -0.2;
+const compactQuery = window.matchMedia("(max-width: 640px)");
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+export function isCompactLayout() {
+  return compactQuery.matches;
+}
+
+export function isReducedMotion() {
+  return reducedMotionQuery.matches;
+}
+
 export function getSectionFocus(entry) {
   if (!entry) return { x: 0, y: 0 };
+  // Reduced motion: no layout-driven 3D movement at all (crossfades only).
+  if (isReducedMotion()) return { x: 0, y: 0 };
+  if (isCompactLayout()) return { x: 0, y: entry.side === "center" ? 0 : COMPACT_FOCUS_Y };
   const x = entry.side === "left" ? FOCUS_SHIFT_X : entry.side === "right" ? -FOCUS_SHIFT_X : 0;
   return { x, y: 0 };
+}
+
+// Long panels scroll internally. The page hijacks wheel/touch on window
+// (bubble phase), so a panel consumes the gesture while it can still scroll
+// in that direction, then hands control back to the page flow.
+function canScroll(el, dy) {
+  if (el.scrollHeight <= el.clientHeight + 1) return false;
+  if (dy > 0) return el.scrollTop + el.clientHeight < el.scrollHeight - 1;
+  return el.scrollTop > 0;
+}
+
+function bindPanelScroll(panel) {
+  panel.addEventListener(
+    "wheel",
+    (event) => {
+      const dy = event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY;
+      if (!canScroll(panel, dy)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      panel.scrollTop += dy;
+    },
+    { passive: false },
+  );
+  let lastY = null;
+  panel.addEventListener("touchstart", (e) => { lastY = e.touches[0]?.clientY ?? null; }, { passive: true });
+  panel.addEventListener(
+    "touchmove",
+    (event) => {
+      const y = event.touches[0]?.clientY;
+      if (y === undefined || lastY === null) return;
+      const dy = lastY - y;
+      lastY = y;
+      if (!canScroll(panel, dy)) return;
+      // Native scroll inside the panel; keep the page's touch anchor current
+      // so the virtual scroll doesn't jump when control returns to it.
+      event.stopPropagation();
+      document.body.dataset.virtualTouchY = String(y);
+    },
+    { passive: true },
+  );
 }
 
 export function getLayoutSections() {
@@ -128,7 +197,9 @@ export function updateLayoutV2(flow) {
     document.body.dataset.v2Section = state.sections[frame.idx].node.id;
   }
   if (state.progressFill) {
-    state.progressFill.style.transform = `scaleY(${clamp01(flow).toFixed(4)})`;
+    state.progressFill.style.transform = isCompactLayout()
+      ? `scaleX(${clamp01(flow).toFixed(4)})`
+      : `scaleY(${clamp01(flow).toFixed(4)})`;
   }
   return { activeIndex: frame.idx, section: state.sections[frame.idx], focus: frame.focus };
 }

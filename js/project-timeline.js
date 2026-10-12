@@ -1,3 +1,5 @@
+import { getProject } from "./data/projects.js";
+
 const PROJECTION_HORIZON_YEARS = 10;
 const START_YEAR = new Date().getFullYear();
 
@@ -11,6 +13,23 @@ function buildYearlyProjection(labels) {
     label: labels[index] || labels[labels.length - 1] || "Pending",
   }));
 }
+
+// Shipped builds (actual milestones). They have no yearly projections, so they
+// render as an "actual" row in the My builds lane and are kept out of the
+// 10-year projection matrix.
+const phantomWalk = getProject("phantom-walk");
+export const SHIPPED_BUILDS = Object.freeze(
+  phantomWalk
+    ? [
+        {
+          id: phantomWalk.id,
+          label: phantomWalk.title,
+          trajectory: phantomWalk.summary,
+          actual: [{ year: 2026, label: "Shipped" }],
+        },
+      ]
+    : [],
+);
 
 export const PROJECT_LIFECYCLE_PROJECTIONS = Object.freeze([
   {
@@ -299,11 +318,24 @@ function buildBuildRow(project) {
   return row;
 }
 
+function buildShippedRow(build) {
+  const row = createNode("article", "v2-tl-row v2-tl-row--shipped");
+  const head = createNode("div", "v2-tl-row__head");
+  head.appendChild(createNode("h3", "v2-h3", build.label));
+  head.appendChild(createNode("p", "v2-caption", build.trajectory));
+  row.appendChild(head);
+  const chips = createNode("div", "v2-tl-row__chips");
+  chips.appendChild(buildHorizonChip("actual", "Shipped", build.actual));
+  row.appendChild(chips);
+  return row;
+}
+
 function renderTimelineLanes(root) {
   root.replaceChildren();
   root.appendChild(createNode("p", "v2-body", "Year-over-year projections across the next decade for the active portfolio stack. Manual topology and keyframe authoring remain external to this panel by design."));
 
   const legend = createNode("div", "v2-tl-legend");
+  legend.appendChild(createNode("span", "v2-tl-key v2-tl-key--actual", "Shipped (actual)"));
   legend.appendChild(createNode("span", "v2-tl-key v2-tl-key--current", `Current year (${PROJECT_TIMELINE_YEARS[0]}), in progress`));
   legend.appendChild(createNode("span", "v2-tl-key v2-tl-key--planned", "Planned / projected"));
   root.appendChild(legend);
@@ -311,6 +343,7 @@ function renderTimelineLanes(root) {
   const laneA = createNode("section", "v2-tl-lane v2-tl-lane--builds");
   laneA.setAttribute("aria-label", "My builds");
   laneA.appendChild(createNode("h3", "v2-tl-lane__title", "My builds"));
+  SHIPPED_BUILDS.forEach((build) => laneA.appendChild(buildShippedRow(build)));
   PROJECT_LIFECYCLE_PROJECTIONS.forEach((project) => laneA.appendChild(buildBuildRow(project)));
   root.appendChild(laneA);
 

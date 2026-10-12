@@ -5402,8 +5402,40 @@ window.addEventListener(
   { passive: true },
 );
 
+// QA-3: keys belong to the focused control / scrollable panel first.
+function keyBelongsToFocus(event) {
+  if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) {
+    return true;
+  }
+  const target = event.target instanceof Element ? event.target : null;
+  if (!target) {
+    return false;
+  }
+  if (target.closest("input, textarea, select, [contenteditable]:not([contenteditable='false'])")) {
+    return true;
+  }
+  // Space activates buttons/links/summary natively. Arrow keys on a focused
+  // button keep scrolling the page (native behaviour; nav buttons stay
+  // focused after a click).
+  if (event.key === " " && target.closest("button, a[href], summary, [role='button'], [role='link']")) {
+    return true;
+  }
+  for (let el = target; el && el !== document.body; el = el.parentElement) {
+    if (el.scrollHeight > el.clientHeight + 1) {
+      const oy = getComputedStyle(el).overflowY;
+      if (oy === "auto" || oy === "scroll") {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 window.addEventListener("keydown", (event) => {
   if (!shouldUseVirtualScroll() && hasNativeScrollableRange()) {
+    return;
+  }
+  if (keyBelongsToFocus(event)) {
     return;
   }
 

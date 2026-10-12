@@ -256,3 +256,12 @@ Checkpoints: checkpoint-2026-10-12-pre-qa-fixes-master (2dd256d), checkpoint-202
   - Touchmove deltas from the last 120 ms give the release velocity.
   - If it's over 0.3 px/ms, the glide is velocity×260 ms, capped at 1.6 viewport heights, and goes through the existing eased `setEffectiveScrollProgress(…, "smooth")`.
   - A new touchstart cancels the glide.
+
+## QA-3 keyboard
+- **Before:** the global keydown handler called preventDefault on Space, arrows, PageUp/PageDown, Home and End whatever had focus. Space on a nav button scrolled the page instead of pressing it.
+- **After:** `keyBelongsToFocus()` lets the key through when:
+  - a modifier key is held or the event was already handled;
+  - focus is in a form control or contenteditable element;
+  - it's Space on a button, link, summary or role=button/link;
+  - focus is inside an element that can scroll (overflow-y auto/scroll), so keys scroll that panel natively.
+- **Deviation:** arrow keys on a focused button still drive the page flow. That's the native behaviour, and nav buttons keep focus after a mouse click.

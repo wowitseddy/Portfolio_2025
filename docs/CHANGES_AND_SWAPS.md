@@ -234,3 +234,7 @@ Before: About had only the eyebrow and heading. After: a 112 px (72 px on mobile
 - **Captures** (`tools/layout_capture.py`, ≤290 s each, stops 0.21/0.42/0.65/0.95): desktop 1280×800 and mobile 390×844, before (live c898d06, main-BoWRlhkK.js) and after. **0 console errors, 0 failed requests** in all 4 layout runs and both manifest runs (so the avatar files and the data module load correctly).
 - **Contact sheets:** `site-capture/runs/cards_v3/contact_sheet_1280x800_before_after.png`, `…/contact_sheet_390x844_before_after.png`.
 - **diffstate** (pre-cards vs cards-v3 manifests, identical flows 0…1): **0 unexpected, 0 intentional**. The 3D scene is byte-for-byte the same in visibility and material state. Report: `site-capture/runs/diff_precards_vs_cards_v3.md`.
+
+## Projects: remove Resume/PDF Editor card
+- Before: 8 cards (last: Resume/ PDF Editor -> /resume-tools.html)
+- After: 7 cards; resume-tools.html stays in repo/build, unlinked from Projects and Contact

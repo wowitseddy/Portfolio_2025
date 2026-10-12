@@ -105,18 +105,6 @@ export const PROJECTS = Object.freeze([
     links: [],
     media: [],
   },
-  {
-    id: "resume-pdf-editor",
-    title: "Resume/ PDF Editor",
-    status: null,
-    date: null,
-    summary: "",
-    tags: [],
-    order: 80,
-    url: "/resume-tools.html",
-    links: [],
-    media: [],
-  },
 ]);
 
 export function getProject(id) {

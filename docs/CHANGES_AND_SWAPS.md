@@ -62,3 +62,26 @@ Swapped every file in `assets/GLTF/` for an optimized version. The originals sta
 - Problem found in verification: `toCreasedNormals` at runtime cost ~3.0 s (banner) and ~18 s per particle-core ring (measured in Node) of main-thread time.
 - Swap: `BCI_TEXT_.glb` and the Corporate Agent banner now ship with creased (35°) normals baked by `scripts/glb-bake-creased-normals.mjs`. File sizes: BCI 0.53 → 0.70 MB, banner 0.32 → 0.41 MB. The runtime fallback for meshes without normals (the wireframe rings) is plain `computeVertexNormals()` (~19 ms per ring). The BufferGeometryUtils import was removed.
 
+## c2. Fix: particle-core shells were missing (regression from c)
+- Found in verification: with the quantized + welded + simplified `particle_core_wireframe.glb`, the shells never drew at flow ≥ 0.75. The material never compiled. Its custom field shader depends on the original local vertex positions, and quantization moves the scale onto node transforms. I confirmed this A/B: the original file renders, the optimized file doesn't, and a float weld+simplify version compiled but still showed no shells.
+- Swap: `particle_core_wireframe.glb` is now the **original geometry** with only the unused TANGENT and TEXCOORD_0 attributes stripped (`scripts/glb-strip-unused-attributes.mjs`). No weld, simplify, quantize or dedup.
+- Result: 66.5 MB → 36.7 MB raw (15 MB gzip vs 13.7 MB transferred on live). The ring simplification (282k → 198k triangles per ring) from (c) is **reverted**. The ring triangle counts are back to the originals, but the rings stay hidden until flow 0.69 (from b).
+
+## Verification (localhost, `vite build`, SwiftShader, /workspace/site-capture/manifest_capture.py + reconstruct.py)
+Baseline = `checkpoint-2026-10-11-pre-optimize-master` built the same way (byte-identical main bundle to live). New = optimize-runtime @ 74435a2.
+
+| metric | baseline | optimize-runtime |
+|---|---|---|
+| triangles / frame (all passes) | 2,629,835 | 922,601 |
+| draw calls / frame | 80–93 | 61–74 |
+| GLB bytes downloaded (raw, local) | 128.3 MB | 40.0 MB |
+| GLB bytes gzip (all GLBs) | 27.3 MB | 16.8 MB |
+| slowest GLB request (local) | 7.2 s | 0.09 s |
+| failed requests | 1 (/assets/undefined 404) | 0 |
+| console errors | 2 (404 + updateCursorPosition) | 0 |
+| flow 0.75 transition | single-frame cut (particles off, shells on) | crossfade 0.69–0.79 |
+| visual check | — | all sections render; banner, rig, text, rings, particle core, and shells present; no black frames |
+
+Notes:
+- Startup-ready time under SwiftShader was too noisy to compare: readings ran 8–24 s on both builds, partly because my early polling depended on frames that render at about 1 fps. Real-GPU timings still need measuring.
+- New contact sheet: `/workspace/site-capture/runs/final/contact_sheet.png`.

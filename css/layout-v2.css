@@ -443,3 +443,18 @@ body.v2-reduced-motion .v2-section .v2-panel { transform: none; will-change: opa
 html, body { overscroll-behavior: none; }
 #background-canvas { touch-action: none; }
 .v2-panel { touch-action: pan-y; }
+
+/* QA-5a: visible keyboard focus (hover look kept, plus a ring) */
+.v2-button:focus-visible,
+.v2-link:focus-visible,
+.v2-nav a:focus-visible,
+.v2-nav button:focus-visible {
+  outline: 2px solid #e8f2ff;
+  outline-offset: 3px;
+}
+/* QA-5a: panel text is selectable/copyable (body keeps user-select:none
+   for the canvas and chrome) */
+.v2-panel, .v2-panel * {
+  -webkit-user-select: text;
+  user-select: text;
+}

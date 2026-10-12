@@ -112,3 +112,24 @@ Restored from `checkpoint-2026-10-11-pre-optimize-master`: ABOUT/AGENT/PROJECT(S
 ## Fix 4: revert the frustum-culling re-enable
 - The Dyson ring, Corporate Agent banner and auxiliary GLBs are back to `frustumCulled = false`, as in the baseline. The original code disabled culling deliberately, and the re-enable relied on bounds that quantization had changed. The gain was small, so it's reverted for safety. (The helper function is left unused.)
 
+## Verification (fix-artifacts @ 806fbcb, local Vite build, SwiftShader, 1280×800, 9 samples at identical flows 0…1)
+Baseline = `checkpoint-2026-10-11-pre-optimize-master` plus only the read-only `__portfolioDebug.getScrollProgress` probe (temp worktree, not committed) so both runs sample the same flows.
+
+**Per-object diff** (`tools/diffstate.py`, objects matched by top-level subtree signature + name path; compares effective visibility, material type/color/emissive/emissiveIntensity/emissiveMap/map/colorSpace/vertexColors/side/wireframe/blending/opacity, frustumCulled, attribute list):
+| comparison | unexpected differences |
+|---|---|
+| baseline vs **live post-optimize** (main-BJny5w4c.js) | many: meshes rewrapped as `Object3D` + `*_1` child meshes (so `getObjectByName("Circle004")` returns a wrapper), Hologram materials merged into `Hologram.003`, positions/normals quantized (`Int16n`/`Int8n`, including the rig `cs_*` lines), `frustumCulled` flipped. See `site-capture/runs/diff_base_vs_live_post.md` |
+| baseline vs **fix-artifacts** | **0**. Expected only: attrs/verts of the 3 rebuilt assets (BCI text, banner, particle-core UV/tangent strip), and the 8 particle-core meshes render-skipped at flow < 0.69 while their shader alpha `uFieldOpacity` = 0 (invisible in both). See `site-capture/runs/diff_base_vs_fix.md` |
+
+**Visual:** `site-capture/runs/side_by_side_base_live_fix.png` (baseline | live | fix). Frames 0–0.625 and 1.0 match. 0.75 differs by design (crossfade f). 0.875 looked different in the single frame, but a 4-frame time series at flow 0.8875 gives matching brightness (base 39.0/27.9/38.0/35.6 vs fix 39.1/28.0/39.2/34.4): it's the shells' time-animated pulse, not a regression (`runs/pulse_0875_base_vs_fix.png`).
+
+| metric | baseline | live post-optimize | fix-artifacts |
+|---|---|---|---|
+| triangles / frame (max) | 2,629,848 | 922,614 | 1,043,048 (−60%) |
+| draw calls (max / mean) | 93 / 81 | 74 / 66 | 80 / 72 |
+| startup ready | 16.3 s | 0.85 s | 0.92 s |
+| GLB raw total in dist | 129.5 MB | 40.2 MB | 64.7 MB |
+| GLB gzip total | 27.3 MB | — | 24.2 MB |
+| console errors / failed requests | 2 / 1 | 0 / 0 | 0 / 0 |
+
+Gains reverted for safety: meshopt/quantization/dedup on every GLB (most of the raw size win) and the frustum-culling re-enable. Gains kept: simplified text meshes, particle-core attribute strip, layer-based skipping, progressive loading, the crossfade, and fixes a.

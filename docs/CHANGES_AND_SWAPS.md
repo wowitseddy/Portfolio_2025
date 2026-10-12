@@ -191,3 +191,6 @@ Before: `#preload-overlay` had no CSS anywhere in the repo, so "Initializing / 1
 
 ## L6b: long panels reset to their top when the section hides
 Before: a scrolled About panel kept its scroll position, so re-entering showed mid-text without the heading. After: `scrollTop` resets once the section's opacity reaches 0.
+
+## L7: focal placement tuning and overflow hint
+Before: a symmetric ±22% shift put the object partly under the fixed nav, and the overflowing Timeline/About panels gave no hint of more content. After: +24% (text left) / −26% (text right), a bottom fade mask on panels with content below, a taller Timeline panel and denser rows.

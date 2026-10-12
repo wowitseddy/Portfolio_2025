@@ -376,3 +376,11 @@ body.v2-reduced-motion .v2-section .v2-panel { transform: none; will-change: opa
   }
   body.layout-v2 .v2-progress__fill { transform-origin: left center; }
 }
+
+/* L7: scroll hint on overflowing panels; denser timeline rows. */
+.v2-panel.is-overflowing {
+  -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+}
+#timeline .v2-panel { max-height: calc(100vh - 48px); }
+.v2-tl-row { padding: 4px 0; }

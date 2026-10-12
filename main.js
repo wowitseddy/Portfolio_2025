@@ -9,6 +9,7 @@ import {
   setTimelinePanelOpen,
 } from "./js/project-timeline.js";
 import { createSceneBuilder } from "./js/scene-builder.js";
+import { renderProjectCards } from "./js/project-cards.js";
 import {
   initLayoutV2,
   updateLayoutV2,
@@ -128,6 +129,7 @@ const contactSection = document.getElementById("site-footer");
 const projectsSection = document.getElementById("projects-section");
 
 ensureProjectTimelineUi({ menuRoot: sciMenu, flowRoot: portfolioFlow });
+renderProjectCards();
 initLayoutV2();
 
 function setPreloadProgress(value) {

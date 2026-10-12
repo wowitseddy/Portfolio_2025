@@ -44,7 +44,8 @@ export function initLayoutV2() {
 
 // Where the section's 3D focal object should sit, as a fraction of the
 // viewport from center (+x = right). Text on the left -> object on the right.
-const FOCUS_SHIFT_X = 0.22;
+const FOCUS_SHIFT_RIGHT = 0.24; // text left  -> object between panel and nav
+const FOCUS_SHIFT_LEFT = 0.26; // text right -> object in the left gap
 // Mobile: the text panel is a bottom sheet, so the object moves up instead.
 const COMPACT_FOCUS_Y = -0.2;
 const compactQuery = window.matchMedia("(max-width: 640px)");
@@ -63,7 +64,8 @@ export function getSectionFocus(entry) {
   // Reduced motion: no layout-driven 3D movement at all (crossfades only).
   if (isReducedMotion()) return { x: 0, y: 0 };
   if (isCompactLayout()) return { x: 0, y: entry.side === "center" ? 0 : COMPACT_FOCUS_Y };
-  const x = entry.side === "left" ? FOCUS_SHIFT_X : entry.side === "right" ? -FOCUS_SHIFT_X : 0;
+  // Asymmetric: the right gap is narrowed by the fixed nav.
+  const x = entry.side === "left" ? FOCUS_SHIFT_RIGHT : entry.side === "right" ? -FOCUS_SHIFT_LEFT : 0;
   return { x, y: 0 };
 }
 
@@ -198,6 +200,12 @@ export function updateLayoutV2(flow) {
   if (frame.idx !== state.lastActive) {
     state.lastActive = frame.idx;
     document.body.dataset.v2Section = state.sections[frame.idx].node.id;
+  }
+  // Fade the bottom of a panel that has more content below (scroll hint).
+  const vis = state.sections[frame.idx];
+  if (vis.panel) {
+    const p = vis.panel;
+    p.classList.toggle("is-overflowing", p.scrollTop + p.clientHeight < p.scrollHeight - 2);
   }
   if (state.progressFill) {
     state.progressFill.style.transform = isCompactLayout()

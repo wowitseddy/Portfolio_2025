@@ -272,3 +272,12 @@ Checkpoints: checkpoint-2026-10-12-pre-qa-fixes-master (2dd256d), checkpoint-202
   - The flow is saved 200 ms after the scroll settles, and on pagehide, to `history.state.flow` and `sessionStorage["portfolio.flow"]`.
   - On load it's restored instantly, history.state first; `pageshow` with persisted=true restores it too.
   - `history.scrollRestoration = "manual"`.
+
+## QA-5a focus rings + selectable panel text
+- **Before:**
+  - `.v2-button`/`.v2-link:focus-visible` used `outline:none`, so the only focus cue was the hover background.
+  - `body{user-select:none}` stopped any text being selected.
+- **After:**
+  - A 2px #e8f2ff outline at offset 3px on the focus-visible state of buttons, links and nav items.
+  - `.v2-panel` and everything in it have `user-select:text`; the canvas and site chrome stay unselectable.
+- **Note:** the contact email is only a `mailto:` button ("✉ Email"). The address isn't printed as text, so there's nothing visible to copy. I didn't add content.

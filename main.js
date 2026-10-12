@@ -5497,8 +5497,10 @@ const layoutFocusState = { x: 0, y: 0, appliedX: NaN, appliedY: NaN, w: 0, h: 0 
 function applyLayoutFocus(target) {
   const tx = target ? target.x : 0;
   const ty = target ? target.y : 0;
-  layoutFocusState.x += (tx - layoutFocusState.x) * 0.08;
-  layoutFocusState.y += (ty - layoutFocusState.y) * 0.08;
+  // The target is already eased by scroll position (layout-v2 bands); a light
+  // per-frame smoothing only removes wheel-notch stepping.
+  layoutFocusState.x += (tx - layoutFocusState.x) * 0.25;
+  layoutFocusState.y += (ty - layoutFocusState.y) * 0.25;
   if (Math.abs(tx - layoutFocusState.x) < 0.0005) layoutFocusState.x = tx;
   if (Math.abs(ty - layoutFocusState.y) < 0.0005) layoutFocusState.y = ty;
   setLayoutViewOffset(layoutFocusState.x, layoutFocusState.y);

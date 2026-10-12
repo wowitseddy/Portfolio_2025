@@ -283,3 +283,6 @@ body.layout-v2 .sci-fi-menu:hover .menu-panel { transform: none; }
 /* Expanded matrix replaces the lanes so the panel never overflows. */
 #v2-timeline-body:has(.v2-tl-matrix[open]) .v2-tl-lane,
 #v2-timeline-body:has(.v2-tl-matrix[open]) .v2-tl-legend { display: none; }
+
+/* L5: text travels a little with its fade (direction follows the scroll). */
+.v2-section .v2-panel { transform: translate3d(0, var(--v2-shift, 0px), 0); will-change: opacity, transform; }

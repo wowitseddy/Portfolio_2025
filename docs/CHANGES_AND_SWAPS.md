@@ -174,3 +174,10 @@ Before: `#preload-overlay` had no CSS anywhere in the repo, so "Initializing / 1
 |---|---|---|
 | focal placement | the scene's focal object (core / rig / shells) always sits at screen center, under the text | `camera.setViewOffset` shifts the **projected image** ±22% of the width toward the half without text (About/Timeline → right, Projects/Now → left, Hero/Contact centered). Projection only: no object transform, visibility or material changes (the diffstate world positions and materials are unaffected; only screen/NDC positions move) |
 | extruded words | ABOUT / BCI / PROJECT / AGENT text GLBs drawn at their authored opacity, often larger than the DOM headings | per-mesh runtime materials scaled to **15%** of whatever opacity the original code sets (the base is re-read whenever the original code writes a new value), `transparent=true`, `depthWrite=false` so they can't occlude the focal object. GLB files and authored materials are unchanged; the banner ("Because Corporate Agents…") is not a watermark and keeps its look |
+
+## L5: transition rules (6% crossfade bands, reading zones, text after 3D)
+| | before | after |
+|---|---|---|
+| section swaps | hard threshold switch (L1) / old 3D-projected fly-through | each boundary (0.12, 0.30, 0.55, 0.75, 0.88) owns a **6%-of-flow band**. Within the band (u 0→1): 3D focal shift eases over u 0→0.6; outgoing text fades and travels 16 px over u 0→0.45; incoming text fades in over u 0.5→1. **Text always moves after the 3D** (the 3D is 83% done when incoming text starts) |
+| reading zones | none | hero 0–0.09 · about 0.15–0.27 · projects 0.33–0.52 · timeline 0.58–0.72 · now 0.78–0.85 · contact 0.91–1.0. Text is static and fully opaque, and no layout-driven 3D change happens there |
+| determinism | time-eased view offset (L4) | `computeLayoutFrame(flow)` is a pure function of scroll flow (unit-checked: e.g. 0.105 → hero 0.42, focus 0.083; 0.135 → about 0.50, focus 0.22). Only a light 0.25 per-frame smoothing removes wheel-notch stepping |

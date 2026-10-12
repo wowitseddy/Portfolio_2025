@@ -209,3 +209,10 @@ Before: a symmetric ±22% shift put the object partly under the fixed nav, and t
 ## Spelling
 - Before: `VECTOR-MERGE PHYSICS APPROXIAMATOR`
 - After: `VECTOR-MERGE PHYSICS APPROXIMATOR` (codespell pass found no other user-facing misspellings)
+
+---
+# cards-v3 (content changes; layout and 3D untouched)
+Checkpoint tags (pushed): `checkpoint-2026-10-12-pre-cards-master` → c898d06, `checkpoint-2026-10-12-pre-cards-gh-pages` → bec354d (live bundle main-BoWRlhkK.js).
+
+## C1: remove the resume tool button from Contact
+Before: Contact had 6 buttons (Email, Website, GitHub, LinkedIn, X, Resume/ PDF Editor). After: 5 buttons, without the resume tool. `resume-tools.html` stays in the repo and in the Vite build (used for revising/injecting project examples and exporting PDFs).

@@ -317,3 +317,26 @@ Checkpoints: checkpoint-2026-10-12-pre-qa-fixes-master (2dd256d), checkpoint-202
 
   All under 60 KB.
 - **Before/after image:** site-capture/runs/qa_fixes/avatar_before_after_v2.png
+
+## qa-fixes verification (local Vite builds, SwiftShader; before = checkpoint 2dd256d on :8101, after = qa-fixes on :8102)
+- **Touch (390x844):**
+  - Pull-down at the top: 12/12 moves cancelable and defaultPrevented, including the first. Before: the first wasn't prevented and the rest were non-cancelable.
+  - 0 "Ignored attempt to cancel" logs (83 before).
+  - Fling: 0.068 at release → 0.126 after 1.2 s.
+  - Touch sync: 397 frames, 0 mismatches. Panel native scroll and orientation are unchanged.
+- **Keyboard:**
+  - Space on a focused nav button activates it (Contact → 0.95; About from 0.65 → 0.21).
+  - Arrow on body still scrolls the flow.
+  - Arrow inside the scrollable Projects panel scrolls the panel (scrollTop 0→40) and the flow stays at 0.425.
+- **Restore:** reload at 0.65 → 0.65. about:blank + back at 0.425 → 0.425 (Playwright: no bfcache, full reload path).
+- **Focus and selection:** `.v2-link:focus-visible` outline is solid 2px; contact text user-select is `text`.
+- **Service worker:**
+  - after: registration scope /dragonfire-protocol, dragonfire offline reload works, main page not controlled.
+  - before: root scope, main page controlled.
+- **Sync** (desktop + mobile): 0 section/nav mismatch frames in all runs; all 5 nav targets are correct.
+- **Errors:** 0 console errors, 0 warnings, 0 failed requests.
+- **Grey:**
+  - Max channel spread outside the avatar/badges is 0 before and after, at 12 shots.
+  - Full-frame diff mean 0.03–0.36 levels (live canvas animation, blur sampling).
+  - Badges at 75% (green/amber). Avatar shows the graded colour.
+- **diffstate** (runs/diff_preqa_vs_qa_fixes.md): it reports 90 "unexpected" entries. All 90 are #1/#2 pairing swaps between duplicate-path Circle meshes (load-order dependent). Comparing the per-sample multiset of (path, material, vis, wvis, layer0) for all Circle objects gives 0 differences in 9/9 samples, so there are **0 real 3D differences**.

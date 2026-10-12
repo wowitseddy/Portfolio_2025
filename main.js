@@ -710,6 +710,7 @@ const morphStrength = 0.032;
 let zoomBlurStrength = 2.2;
 let zoomBlurTarget = 0.09;
 let virtualScrollProgress = 0;
+const touchVelocitySamples = [];
 let lastScrollY = 0;
 let lastScrollTime = performance.now();
 let scrollDirection = 1;
@@ -5329,6 +5330,12 @@ window.addEventListener(
       // Anchor the gesture now so the FIRST touchmove has a real delta and is
       // cancelled; otherwise Chrome commits to native scroll/pull-to-refresh.
       document.body.dataset.virtualTouchY = String(event.touches[0].clientY);
+      touchVelocitySamples.length = 0;
+      // A new touch stops any momentum glide in progress.
+      if (virtualScrollAnimRaf !== 0) {
+        cancelAnimationFrame(virtualScrollAnimRaf);
+        virtualScrollAnimRaf = 0;
+      }
     }
   },
   { passive: true },
@@ -5360,9 +5367,14 @@ window.addEventListener(
       return;
     }
 
+    const moveAt = performance.now();
+    touchVelocitySamples.push([moveAt, rawDelta]);
+    while (touchVelocitySamples.length && moveAt - touchVelocitySamples[0][0] > 120) {
+      touchVelocitySamples.shift();
+    }
     const deltaY = applyVirtualScrollDelta(rawDelta);
     if (deltaY !== 0) {
-      applyScrollState(deltaY, performance.now());
+      applyScrollState(deltaY, moveAt);
     }
   },
   { passive: false },
@@ -5372,6 +5384,20 @@ window.addEventListener(
   "touchend",
   () => {
     delete document.body.dataset.virtualTouchY;
+    // QA-2: momentum. Release velocity (px/ms over the last 120 ms) is
+    // projected forward and handed to the existing eased scroll animation.
+    const samples = touchVelocitySamples.splice(0);
+    if (samples.length < 2 || performance.now() - samples[samples.length - 1][0] > 80) {
+      return;
+    }
+    const dt = Math.max(samples[samples.length - 1][0] - samples[0][0], 16);
+    const dist = samples.slice(1).reduce((sum, [, d]) => sum + d, 0);
+    const velocity = dist / dt;
+    if (Math.abs(velocity) < 0.3) {
+      return;
+    }
+    const glide = Math.sign(velocity) * Math.min(Math.abs(velocity) * 260, window.innerHeight * 1.6);
+    setEffectiveScrollProgress(virtualScrollProgress + glide / getScrollSpan(), "smooth");
   },
   { passive: true },
 );

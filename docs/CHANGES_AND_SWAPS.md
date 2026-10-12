@@ -188,3 +188,6 @@ Before: `#preload-overlay` had no CSS anywhere in the repo, so "Initializing / 1
 | long text | — | panels scroll internally (`overflow-y:auto`, `overscroll-behavior:contain`). Wheel/touch is consumed by the panel only while it can scroll in that direction, then the page flow resumes (the virtual-touch anchor is kept in sync, so no jump). About uses the wide panel |
 | `prefers-reduced-motion` | only capped zoom blur (`visualSafetyActive`) | no layout-driven 3D movement (focus offset 0), no text travel (crossfade only), zoom blur 0, static camera (no pointer parallax, no orbit wobble), no CSS transitions/rail animation |
 | mobile ≤ 640 px | desktop layout squeezed; nav a vertical tilted panel on the right | type scale 40/28/18/16/12; text is a bottom sheet (max 56vh, scrollable), 3D focal object shifted up 20% via the view offset; nav = 5-column top bar with a horizontal progress line; **particle draw count halved** (`setDrawRange`) and **extruded words hidden** (watermark factor 0, so auto-hide skips them) |
+
+## L6b: long panels reset to their top when the section hides
+Before: a scrolled About panel kept its scroll position, so re-entering showed mid-text without the heading. After: `scrollTop` resets once the section's opacity reaches 0.

@@ -27,6 +27,7 @@ export function initLayoutV2() {
   state.progressFill = document.querySelector(".v2-progress__fill");
   state.sections.forEach((entry) => {
     const panel = entry.node.querySelector(".v2-panel");
+    entry.panel = panel;
     if (panel) bindPanelScroll(panel);
   });
   const syncModes = () => {
@@ -185,6 +186,8 @@ function setSectionFrame(entry, frame) {
   entry.node.style.setProperty("--v2-op", String(op));
   entry.node.style.setProperty("--v2-shift", `${shift}px`);
   entry.node.classList.toggle("is-v2-visible", op > 0.001);
+  // Each visit starts at the heading: reset a long panel once it's hidden.
+  if (op <= 0.001 && entry.panel && entry.panel.scrollTop !== 0) entry.panel.scrollTop = 0;
   entry.node.setAttribute("aria-hidden", op > 0.5 ? "false" : "true");
 }
 

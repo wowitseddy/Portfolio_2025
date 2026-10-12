@@ -16,9 +16,8 @@ select {
   font-family: "Teko", sans-serif;
 }
 
-html {
-  filter: saturate(0%);
-}
+/* The monochrome look is applied per container in css/layout-v2.css
+   ("Scoped grey"), so the avatar and status badges can keep colour. */
 
 .content-section::before {
   content: "";

@@ -458,3 +458,35 @@ html, body { overscroll-behavior: none; }
   -webkit-user-select: text;
   user-select: text;
 }
+
+/* Scoped grey (replaces html{filter:saturate(0%)}).
+   Chrome evaluates saturate() as an sRGB matrix with Rec.709 luma
+   weights, which is idempotent and commutes with blur/compositing, so
+   greying each container separately gives the same pixels as greying the
+   whole page. Exempt: .v2-avatar (photo graded in the file) and .v2-status
+   (rendered at saturate(75%)).
+   - every body child except the layout root: canvas, overlays, nav, preload
+   - panels with no exempt inside: the whole panel
+   - panels/cards on the path to an exempt: only their topmost exempt-free
+     children; their own paint uses pre-computed grey (L = .2126R+.7152G+.0722B) */
+body > :not(#layout-v2, #sci-fi-menu, .projection-overlay) { filter: saturate(0%); }
+/* Containers whose descendants use backdrop-filter must not carry a filter
+   themselves (a filtered ancestor becomes the Backdrop Root and the blur
+   would lose the scene); grey their children instead. */
+:is(#sci-fi-menu, .projection-overlay) > *,
+:is(#sci-fi-menu, .projection-overlay)::before,
+:is(#sci-fi-menu, .projection-overlay)::after { filter: saturate(0%); }
+.v2-panel:not(:has(.v2-avatar, .v2-status)) { filter: saturate(0%); }
+:is(.v2-panel, .v2-panel :has(.v2-avatar, .v2-status)):has(.v2-avatar, .v2-status)
+  > :not(.v2-avatar, .v2-status, :has(.v2-avatar, .v2-status)) { filter: saturate(0%); }
+.v2-panel {
+  border-color: rgba(196, 196, 196, 0.16);
+  background: linear-gradient(160deg, rgba(13, 13, 13, 0.68), rgba(7, 7, 7, 0.56));
+}
+.v2-card { border-color: rgba(196, 196, 196, 0.14); background: rgba(16, 16, 16, 0.5); }
+.v2-avatar {
+  background: linear-gradient(160deg, rgba(199, 199, 199, 0.45), rgba(199, 199, 199, 0.08));
+  box-shadow: 0 0 0 1px rgba(196, 196, 196, 0.25), 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 24px rgba(175, 175, 175, 0.18);
+}
+.v2-avatar img { background: rgba(16, 16, 16, 0.6); }
+.v2-status { filter: saturate(75%); }

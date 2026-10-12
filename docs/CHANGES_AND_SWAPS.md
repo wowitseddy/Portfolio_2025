@@ -194,3 +194,10 @@ Before: a scrolled About panel kept its scroll position, so re-entering showed m
 
 ## L7: focal placement tuning and overflow hint
 Before: a symmetric ±22% shift put the object partly under the fixed nav, and the overflowing Timeline/About panels gave no hint of more content. After: +24% (text left) / −26% (text right), a bottom fade mask on panels with content below, a taller Timeline panel and denser rows.
+
+## layout-v2 verification (9614f16, local Vite build, SwiftShader)
+- **Captures** (`site-capture/layout_capture.py`: canvas frame + transparent DOM layer composite, ≤290 s each): desktop 1280×800 and mobile 390×844, before (pre-layout = live main-BrtA3B5n.js) and after, 6 stops (0.05/0.21/0.42/0.65/0.81/0.95). Each stop shows exactly one section with the matching nav item active (none in the hero). **0 console errors, 0 failed requests** in all four runs and both manifest runs.
+- **Contact sheets:** `site-capture/runs/layout_v2/contact_sheet_1280x800_before_after.png`, `…/contact_sheet_390x844_before_after.png`. Caveat: the composite doesn't apply the CSS backdrop blur over the canvas.
+- **diffstate** (`tools/diffstate.py`, pre-layout vs layout-v2 manifests at identical flows 0…1): **0 unexpected**. Intentional only: the 4 word GLBs (ABOUT_TEXT, AGENT_TEXT, BCI_TEXT, PROJECT_TEXT ×2 meshes) with `mat.op` = 15% of the original value, `transparent` → true, `depthWrite` → false. No visibility differences. World transforms are unchanged; the focal repositioning is a camera view offset (projection only). Report: `site-capture/runs/diff_prelayout_vs_layout_v2.md`.
+- **Performance:** max triangles 1,043,048 → 1,043,048 and max draw calls 80 → 80 (unchanged). Startup under SwiftShader is noisy (manifest runs 7.1 s → 15.5 s; layout captures ready at 1.0 s desktop / 4.3 s mobile). There's no new asset loading, so this isn't treated as a regression, but check on real hardware.
+- **Mobile variant** (not covered by the desktop diff): particle draw range halved and words hidden (by design).

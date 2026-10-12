@@ -216,3 +216,10 @@ Checkpoint tags (pushed): `checkpoint-2026-10-12-pre-cards-master` → c898d06, 
 
 ## C1: remove the resume tool button from Contact
 Before: Contact had 6 buttons (Email, Website, GitHub, LinkedIn, X, Resume/ PDF Editor). After: 5 buttons, without the resume tool. `resume-tools.html` stays in the repo and in the Vite build (used for revising/injecting project examples and exporting PDFs).
+
+## C2: data-driven project cards (`js/data/projects.js` → `js/project-cards.js`)
+| | before | after |
+|---|---|---|
+| source | 3 hand-written `<article>`s in index.html | one data module: `id, title, status (shipped/in-progress/upcoming/null), date, summary, tags, order, url, links[], media[]`. `media[]` is reserved for a future expand-on-click (not rendered). The cards render into `#v2-project-cards` with the existing panel/card styling plus status badges, date and tags |
+| order | Sentinel Construct, Biomed Indexing Tool, Resume/PDF Editor | 1 **Phantom Walk** (shipped, 2026, phantomwalk.com) · 2 **Untitled — 3D Photographic Diffusion** (upcoming) · 3 **Portfolio_2025** (shipped; site + source links) · 4 Sentinel Construct · 5 Biomed Indexing Tool · 6 Research Systems · 7 Colony Intelligence Framework · 8 Resume/ PDF Editor (no badge) |
+| facts | — | Summaries for 4–7 are their existing `trajectory` lines from the timeline. "In progress" for 4–7 reflects their current-year entries in the timeline data. Nothing else was added |

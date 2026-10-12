@@ -384,3 +384,21 @@ body.v2-reduced-motion .v2-section .v2-panel { transform: none; will-change: opa
 }
 #timeline .v2-panel { max-height: calc(100vh - 48px); }
 .v2-tl-row { padding: 4px 0; }
+
+/* C2: data-driven project cards (status badge, date, tags). */
+.v2-cards { gap: 8px; }
+.v2-card { padding: 12px 16px; }
+.v2-card__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin-bottom: 4px; }
+.v2-card__head .v2-h3 { margin: 0; }
+.v2-card__meta { display: inline-flex; align-items: center; gap: 8px; }
+.v2-card__date { font-size: 12px; color: var(--v2-muted); font-variant-numeric: tabular-nums; }
+.v2-card .v2-caption { margin: 0 0 6px; }
+.v2-status {
+  padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1px solid currentColor;
+}
+.v2-status--shipped { color: rgba(140, 230, 180, 0.95); background: rgba(60, 160, 110, 0.14); }
+.v2-status--in-progress { color: rgba(168, 203, 255, 0.95); background: rgba(80, 120, 200, 0.14); }
+.v2-status--upcoming { color: rgba(255, 210, 150, 0.95); background: rgba(200, 140, 60, 0.12); border-style: dashed; }
+.v2-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 6px; padding: 0; list-style: none; }
+.v2-tag { padding: 0 6px; border-radius: 4px; font-size: 11px; line-height: 18px; color: var(--v2-muted); background: rgba(168, 203, 255, 0.08); }

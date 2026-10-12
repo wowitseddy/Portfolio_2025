@@ -104,3 +104,8 @@ Restored from `checkpoint-2026-10-11-pre-optimize-master`: ABOUT/AGENT/PROJECT(S
 - `scripts/glb-simplify-text-float.mjs`: strip UV/NORMAL (no textures; only the post-processing passes read `uv`), weld, simplify (same ratios as d), bake creased normals (35°), float positions, **original nodes, transforms and materials untouched** (node counts equal to the baseline, verified with a GLB diff).
 - Kept gains: BCI 475,241 → 142,572 triangles (21.2 → 5.4 MB raw); banner 456,392 → 149,238 triangles (27.5 → 4.8 MB raw).
 
+## Fix 3: auto-hide never changes `visible`
+- `applyAutoHide()` now skips zero-opacity objects by taking them off render layer 0 (`setAutoSkipped`) and only re-enables layer 0 on objects it took off itself. `object.visible` is never written, so original code (`filterToAnimatedModelBranch`, `cleanLooseModelArtifacts`, dev presets) keeps full control and nothing hidden by the site can be re-shown. The site uses no layers otherwise (checked).
+- The particle-core root is no longer set `visible = shouldShow`. Its meshes are layer-skipped the same way while `uFieldOpacity ≈ 0`.
+- Perf gain kept: zero-opacity rig lines and the dormant core are still skipped by the renderer.
+

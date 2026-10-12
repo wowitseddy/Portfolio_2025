@@ -5456,6 +5456,18 @@ function countSceneNodes() {
   return n;
 }
 
+function setAutoSkipped(node, skip) {
+  if (skip) {
+    if (!node.userData.__autoSkipped && node.layers.isEnabled(0)) {
+      node.layers.disable(0);
+      node.userData.__autoSkipped = true;
+    }
+  } else if (node.userData.__autoSkipped) {
+    node.layers.enable(0);
+    node.userData.__autoSkipped = false;
+  }
+}
+
 function applyAutoHide(elapsed) {
   // Re-scan only when the scene graph grows (async GLB loads), at most 1x/sec.
   if (elapsed - autoHideState.builtAt > 1) {
@@ -5466,19 +5478,14 @@ function applyAutoHide(elapsed) {
     }
     autoHideState.builtAt = elapsed;
   }
+  // Never touches `visible` (the site's own code owns it). Skipping is done by
+  // taking the object off render layer 0 and putting it back only if this pass
+  // removed it, so an object is never shown that the original code would hide.
   for (const node of autoHideState.list) {
     const mats = Array.isArray(node.material) ? node.material : [node.material];
     let maxOpacity = 0;
     for (const m of mats) maxOpacity = Math.max(maxOpacity, m.visible === false ? 0 : m.opacity);
-    if (maxOpacity < AUTO_HIDE_OPACITY) {
-      if (node.visible) {
-        node.visible = false;
-        node.userData.__autoHidden = true;
-      }
-    } else if (node.userData.__autoHidden) {
-      node.visible = true;
-      node.userData.__autoHidden = false;
-    }
+    setAutoSkipped(node, maxOpacity < AUTO_HIDE_OPACITY);
   }
 
   // Particle-core wireframe: ~565k triangles drawn as wireframe whose
@@ -5489,8 +5496,10 @@ function applyAutoHide(elapsed) {
       if (u && u.uFieldOpacity) fieldOpacity = Math.max(fieldOpacity, u.uFieldOpacity.value);
     });
     // Before first compile uniformSets is empty: keep it visible so it compiles.
-    const shouldShow = coreWireframeState.uniformSets.length === 0 || fieldOpacity >= AUTO_HIDE_OPACITY;
-    coreWireframeState.root.visible = shouldShow;
+    const shouldSkip = coreWireframeState.uniformSets.length > 0 && fieldOpacity < AUTO_HIDE_OPACITY;
+    coreWireframeState.root.traverse((node) => {
+      if (node.isMesh || node.isLine || node.isPoints) setAutoSkipped(node, shouldSkip);
+    });
   }
 }
 

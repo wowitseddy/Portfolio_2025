@@ -109,3 +109,6 @@ Restored from `checkpoint-2026-10-11-pre-optimize-master`: ABOUT/AGENT/PROJECT(S
 - The particle-core root is no longer set `visible = shouldShow`. Its meshes are layer-skipped the same way while `uFieldOpacity ≈ 0`.
 - Perf gain kept: zero-opacity rig lines and the dormant core are still skipped by the renderer.
 
+## Fix 4: revert the frustum-culling re-enable
+- The Dyson ring, Corporate Agent banner and auxiliary GLBs are back to `frustumCulled = false`, as in the baseline. The original code disabled culling deliberately, and the re-enable relied on bounds that quantization had changed. The gain was small, so it's reverted for safety. (The helper function is left unused.)
+

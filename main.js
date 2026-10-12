@@ -4472,7 +4472,7 @@ async function initParticleCoreWireframe() {
         if (!node.isMesh) {
           return;
         }
-        enableFrustumCullingIfSafe(node);
+        node.frustumCulled = false;
       });
     } catch (error) {
       recordStartupIssue("dyson-ring-attachment", error);
@@ -4794,7 +4794,7 @@ async function initCorporateAgentViewer() {
         return;
       }
       node.visible = true;
-      enableFrustumCullingIfSafe(node);
+      node.frustumCulled = false;
       const sourceMaterials = Array.isArray(node.material)
         ? node.material
         : [node.material];
@@ -4902,7 +4902,7 @@ async function initAuxiliaryGlbLibrary() {
           return;
         }
         node.visible = true;
-        enableFrustumCullingIfSafe(node);
+        node.frustumCulled = false;
 
         if (preserveAuthoredMaterials) {
           return;

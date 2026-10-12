@@ -5476,8 +5476,40 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+// QA-4: remember the flow per history entry (history.state) and per tab
+// (sessionStorage) so back/forward and reload return to the same place.
+const FLOW_STORAGE_KEY = "portfolio.flow";
+let flowSaveTimer = 0;
+function saveFlowSoon() {
+  window.clearTimeout(flowSaveTimer);
+  flowSaveTimer = window.setTimeout(saveFlowNow, 200);
+}
+function saveFlowNow() {
+  window.clearTimeout(flowSaveTimer);
+  const flow = Math.round(getEffectiveScrollProgress() * 10000) / 10000;
+  try {
+    history.replaceState({ ...(history.state || {}), flow }, "");
+    sessionStorage.setItem(FLOW_STORAGE_KEY, String(flow));
+  } catch {
+    // storage unavailable (private mode / quota): position just isn't kept
+  }
+}
+function readSavedFlow() {
+  const fromHistory = history.state && Number(history.state.flow);
+  if (Number.isFinite(fromHistory) && fromHistory > 0) {
+    return fromHistory;
+  }
+  try {
+    const stored = Number(sessionStorage.getItem(FLOW_STORAGE_KEY));
+    return Number.isFinite(stored) ? stored : 0;
+  } catch {
+    return 0;
+  }
+}
+
 function applyScrollState(deltaY, now) {
   const scrollProgress = getEffectiveScrollProgress();
+  saveFlowSoon();
 
   modelState.scrollProgress = scrollProgress;
   rotorModelState.scrollProgress = scrollProgress;
@@ -6037,3 +6069,21 @@ const devLodProfiles = {
 // 2) Bias distance by scroll speed for smoother navigation.
 // 3) Optionally freeze far animation and bake far transforms.
 // DEV-SCENE:lod:end
+
+// QA-4 restore (runs once the scroll listeners and layout exist).
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+{
+  const savedFlow = readSavedFlow();
+  if (savedFlow > 0 && savedFlow <= 1) {
+    setEffectiveScrollProgress(savedFlow, "instant");
+  }
+}
+window.addEventListener("pagehide", saveFlowNow);
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) {
+    const savedFlow = readSavedFlow();
+    setEffectiveScrollProgress(savedFlow, "instant");
+  }
+});

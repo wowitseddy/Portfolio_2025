@@ -265,3 +265,10 @@ Checkpoints: checkpoint-2026-10-12-pre-qa-fixes-master (2dd256d), checkpoint-202
   - it's Space on a button, link, summary or role=button/link;
   - focus is inside an element that can scroll (overflow-y auto/scroll), so keys scroll that panel natively.
 - **Deviation:** arrow keys on a focused button still drive the page flow. That's the native behaviour, and nav buttons keep focus after a mouse click.
+
+## QA-4 save/restore scroll progress
+- **Before:** back/forward or reload always restarted at flow 0. In the QA run, the page was left at 0.425 and came back at 0.
+- **After:**
+  - The flow is saved 200 ms after the scroll settles, and on pagehide, to `history.state.flow` and `sessionStorage["portfolio.flow"]`.
+  - On load it's restored instantly, history.state first; `pageshow` with persisted=true restores it too.
+  - `history.scrollRestoration = "manual"`.

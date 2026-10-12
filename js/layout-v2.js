@@ -27,6 +27,15 @@ export function initLayoutV2() {
   document.body.classList.add("layout-v2");
 }
 
+// Where the section's 3D focal object should sit, as a fraction of the
+// viewport from center (+x = right). Text on the left -> object on the right.
+const FOCUS_SHIFT_X = 0.22;
+export function getSectionFocus(entry) {
+  if (!entry) return { x: 0, y: 0 };
+  const x = entry.side === "left" ? FOCUS_SHIFT_X : entry.side === "right" ? -FOCUS_SHIFT_X : 0;
+  return { x, y: 0 };
+}
+
 export function getLayoutSections() {
   return state.sections;
 }
@@ -59,5 +68,5 @@ export function updateLayoutV2(flow) {
   if (state.progressFill) {
     state.progressFill.style.transform = `scaleY(${Math.min(Math.max(flow, 0), 1).toFixed(4)})`;
   }
-  return { activeIndex: idx, section: state.sections[idx] };
+  return { activeIndex: idx, section: state.sections[idx], focus: getSectionFocus(state.sections[idx]) };
 }

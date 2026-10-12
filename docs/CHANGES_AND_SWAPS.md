@@ -289,3 +289,13 @@ Checkpoints: checkpoint-2026-10-12-pre-qa-fixes-master (2dd256d), checkpoint-202
   - The SW only answers cache-first for navigations to /dragonfire-protocol(.html) and for requests whose client is that page. Everything else goes to the network.
   - The cache was bumped to v2, and activate deletes v1.
   - Dragonfire offline mode is unchanged.
+
+## Styling: scoped grey (replaces html{filter:saturate(0%)})
+- **Before:** `html{filter:saturate(0%)}` in css/main.css greyed everything, including the avatar and the status badges, and re-filtered the whole page every frame.
+- **After** (css/layout-v2.css "Scoped grey"):
+  - **Body children:** `saturate(0%)` on every body child except `#layout-v2`, `#sci-fi-menu` and `.projection-overlay`. The canvas gets its own compositor filter.
+  - **Nav and overlay:** their children and ::before/::after are filtered instead of the containers. A filtered ancestor would become the Backdrop Root and the `.menu-panel` blur would lose the scene.
+  - **Panels:** a panel with no avatar or badge is filtered as a whole. On the path to an exempt element (About panel, Projects panel, cards, card head/meta), only the topmost exempt-free children are filtered. The containers' own paint uses pre-computed greys (Chrome's `saturate()` = sRGB matrix with Rec.709 weights, verified by pixel test). The values: panel border/gradient, card bg/border, avatar ring/glow.
+  - **Exempt:** `.v2-avatar` (colour graded into the file) and `.v2-status` (`filter:saturate(75%)`).
+- **Why it matches exactly:** saturate(0) is idempotent and commutes with blur and alpha compositing.
+- **Verification:** real-compositor captures at 6 flows × 2 sizes. Max channel spread outside the avatar/badges is 0 before and 0 after. See site-capture/runs/qa_fixes/.

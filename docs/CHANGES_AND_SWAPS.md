@@ -147,3 +147,14 @@ Rules kept: no GLB asset, material-definition or compression changes; the fix-ar
 | nav | 4 items (About, Timeline, Projects, Contact), active = closest marker | 5 items (About, Projects, Timeline, Now, Contact), active = the item whose `data-range` contains the progress (none in the hero), `aria-current`, plus a progress rail |
 | controller | `updateFlowSections` projected sections into 3D space | `js/layout-v2.js` driven from `animate()` with the same `flowProgress` as the 3D. The old flow sections no longer exist (`flowSections` is empty, so the old projection code is a no-op). The duplicate timeline summary panel in the nav is no longer rendered |
 | Hero/Contact CTAs | — | buttons reuse the menu's `setEffectiveScrollProgress` via `data-scroll-to` |
+
+## L2: type scale, line-length cap, alternating blurred panels, no all-caps paragraphs
+| | before | after |
+|---|---|---|
+| type | Teko everywhere; Overview tagline and ticker in all caps; paragraphs at the default size | H1 64 / H2 40 / H3 22 px (Teko); body 18 px IBM Plex Sans @ 1.6 line height, captions 13 px; uppercase only on small eyebrow labels |
+| measure | full-width paragraphs (≈180 characters per line at 1280 px) | `max-width: 68ch` on every paragraph |
+| panels | text floated over the particles | one panel per section, `backdrop-filter: blur(14px)` on a 56–68% dark gradient, 40 px padding, 16 px radius |
+| columns | everything left/center | Hero center → About **left** → Projects **right** → Timeline **left** → Now **right** → Contact center. Right panels clear the fixed nav (200 px) |
+| spacing | ad hoc | 8-px grid: 120 px side padding, 24 px heading→body, 16 px between paragraphs and cards |
+| nav | panel tilted `rotateY(-45deg)` | flat panel (readability) |
+| fonts | Teko only | Teko + IBM Plex Sans (same Google Fonts request; the CSS already referenced Plex Sans but never loaded it) |

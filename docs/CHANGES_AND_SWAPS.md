@@ -229,3 +229,8 @@ Before: Lane A had 5 projected builds only, with no actual milestones. After: a 
 
 ## C4: owner photo as a circular avatar in the About card
 Before: About had only the eyebrow and heading. After: a 112 px (72 px on mobile) circular bubble next to the heading, with a gradient ring, glow and the same blur as the panel. Alt text "Devin Edwards". Square, face-centered crop (1040 px from the 1264×1568 source) exported to `public/assets/avatar/`: `devin-edwards-256.webp` 4.4 KB, `devin-edwards-512.webp` 20.0 KB (srcset 256w/512w), `devin-edwards-512.jpg` 27.0 KB fallback. All are under 60 KB.
+
+## cards-v3 verification (local Vite build, SwiftShader)
+- **Captures** (`tools/layout_capture.py`, ≤290 s each, stops 0.21/0.42/0.65/0.95): desktop 1280×800 and mobile 390×844, before (live c898d06, main-BoWRlhkK.js) and after. **0 console errors, 0 failed requests** in all 4 layout runs and both manifest runs (so the avatar files and the data module load correctly).
+- **Contact sheets:** `site-capture/runs/cards_v3/contact_sheet_1280x800_before_after.png`, `…/contact_sheet_390x844_before_after.png`.
+- **diffstate** (pre-cards vs cards-v3 manifests, identical flows 0…1): **0 unexpected, 0 intentional**. The 3D scene is byte-for-byte the same in visibility and material state. Report: `site-capture/runs/diff_precards_vs_cards_v3.md`.

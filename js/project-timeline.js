@@ -266,15 +266,103 @@ function renderTimelineSection(flowRoot) {
   shell.appendChild(grid);
 }
 
+// Lane B: milestones that belong to an external organisation (employer,
+// partner, industry). Empty by default; every entry must carry an org tag so it
+// can never be confused with the personal builds in Lane A.
+// Shape: { org: "Org name", date: "2026-03", title: "Short title", note: "One sentence." }
+export const EXTERNAL_ORG_MILESTONES = Object.freeze([]);
+
+function buildHorizonChip(kind, label, entries) {
+  const chip = createNode("div", `v2-tl-chip v2-tl-chip--${kind}`);
+  chip.appendChild(createNode("span", "v2-tl-chip__when", label));
+  entries.forEach((entry) => {
+    const item = createNode("span", "v2-tl-chip__item");
+    item.appendChild(createNode("span", "v2-tl-chip__year", String(entry.year)));
+    item.appendChild(document.createTextNode(` ${entry.label}`));
+    chip.appendChild(item);
+  });
+  return chip;
+}
+
+function buildBuildRow(project) {
+  const row = createNode("article", "v2-tl-row");
+  const head = createNode("div", "v2-tl-row__head");
+  head.appendChild(createNode("h3", "v2-h3", project.label));
+  head.appendChild(createNode("p", "v2-caption", project.trajectory));
+  row.appendChild(head);
+  const chips = createNode("div", "v2-tl-row__chips");
+  const y = project.yearly;
+  chips.appendChild(buildHorizonChip("current", "Now", [y[0]]));
+  chips.appendChild(buildHorizonChip("planned", "Next 2 yrs", y.slice(1, 3)));
+  chips.appendChild(buildHorizonChip("planned", "Long-term", [y[y.length - 1]]));
+  row.appendChild(chips);
+  return row;
+}
+
 function renderTimelineLanes(root) {
   root.replaceChildren();
   root.appendChild(createNode("p", "v2-body", "Year-over-year projections across the next decade for the active portfolio stack. Manual topology and keyframe authoring remain external to this panel by design."));
-  root.appendChild(buildYearRail("timeline-decade-rail"));
+
+  const legend = createNode("div", "v2-tl-legend");
+  legend.appendChild(createNode("span", "v2-tl-key v2-tl-key--current", `Current year (${PROJECT_TIMELINE_YEARS[0]}), in progress`));
+  legend.appendChild(createNode("span", "v2-tl-key v2-tl-key--planned", "Planned / projected"));
+  root.appendChild(legend);
+
+  const laneA = createNode("section", "v2-tl-lane v2-tl-lane--builds");
+  laneA.setAttribute("aria-label", "My builds");
+  laneA.appendChild(createNode("h3", "v2-tl-lane__title", "My builds"));
+  PROJECT_LIFECYCLE_PROJECTIONS.forEach((project) => laneA.appendChild(buildBuildRow(project)));
+  root.appendChild(laneA);
+
+  const laneB = createNode("section", "v2-tl-lane v2-tl-lane--external");
+  laneB.setAttribute("aria-label", "External / org milestones");
+  laneB.appendChild(createNode("h3", "v2-tl-lane__title", "External / org milestones"));
+  if (EXTERNAL_ORG_MILESTONES.length === 0) {
+    laneB.classList.add("is-empty");
+    laneB.appendChild(createNode("p", "v2-caption", "None listed."));
+  } else {
+    EXTERNAL_ORG_MILESTONES.forEach((m) => {
+      const row = createNode("article", "v2-tl-ext");
+      row.appendChild(createNode("span", "v2-tl-org", m.org || "Org"));
+      row.appendChild(createNode("span", "v2-tl-chip__year", m.date || ""));
+      row.appendChild(createNode("strong", "v2-tl-ext__title", m.title || ""));
+      if (m.note) row.appendChild(createNode("p", "v2-caption", m.note));
+      laneB.appendChild(row);
+    });
+  }
+  root.appendChild(laneB);
+
+  // Full 10-year matrix (all original content), collapsed by default.
+  const details = createNode("details", "v2-tl-matrix");
+  details.appendChild(createNode("summary", "v2-tl-matrix__toggle", "Full 10-year matrix"));
+  const inner = createNode("div", "v2-tl-matrix__inner");
+  inner.appendChild(buildYearRail("timeline-decade-rail"));
+  const note = createNode("div", "timeline-manual-hook");
+  note.appendChild(createNode("span", "timeline-manual-hook__label", "Manual Hook"));
+  note.appendChild(createNode("p", "timeline-manual-hook__copy", "Use window.__PROJECT_TIMELINE_KEYFRAME_GUIDE when you wire section topology and runtime keyframes."));
+  inner.appendChild(note);
   const grid = createNode("div", "timeline-project-grid");
-  PROJECT_LIFECYCLE_PROJECTIONS.forEach((project) => {
-    grid.appendChild(buildProjectCard(project));
-  });
-  root.appendChild(grid);
+  PROJECT_LIFECYCLE_PROJECTIONS.forEach((project) => grid.appendChild(buildProjectCard(project)));
+  inner.appendChild(grid);
+  details.appendChild(inner);
+  root.appendChild(details);
+
+  // The page hijacks the wheel for its virtual scroll (window, bubble phase).
+  // Let the expanded matrix consume wheel events while it can still scroll.
+  inner.addEventListener(
+    "wheel",
+    (event) => {
+      const dy = event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY;
+      const canDown = inner.scrollTop + inner.clientHeight < inner.scrollHeight - 1;
+      const canUp = inner.scrollTop > 0;
+      if ((dy > 0 && canDown) || (dy < 0 && canUp)) {
+        event.preventDefault();
+        event.stopPropagation();
+        inner.scrollTop += dy;
+      }
+    },
+    { passive: false },
+  );
 }
 
 export function ensureProjectTimelineUi({ menuRoot, flowRoot } = {}) {

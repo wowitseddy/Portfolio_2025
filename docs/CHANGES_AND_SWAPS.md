@@ -161,3 +161,10 @@ Rules kept: no GLB asset, material-definition or compression changes; the fix-ar
 
 ## L2b: style the preload overlay (pre-existing bug)
 Before: `#preload-overlay` had no CSS anywhere in the repo, so "Initializing / 100%" stayed visible top-left on the live site after load. After: a full-screen loader (spinner, meter bar, percent) that fades out when main.js adds `.is-hidden`.
+
+## L3: timeline split into "My builds" and "External / org milestones"
+| | before | after |
+|---|---|---|
+| structure | one "Project Lifecycle Projection Matrix" grid: 5 project cards × 10 yearly cells, a "Manual Hook" dev note, plus a duplicate summary in the nav | **Lane A "My builds"**: the 5 projects (Portfolio_2025, Sentinel Construct, Biomed Indexing Tool, Research Systems, Colony Intelligence Framework), each with Now / Next 2 yrs / Long-term. **Lane B "External / org milestones"**: `EXTERNAL_ORG_MILESTONES` (exported, empty by default, each entry needs an `org` tag rendered as an orange pill; shows "None listed.") |
+| actual vs planned | not distinguished (`is-current` only on the first year cell) | solid marker = current year (in progress), hollow = planned/projected, with a legend. The data has **no completed (actual) milestones**, so the current-year entry is the only "actual/in progress" one |
+| full detail | always shown | "Full 10-year matrix" `<details>` keeps all the original content (year rail, cards with horizons, Manual Hook note). When open it replaces the lanes and scrolls inside the panel (the wheel is consumed while it can scroll) |

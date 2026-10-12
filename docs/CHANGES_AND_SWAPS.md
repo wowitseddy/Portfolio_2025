@@ -85,3 +85,18 @@ Baseline = `checkpoint-2026-10-11-pre-optimize-master` built the same way (byte-
 Notes:
 - Startup-ready time under SwiftShader was too noisy to compare: readings ran 8–24 s on both builds, partly because my early polling depended on frames that render at about 1 fps. Real-GPU timings still need measuring.
 - New contact sheet: `/workspace/site-capture/runs/final/contact_sheet.png`.
+
+---
+# fix-artifacts (after the optimize-runtime deploy, 2026-10-11 evening)
+New checkpoint tags (pushed): `checkpoint-2026-10-11-post-optimize-master` → ef91117, `checkpoint-2026-10-11-post-optimize-gh-pages` → 348f1ec (live bundle main-BJny5w4c.js).
+Owner report on a real GPU: previously invisible helper objects ("track-keys", IDs) became visible, and some meshes render pitch black with zero emission.
+
+## Root causes
+1. **Quantization changed node transforms and geometry scale** (88e178c, `gltf-transform optimize` with meshopt ⇒ KHR_mesh_quantization). It moved dequantization scale/offset onto nodes (node counts rose 1→2, 3→6, 6→10 in 11 files) and rescaled positions to unit range. `cleanLooseModelArtifacts()` zeroes the opacity of "loose" meshes (identity transform, not animated) and hides meshes with a bounding radius < 0.0006. After quantization those helper meshes have a non-identity transform and a unit-range radius, so they're no longer treated as loose or tiny, and they show up.
+2. **Material dedup** in the same optimize pass merged distinct materials. In `decal_rotor.glb` and `decal_rotor_spinner_webP.glb`, `Hologram`, `.001`, `.002`, `.003` and `Hologram Shader *.002` were collapsed into one `Hologram.003`. Per-mesh material styling (opacity/emissive set per mesh) then acts on one shared material, and the name-based lookups lose their target. That gives black or unlit hologram parts.
+3. **Auto-hide could force `visible = true`** (cc8ab57). If original code hid an object after auto-hide had hidden it, auto-hide would later re-show it. The particle-core root was also set `visible = shouldShow` directly, overriding any original/dev state.
+4. **Frustum culling re-enable** (cc8ab57) relied on bounds that quantization changed. Not proven to cause a visible artifact, but it isn't safe, so it's reverted.
+
+## Fix 1: restore original GLBs (revert c for all files except BCI text, banner, particle core)
+Restored from `checkpoint-2026-10-11-pre-optimize-master`: ABOUT/AGENT/PROJECT(S)_TEXT, DECAL, PANEL, Dyson_Ring, Harness_PK_GLTF, decal_*, outer_spinner. Node graphs, materials and transforms are identical to the baseline again. Cost: these files are back to their original sizes (≈16 MB raw, but small compared with the particle core).
+

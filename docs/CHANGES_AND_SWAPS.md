@@ -226,3 +226,6 @@ Before: Contact had 6 buttons (Email, Website, GitHub, LinkedIn, X, Resume/ PDF 
 
 ## C3: Phantom Walk in the timeline's "My builds" lane as shipped (actual, 2026)
 Before: Lane A had 5 projected builds only, with no actual milestones. After: a `SHIPPED_BUILDS` list (derived from `projects.js`, so the title and summary stay consistent with the card) adds **Phantom Walk — Shipped 2026** as the first row, with a distinct green diamond "Shipped (actual)" marker and legend entry. It has no yearly projections, so it isn't added to `PROJECT_LIFECYCLE_PROJECTIONS`: the 10-year matrix, `PROJECT_TIMELINE_KEYFRAME_GUIDE` and their 5×10 shape are unchanged.
+
+## C4: owner photo as a circular avatar in the About card
+Before: About had only the eyebrow and heading. After: a 112 px (72 px on mobile) circular bubble next to the heading, with a gradient ring, glow and the same blur as the panel. Alt text "Devin Edwards". Square, face-centered crop (1040 px from the 1264×1568 source) exported to `public/assets/avatar/`: `devin-edwards-256.webp` 4.4 KB, `devin-edwards-512.webp` 20.0 KB (srcset 256w/512w), `devin-edwards-512.jpg` 27.0 KB fallback. All are under 60 KB.

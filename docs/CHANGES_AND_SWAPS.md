@@ -181,3 +181,10 @@ Before: `#preload-overlay` had no CSS anywhere in the repo, so "Initializing / 1
 | section swaps | hard threshold switch (L1) / old 3D-projected fly-through | each boundary (0.12, 0.30, 0.55, 0.75, 0.88) owns a **6%-of-flow band**. Within the band (u 0→1): 3D focal shift eases over u 0→0.6; outgoing text fades and travels 16 px over u 0→0.45; incoming text fades in over u 0.5→1. **Text always moves after the 3D** (the 3D is 83% done when incoming text starts) |
 | reading zones | none | hero 0–0.09 · about 0.15–0.27 · projects 0.33–0.52 · timeline 0.58–0.72 · now 0.78–0.85 · contact 0.91–1.0. Text is static and fully opaque, and no layout-driven 3D change happens there |
 | determinism | time-eased view offset (L4) | `computeLayoutFrame(flow)` is a pure function of scroll flow (unit-checked: e.g. 0.105 → hero 0.42, focus 0.083; 0.135 → about 0.50, focus 0.22). Only a light 0.25 per-frame smoothing removes wheel-notch stepping |
+
+## L6: reduced-motion and mobile variants; scrollable long panels
+| | before | after |
+|---|---|---|
+| long text | — | panels scroll internally (`overflow-y:auto`, `overscroll-behavior:contain`). Wheel/touch is consumed by the panel only while it can scroll in that direction, then the page flow resumes (the virtual-touch anchor is kept in sync, so no jump). About uses the wide panel |
+| `prefers-reduced-motion` | only capped zoom blur (`visualSafetyActive`) | no layout-driven 3D movement (focus offset 0), no text travel (crossfade only), zoom blur 0, static camera (no pointer parallax, no orbit wobble), no CSS transitions/rail animation |
+| mobile ≤ 640 px | desktop layout squeezed; nav a vertical tilted panel on the right | type scale 40/28/18/16/12; text is a bottom sheet (max 56vh, scrollable), 3D focal object shifted up 20% via the view offset; nav = 5-column top bar with a horizontal progress line; **particle draw count halved** (`setDrawRange`) and **extruded words hidden** (watermark factor 0, so auto-hide skips them) |

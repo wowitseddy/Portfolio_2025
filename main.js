@@ -9,7 +9,12 @@ import {
   setTimelinePanelOpen,
 } from "./js/project-timeline.js";
 import { createSceneBuilder } from "./js/scene-builder.js";
-import { initLayoutV2, updateLayoutV2 } from "./js/layout-v2.js";
+import {
+  initLayoutV2,
+  updateLayoutV2,
+  isCompactLayout,
+  isReducedMotion,
+} from "./js/layout-v2.js";
 
 THREE.Cache.enabled = true;
 
@@ -5196,8 +5201,10 @@ window.addEventListener(
   (event) => {
     const nx = (event.clientX / window.innerWidth) * 2 - 1;
     const ny = (event.clientY / window.innerHeight) * 2 - 1;
-    parallaxState.targetX = nx * parallaxState.maxOffsetX;
-    parallaxState.targetY = -ny * parallaxState.maxOffsetY;
+    // Reduced motion: static camera (no pointer parallax).
+    const parallaxScale = isReducedMotion() ? 0 : 1;
+    parallaxState.targetX = nx * parallaxState.maxOffsetX * parallaxScale;
+    parallaxState.targetY = -ny * parallaxState.maxOffsetY * parallaxScale;
   },
   { passive: true },
 );
@@ -5537,6 +5544,17 @@ const WORDMARK_SRCS = new Set([
   AGENT_TEXT_GLB_SRC,
 ]);
 let wordmarkFactor = WORDMARK_OPACITY;
+const compactParticleState = { compact: null };
+
+// Mobile variant: half the particle draw count and no extruded words.
+function applyCompactVariant() {
+  const compact = isCompactLayout();
+  wordmarkFactor = compact ? 0 : WORDMARK_OPACITY;
+  if (compact === compactParticleState.compact) return;
+  compactParticleState.compact = compact;
+  geometry.setDrawRange(0, compact ? Math.floor(particleCount / 2) : Infinity);
+  secondaryGeo.setDrawRange(0, compact ? Math.floor(secondaryCount / 2) : Infinity);
+}
 
 function applyWordmarkOpacity() {
   AUXILIARY_GLB_STATES.forEach((entry) => {
@@ -5638,7 +5656,8 @@ function animate() {
     camera.lookAt(pose.lookAt);
   } else {
     const orbitAngle =
-      THREE.MathUtils.degToRad(10) + Math.sin(elapsed * 0.18) * 0.035;
+      THREE.MathUtils.degToRad(10) +
+      (isReducedMotion() ? 0 : Math.sin(elapsed * 0.18) * 0.035);
     const orbitRadius = 20;
     camera.position.x =
       Math.sin(orbitAngle) * orbitRadius + parallaxState.currentX * 0.18;
@@ -5826,9 +5845,11 @@ function animate() {
     }
   }
 
-  zoomBlurPass.uniforms.strength.value = visualSafetyActive
-    ? Math.min(zoomBlurStrength, 0.14)
-    : zoomBlurStrength;
+  zoomBlurPass.uniforms.strength.value = isReducedMotion()
+    ? 0
+    : visualSafetyActive
+      ? Math.min(zoomBlurStrength, 0.14)
+      : zoomBlurStrength;
   zoomBlurPass.uniforms.direction.value = -scrollDirection;
   zoomBlurPass.uniforms.zBias.value = 0.48 + zoomBlurStrength * 38.0;
   const gltfFocus = getActiveGltfFocusPoint();
@@ -5862,6 +5883,7 @@ function animate() {
     }
   }
 
+  applyCompactVariant();
   applyWordmarkOpacity();
   applyAutoHide(elapsed);
 

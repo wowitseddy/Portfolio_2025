@@ -7,6 +7,9 @@ render-skipped while their opacity is ~0 (invisible in both)."""
 import json, sys, collections
 A, B = sys.argv[1], sys.argv[2]
 shader_alpha_ok = sys.argv[sys.argv.index('--shader-alpha-subtree') + 1] if '--shader-alpha-subtree' in sys.argv else None
+# --intentional 'pattern=reason' (repeatable): differences on objects whose key
+# contains pattern are listed as intentional, never hidden.
+intentional = [tuple(sys.argv[i + 1].split('=', 1)) for i, x in enumerate(sys.argv) if x == '--intentional']
 rebuilt = set(sys.argv[sys.argv.index('--expect-rebuilt') + 1].split(',')) if '--expect-rebuilt' in sys.argv else set()
 load = lambda d: [json.loads(l) for l in open(d + '/timeline.jsonl')]
 ra, rb = load(A), load(B)
@@ -15,7 +18,7 @@ def keyed(objs):
     for o in objs:
         k0 = (o.get("path") or "") + f"<{o['type']}>" + ("@" + str((o.get("mat") or {}).get("name")) if o.get("mat") and o["mat"].get("name") else ""); c[k0] += 1; out[f"{k0}#{c[k0]}"] = o
     return out
-MAT = ['type', 'color', 'em', 'emI', 'emMap', 'map', 'mapCS', 'vc', 'side', 'wire', 'blend', 'n']
+MAT = ['type', 'color', 'em', 'emI', 'emMap', 'map', 'mapCS', 'vc', 'side', 'wire', 'blend', 'n', 'tr', 'dw']
 def eff_visible(o):
     op = (o.get('mat') or {}).get('op'); skipped = o.get('l0') is False
     return o['wvis'] and not skipped and not (op is not None and op < 0.004)
@@ -46,12 +49,17 @@ for i in range(min(len(ra), len(rb))):
             else: diffs += geo
         if diffs:
             kind = 'expected (opacity≈0 skip)' if all('both invisible' in d for d in diffs) else 'UNEXPECTED'
+            for pat, why in intentional:
+                if kind == 'UNEXPECTED' and pat in k:
+                    kind = f'intentional ({why})'
             # ignore animation-driven opacity drift when sampling positions differ slightly
             rows.append((i, k, '; '.join(diffs), kind))
             if kind == 'UNEXPECTED': unexpected += 1
             else: expected += 1
 print(f"# Per-object state diff\n\nbase: `{A}`  new: `{B}`  samples: {min(len(ra), len(rb))}\n")
-print(f"**Unexpected differences: {unexpected}**  ·  expected: {expected}\n")
+kinds = collections.Counter(r[3] for r in rows)
+unexpected = kinds.get('UNEXPECTED', 0)
+print(f"**Unexpected differences: {unexpected}**  ·  " + "  ·  ".join(f"{k}: {v}" for k, v in sorted(kinds.items()) if k != 'UNEXPECTED') + "\n")
 print("| sample | object | difference | class |\n|---|---|---|---|")
 seen = collections.Counter()
 for i, k, d, c in rows:

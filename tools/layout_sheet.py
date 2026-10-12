@@ -6,7 +6,8 @@ d, size, out = sys.argv[1], sys.argv[2], sys.argv[3]; sc = float(sys.argv[4]) if
 B = json.load(open(f"{d}/before_{size}.json"))["stops"]; A = json.load(open(f"{d}/after_{size}.json"))["stops"]
 W, H = (int(int(x) * sc) for x in size.split("x"))
 S = Image.new("RGB", (2 * W + 30, 24 + len(A) * (H + 22)), "white"); dr = ImageDraw.Draw(S)
-dr.text((30, 6), "BEFORE (live, pre-layout)", fill="black"); dr.text((30 + W, 6), "AFTER (layout-v2)", fill="black")
+LB = sys.argv[5] if len(sys.argv) > 5 else "BEFORE"; LA = sys.argv[6] if len(sys.argv) > 6 else "AFTER"
+dr.text((30, 6), LB, fill="black"); dr.text((30 + W, 6), LA, fill="black")
 for i, (b, a) in enumerate(zip(B, A)):
     y = 24 + i * (H + 22)
     dr.text((30, y + 4), f"flow {a['flow']}  section: {','.join(a.get('vis', [])) or '-'}  nav: {','.join(a.get('nav', []))}", fill="black")

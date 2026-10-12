@@ -299,3 +299,21 @@ Checkpoints: checkpoint-2026-10-12-pre-qa-fixes-master (2dd256d), checkpoint-202
   - **Exempt:** `.v2-avatar` (colour graded into the file) and `.v2-status` (`filter:saturate(75%)`).
 - **Why it matches exactly:** saturate(0) is idempotent and commutes with blur and alpha compositing.
 - **Verification:** real-compositor captures at 6 flows × 2 sizes. Max channel spread outside the avatar/badges is 0 before and 0 after. See site-capture/runs/qa_fixes/.
+
+## Styling: avatar cyberpunk-sepia grade (baked)
+- **Before:** the plain photo (cards-v3). Originals stay in git history at 2dd256d, and there's a copy in site-capture/runs/qa_fixes/avatar_original_512.jpg.
+- **After:** `site-capture/grade_avatar.py` from the 512 px original, with no runtime CSS filter:
+  1. warm sepia base (luma toned 1.07/0.86/0.62) at 70% over the photo;
+  2. split tone: teal/cyan shadows (−.05,+.045,+.085)·(1−Y)², magenta/neon highlights (+.09,−.035,+.105)·Y²;
+  3. saturation baked at 75% (same sRGB matrix as CSS `saturate(0.75)`);
+  4. UnsharpMask radius 2, 15%.
+- **Files:**
+
+  | File | Size |
+  |---|---|
+  | devin-edwards-256.webp | 4.8 KB |
+  | devin-edwards-512.webp | 20.6 KB |
+  | devin-edwards-512.jpg | 28.9 KB |
+
+  All under 60 KB.
+- **Before/after image:** site-capture/runs/qa_fixes/avatar_before_after_v2.png

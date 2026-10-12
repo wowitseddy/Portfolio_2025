@@ -238,3 +238,14 @@ Before: About had only the eyebrow and heading. After: a 112 px (72 px on mobile
 ## Projects: remove Resume/PDF Editor card
 - Before: 8 cards (last: Resume/ PDF Editor -> /resume-tools.html)
 - After: 7 cards; resume-tools.html stays in repo/build, unlinked from Projects and Contact
+
+# qa-fixes (2026-10-12), from site-capture/runs/qa_2026-10-12/QA_REPORT.md
+Checkpoints: checkpoint-2026-10-12-pre-qa-fixes-master (2dd256d), checkpoint-2026-10-12-pre-qa-fixes-gh-pages (9667312).
+
+## QA-1 (HIGH) mobile pull-to-refresh
+- **Before:**
+  - touchstart didn't set the touch anchor, so the first touchmove had delta 0 and returned early without calling preventDefault.
+  - Chrome then committed to a native scroll or pull-to-refresh, and every later move became cancelable=false (83 "Ignored attempt to cancel" logs).
+- **After:**
+  - touchstart records the anchor, and window touchmove (passive:false) always calls preventDefault when the event is cancelable. Panels that can scroll still call stopPropagation first.
+  - CSS: `html,body{overscroll-behavior:none}`, `#background-canvas{touch-action:none}`, `.v2-panel{touch-action:pan-y}`.

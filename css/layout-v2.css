@@ -437,3 +437,9 @@ body.v2-reduced-motion .v2-section .v2-panel { transform: none; will-change: opa
   .v2-about-head { gap: 16px; margin-bottom: 16px; }
   .v2-avatar { width: 72px; height: 72px; padding: 3px; }
 }
+
+/* QA-1: no pull-to-refresh / rubber-band; the scene owns vertical gestures,
+   long panels keep native vertical panning. */
+html, body { overscroll-behavior: none; }
+#background-canvas { touch-action: none; }
+.v2-panel { touch-action: pan-y; }

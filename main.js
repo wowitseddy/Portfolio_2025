@@ -5326,6 +5326,9 @@ window.addEventListener(
   (event) => {
     if (event.touches.length > 0) {
       lastScrollY = getEffectiveScrollY();
+      // Anchor the gesture now so the FIRST touchmove has a real delta and is
+      // cancelled; otherwise Chrome commits to native scroll/pull-to-refresh.
+      document.body.dataset.virtualTouchY = String(event.touches[0].clientY);
     }
   },
   { passive: true },
@@ -5348,11 +5351,15 @@ window.addEventListener(
     const rawDelta = (previousTouchY - currentTouchY) * 1.15;
     document.body.dataset.virtualTouchY = String(currentTouchY);
 
+    // Panels that can scroll natively stopPropagation() before this point,
+    // so anything reaching window belongs to the virtual scroll.
+    if (event.cancelable) {
+      event.preventDefault();
+    }
     if (Math.abs(rawDelta) < 0.01) {
       return;
     }
 
-    event.preventDefault();
     const deltaY = applyVirtualScrollDelta(rawDelta);
     if (deltaY !== 0) {
       applyScrollState(deltaY, performance.now());

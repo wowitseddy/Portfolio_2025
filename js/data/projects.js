@@ -60,13 +60,8 @@ export const PROJECTS = Object.freeze([
     summary: "Constraint-driven simulation compiler.",
     tags: ["Simulation"],
     order: 40,
-    url: "https://github.com/wowitseddy/Portfolio_2025/tree/master/projects/sentinel-construct",
-    links: [
-      {
-        label: "100K Campaign Summary",
-        href: "https://github.com/wowitseddy/Portfolio_2025/blob/master/projects/sentinel-construct/output/campaign/mutation-campaign-summary.md",
-      },
-    ],
+    url: null,
+    links: [],
     media: [],
   },
   {
@@ -77,7 +72,7 @@ export const PROJECTS = Object.freeze([
     summary: "Scientific retrieval and evidence surfacing.",
     tags: ["Retrieval", "Research"],
     order: 50,
-    url: "https://github.com/wowitseddy/Portfolio_2025/tree/master/projects/biomed-indexing-tool",
+    url: null,
     links: [],
     media: [],
   },

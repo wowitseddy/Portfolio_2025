@@ -2335,10 +2335,6 @@ const PANEL_HOLOGRAM_FEED_LIBRARY = Object.freeze({
           label: "Resume PDF Editor",
           href: "/resume-tools.html",
         }),
-        Object.freeze({
-          label: "Resume Source",
-          href: "/resume.html",
-        }),
       ]),
     }),
     Object.freeze({
@@ -2350,51 +2346,6 @@ const PANEL_HOLOGRAM_FEED_LIBRARY = Object.freeze({
         Object.freeze({ label: "Warning", value: "53.85%" }),
         Object.freeze({ label: "Parse Fail", value: "43.52%" }),
         Object.freeze({ label: "Sim Fail", value: "2.11%" }),
-      ]),
-      links: Object.freeze([
-        Object.freeze({
-          label: "100K Campaign Summary",
-          href: "https://github.com/wowitseddy/Portfolio_2025/blob/master/projects/sentinel-construct/output/campaign/mutation-campaign-summary.md",
-          external: true,
-        }),
-        Object.freeze({
-          label: "Test Phase Summary",
-          href: "https://github.com/wowitseddy/Portfolio_2025/blob/master/projects/sentinel-construct/output/campaign/mutation-campaign-summary-test.md",
-          external: true,
-        }),
-      ]),
-    }),
-    Object.freeze({
-      eyebrow: "Archive Media",
-      title: "Readable media, not buried assets",
-      body: "Archive stills roll upward through the panel so the live scene keeps the same motion language as the rest of the interface.",
-      imageSrc: "/assets/Archive/_HME6399.JPG",
-      imageAlt: "Archive still HME6399",
-      caption: "Industrial capture and systems context.",
-    }),
-    Object.freeze({
-      eyebrow: "Archive Media",
-      title: "Motion study reference",
-      body: "Havok composition study retained as a visual systems frame inside the projected panel.",
-      imageSrc: "/assets/Archive/havok-arts-asset.jpg",
-      imageAlt: "Havok archive asset",
-      caption: "Motion study and visual composition reference.",
-    }),
-    Object.freeze({
-      eyebrow: "Outputs",
-      title: "Tools and research surfaces",
-      body: "Direct links remain reachable from the panel without forcing a separate internal scroll region.",
-      links: Object.freeze([
-        Object.freeze({
-          label: "Biomed Indexing Tool",
-          href: "https://github.com/wowitseddy/Portfolio_2025/tree/master/projects/biomed-indexing-tool",
-          external: true,
-        }),
-        Object.freeze({
-          label: "Sentinel Construct",
-          href: "https://github.com/wowitseddy/Portfolio_2025/tree/master/projects/sentinel-construct",
-          external: true,
-        }),
       ]),
     }),
   ]),

@@ -16,8 +16,7 @@ RESUME_DATA = {
     "links": [
         "Website: www.devinedwards.info",
         "GitHub: github.com/wowitseddy",
-        "LinkedIn: linkedin.com/in/devin-edwards-677836149",
-        "X: x.com/wowitseddy",
+        "LinkedIn: www.linkedin.com/in/devin-edwards-677836149",
     ],
     "sections": [
         (
